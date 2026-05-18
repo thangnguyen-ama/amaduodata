@@ -1,0 +1,17 @@
+/* Preview cards — kept on a LIGHT surface for token clarity.
+   The actual product surfaces (mobile / web / slides) go full Suno-dark. */
+@import url('../colors_and_type.css');
+
+body {
+  background: var(--spec-paper);
+  background-image: none;
+  color: #131326;
+  padding: 24px;
+  font-family: var(--font-body);
+}
+.card-row { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+.col { display: flex; flex-direction: column; gap: 8px; }
+.muted {
+  color: #645B7C; font-size: 12px; font-family: var(--font-mono);
+  letter-spacing: 0.04em;
+}

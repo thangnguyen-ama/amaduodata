@@ -5,9 +5,11 @@ const config: CapacitorConfig = {
   appName: 'DuoData',
   webDir: 'dist',
   ios: {
-    contentInset: 'always',
-    backgroundColor: '#FFFFFF'
-  }
+    contentInset: 'never',
+    backgroundColor: '#0B0B14',
+    scrollEnabled: true
+  },
+  backgroundColor: '#0B0B14'
 }
 
 export default config

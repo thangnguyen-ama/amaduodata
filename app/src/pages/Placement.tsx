@@ -68,10 +68,10 @@ export function Placement() {
   if (done) {
     const placement = useStore.getState().placement
     return (
-      <div className="min-h-screen bg-surface-light p-6">
+      <div className="min-h-screen bg-bg-0 p-6">
         <div className="max-w-2xl mx-auto pt-10">
           <h1 className="text-2xl font-extrabold mb-2">Here's where we'll start you</h1>
-          <p className="text-sub-light mb-6">We won't waste your time on units you already know. You can review them anytime.</p>
+          <p className="text-fgmuted mb-6">We won't waste your time on units you already know. You can review them anytime.</p>
           <div className="space-y-3">
             {PATHS.map((p) => {
               const start = placement?.pathStarts[p.slug] ?? 0
@@ -82,10 +82,10 @@ export function Placement() {
                   </div>
                   <div className="flex-1">
                     <div className="font-bold">{p.name}</div>
-                    <div className="text-sm text-sub-light">{p.description}</div>
+                    <div className="text-sm text-fgmuted">{p.description}</div>
                   </div>
                   <div className="text-right">
-                    <div className="text-xs text-sub-light">Starting at</div>
+                    <div className="text-xs text-fgmuted">Starting at</div>
                     <div className="font-bold">Unit {start + 1} / {p.units.length}</div>
                   </div>
                 </div>
@@ -104,19 +104,26 @@ export function Placement() {
   if (!card) return null
 
   return (
-    <div className="min-h-screen bg-surface-light">
-      <header className="h-14 flex items-center px-4 md:px-6 border-b border-slate-200 bg-white">
-        <button className="duo-btn-ghost" onClick={() => nav('/home')}>✕</button>
-        <div className="flex-1 mx-4">
-          <div className="h-2 bg-slate-100 rounded-full overflow-hidden">
-            <div className="h-full bg-brand transition-all" style={{ width: `${((i + (showFeedback ? 1 : 0)) / deck.length) * 100}%` }} />
+    <div className="min-h-screen bg-bg-0">
+      <header className="pad-safe-top border-b border-line bg-bg-1 sticky top-0 z-30">
+        <div className="h-14 flex items-center px-4 md:px-6 max-w-2xl mx-auto">
+          <button
+            aria-label="Skip placement"
+            type="button"
+            onClick={() => nav('/home')}
+            className="w-11 h-11 -ml-2 grid place-items-center text-fgmuted hover:text-fg rounded-full hover:bg-bg-2 text-lg"
+          >✕</button>
+          <div className="flex-1 mx-3">
+            <div className="h-2 bg-bg-2 rounded-full overflow-hidden">
+              <div className="h-full bg-violet-500 transition-all" style={{ width: `${((i + (showFeedback ? 1 : 0)) / deck.length) * 100}%` }} />
+            </div>
           </div>
+          <div className="text-xs text-fgmuted font-mono">{i + 1} / {deck.length}</div>
         </div>
-        <div className="text-xs text-sub-light font-mono">{i + 1} / {deck.length}</div>
       </header>
 
       <div className="max-w-2xl mx-auto p-6">
-        <div className="text-xs uppercase text-sub-light font-semibold mb-2">Placement quiz · no hearts, no XP</div>
+        <div className="text-xs uppercase text-fgmuted font-semibold mb-2">Placement quiz · no hearts, no XP</div>
         <div className="card p-6">
           <CardRenderer card={card} onSubmit={(ok) => onSubmit(ok)} disabled={!!showFeedback} />
         </div>
@@ -127,7 +134,7 @@ export function Placement() {
               <div className={`font-bold ${showFeedback.correct ? 'text-correct' : 'text-incorrect'}`}>
                 {showFeedback.correct ? 'Correct.' : 'Not quite — that\'s fine, we\'ll calibrate.'}
               </div>
-              <p className="text-sm text-ink-light mt-1">{card.explanation}</p>
+              <p className="text-sm text-fg mt-1">{card.explanation}</p>
             </div>
             <div className="mt-4 flex justify-end">
               <button className="duo-btn-primary" onClick={next}>Continue</button>

@@ -26,15 +26,15 @@ export function CardFormulaCompletion({
       <h2 className="text-[22px] md:text-2xl font-black leading-snug">{card.prompt}</h2>
       <div className="surface px-5 py-5">
         <div className="font-mono text-lg flex flex-wrap items-center gap-1.5 leading-9">
-          <span className="text-ink-light">{parts[0]}</span>
+          <span className="text-fg">{parts[0]}</span>
           <input
             value={value}
             onChange={(e) => setValue(e.target.value)}
             disabled={disabled}
             placeholder="?"
-            className="font-mono inline-block min-w-[140px] px-3 py-2 border-2 border-dashed border-[#1CB0F6] bg-[#DDF4FF]/40 rounded-md text-[#1899D6] font-bold focus:outline-none focus:border-solid"
+            className="font-mono inline-block min-w-[140px] px-3 py-2 border-2 border-dashed border-violet-500 bg-blue-400/20/40 rounded-md text-blue-300 font-bold focus:outline-none focus:border-solid"
           />
-          <span className="text-ink-light">{parts[1] || ''}</span>
+          <span className="text-fg">{parts[1] || ''}</span>
         </div>
       </div>
       <button

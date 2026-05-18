@@ -2,183 +2,295 @@
 @tailwind components;
 @tailwind utilities;
 
+/* =========================================================================
+   Ama Duo Data — Design tokens (mirror of amaduodata-design/colors_and_type.css)
+   Dark-first surface ramp + violet/blue/pink tri-color brand.
+   ========================================================================= */
+:root {
+  --violet-300: #A684FF; --violet-400: #8B5CFF; --violet-500: #6938EF; --violet-700: #4218A8;
+  --blue-300: #5C9CFF;   --blue-400: #2D7FF9;   --blue-500: #1F66E0;   --blue-700: #0E3A88;
+  --pink-300: #FF6FA0;   --pink-400: #FF3D8E;   --pink-500: #E51F73;   --pink-700: #850A41;
+  --sun-400: #FFCD3C;    --sun-700: #946A00;    --sun-900: #3F2D00;
+  --green-400: #29D86F;  --green-500: #14B856;  --green-700: #086E36;  --green-900: #03301A;
+  --ink-100: #ECE6F2;    --ink-200: #D9D1E2;    --ink-300: #B8AECB;    --ink-400: #8C81A4;
+  --ink-500: #645B7C;    --ink-700: #2C2740;    --ink-900: #131326;
+  --surface-0: #0B0B14;  --surface-1: #15151F;  --surface-2: #1E1E2A;  --surface-3: #2A2A38;
+  --fg: #F5F5F8;
+  --fg-muted: rgba(245, 245, 248, 0.62);
+  --fg-subtle: rgba(245, 245, 248, 0.40);
+  --border: rgba(255, 255, 255, 0.08);
+  --border-strong: rgba(255, 255, 255, 0.16);
+  --ring-focus: 0 0 0 3px rgba(139, 92, 255, 0.45);
+  --sat: env(safe-area-inset-top, 0px);
+  --sab: env(safe-area-inset-bottom, 0px);
+}
+
 @layer base {
-  :root {
-    --brand: #0F62FE;
-    --sat: env(safe-area-inset-top, 0px);
-    --sab: env(safe-area-inset-bottom, 0px);
-  }
-  html, body, #root { height: 100%; }
+  html { background-color: var(--surface-0); min-height: 100%; }
+  body { min-height: 100%; }
+  #root { min-height: 100vh; }
   body {
-    font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Inter, sans-serif;
+    font-family: 'DM Sans', system-ui, -apple-system, sans-serif;
+    background-color: var(--surface-0);
+    color: var(--fg);
+    background-image:
+      radial-gradient(ellipse 90% 60% at 50% -10%, rgba(105, 56, 239, 0.30), transparent 60%),
+      radial-gradient(ellipse 60% 50% at 100% 100%, rgba(255, 61, 142, 0.18), transparent 60%);
+    background-attachment: fixed;
     -webkit-tap-highlight-color: transparent;
     overscroll-behavior-y: none;
     -webkit-user-select: none;
     user-select: none;
   }
   input, textarea { -webkit-user-select: text; user-select: text; }
-  .pad-safe-top { padding-top: env(safe-area-inset-top, 0px); }
-  .pad-safe-bottom { padding-bottom: env(safe-area-inset-bottom, 0px); }
   button { -webkit-touch-callout: none; }
+
 }
 
-/* =========================================================
-   Duolingo-style chunky 3D buttons
-   - hard bottom shadow that "presses" on :active
-   ========================================================= */
+/* Safe-area helpers in @layer utilities so Tailwind's pt-/pb- can't override.
+   When set, these are the final word on the top/bottom padding. */
+@layer utilities {
+  .pad-safe-top { padding-top: env(safe-area-inset-top, 0px) !important; }
+  .pad-safe-bottom { padding-bottom: env(safe-area-inset-bottom, 0px) !important; }
+}
+
+@layer base {
+
+  /* Dark-theme form controls — applied to every input/textarea/select by default.
+     Components can override the bg by passing explicit classes, but the default
+     prevents the iOS "white box, white text" bug on dark surfaces. */
+  input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="range"]),
+  textarea, select {
+    background-color: var(--surface-2);
+    color: var(--fg);
+    border-color: var(--border-strong);
+    caret-color: var(--violet-400);
+    -webkit-appearance: none;
+    appearance: none;
+  }
+  input::placeholder, textarea::placeholder { color: var(--fg-subtle); }
+  select option { background-color: var(--surface-2); color: var(--fg); }
+  h1, h2, h3, h4, h5, .display, .h1, .h2, .h3, .h4 {
+    font-family: 'Outfit', system-ui, -apple-system, sans-serif;
+    letter-spacing: -0.02em;
+  }
+  button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible {
+    outline: none;
+    box-shadow: var(--ring-focus);
+  }
+}
+
+/* =========================================================================
+   Buttons — chunky 3D, Outfit black uppercase
+   ========================================================================= */
 @layer components {
-  /* Generic press-button: depth shadow on bottom, animates to flat on active */
   .duo-btn {
     @apply relative inline-flex items-center justify-center select-none
-           font-extrabold uppercase tracking-wide rounded-2xl
-           transition-[transform,box-shadow] duration-100
+           uppercase rounded-md transition-[transform,box-shadow] duration-100
            disabled:opacity-40 disabled:cursor-not-allowed;
+    font-family: 'Outfit', sans-serif;
+    font-weight: 900;
+    letter-spacing: 0.05em;
     padding: 14px 22px;
     font-size: 15px;
-    letter-spacing: 0.04em;
   }
   .duo-btn:active:not(:disabled) {
     transform: translateY(3px);
-    box-shadow: 0 0 0 rgba(0,0,0,0) !important;
+    box-shadow: 0 0 0 0 transparent !important;
   }
-
-  /* Primary brand button */
   .duo-btn-primary {
     @apply duo-btn text-white;
-    background: #1CB0F6;
-    box-shadow: 0 4px 0 0 #0E8EC9;
+    background: var(--violet-500);
+    box-shadow: 0 4px 0 0 var(--violet-700);
   }
-  .duo-btn-primary:hover:not(:disabled) { background: #29B9FB; }
-
-  /* Success/green for correct continue */
-  .duo-btn-success {
+  .duo-btn-primary:hover:not(:disabled) { filter: brightness(1.05); }
+  .duo-btn-blue {
     @apply duo-btn text-white;
-    background: #58CC02;
-    box-shadow: 0 4px 0 0 #46A302;
+    background: var(--blue-400);
+    box-shadow: 0 4px 0 0 var(--blue-700);
   }
-  .duo-btn-success:hover:not(:disabled) { background: #61D60A; }
-
-  /* Danger red for incorrect continue */
+  .duo-btn-success {
+    @apply duo-btn;
+    background: var(--green-500);
+    color: var(--green-900);
+    box-shadow: 0 4px 0 0 var(--green-700);
+  }
   .duo-btn-danger {
     @apply duo-btn text-white;
-    background: #FF4B4B;
-    box-shadow: 0 4px 0 0 #CC3939;
+    background: var(--pink-400);
+    box-shadow: 0 4px 0 0 var(--pink-700);
   }
-
-  /* Outlined secondary — gray with depth */
+  .duo-btn-sun {
+    @apply duo-btn;
+    background: var(--sun-400);
+    color: var(--sun-900);
+    box-shadow: 0 4px 0 0 var(--sun-700);
+  }
   .duo-btn-secondary {
-    @apply duo-btn text-ink-light;
-    background: #FFFFFF;
-    border: 2px solid #E5E5E5;
-    box-shadow: 0 4px 0 0 #E5E5E5;
+    @apply duo-btn;
+    background: var(--surface-2);
+    color: var(--fg);
+    border: 1.5px solid var(--border-strong);
+    box-shadow: 0 4px 0 0 rgba(0,0,0,0.4);
   }
-  .duo-btn-secondary:hover:not(:disabled) { border-color: #D0D5DD; }
-
-  /* Ghost — no depth, transparent */
   .duo-btn-ghost {
-    @apply inline-flex items-center justify-center font-bold uppercase tracking-wide
-           px-4 py-2.5 rounded-xl text-sub-light hover:bg-slate-100;
+    @apply inline-flex items-center justify-center uppercase
+           px-4 py-2.5 rounded-md;
+    font-family: 'Outfit', sans-serif;
+    font-weight: 700;
     font-size: 13px;
-    letter-spacing: 0.04em;
+    letter-spacing: 0.05em;
+    color: var(--fg-muted);
+  }
+  .duo-btn-ghost:hover:not(:disabled) {
+    background: rgba(255,255,255,0.06);
+    color: var(--fg);
   }
 
-  /* Chunky choice button — used for multiple choice / scenarios */
+  /* Choice buttons — used by card components */
   .choice-btn {
-    @apply relative w-full text-left rounded-2xl px-4 py-4 transition-[transform,box-shadow]
-           duration-100 bg-white border-2 select-none;
-    border-color: #E5E5E5;
-    box-shadow: 0 4px 0 0 #E5E5E5;
+    @apply relative w-full text-left rounded-md px-4 py-4 transition-[transform,box-shadow]
+           duration-100 select-none;
+    background: var(--surface-1);
+    border: 2px solid var(--border);
+    box-shadow: 0 3px 0 0 rgba(255,255,255,0.06);
+    color: var(--fg);
+    font-family: 'DM Sans', sans-serif;
   }
-  .choice-btn:hover:not(:disabled) { border-color: #BFC4CC; box-shadow: 0 4px 0 0 #BFC4CC; }
-  .choice-btn:active:not(:disabled) { transform: translateY(3px); box-shadow: 0 0 0 0 transparent; }
+  .choice-btn:hover:not(:disabled) {
+    background: var(--surface-2);
+    border-color: var(--border-strong);
+  }
+  .choice-btn:active:not(:disabled) {
+    transform: translateY(3px);
+    box-shadow: 0 0 0 0 transparent;
+  }
   .choice-btn.picked {
-    border-color: #84D8FF;
-    background: #DDF4FF;
-    box-shadow: 0 4px 0 0 #84D8FF;
-    color: #1899D6;
+    border-color: var(--violet-400);
+    background: rgba(105, 56, 239, 0.22);
+    box-shadow: 0 3px 0 0 var(--violet-500);
+    color: var(--violet-200, #C5ADFF);
   }
   .choice-btn.correct {
-    border-color: #79D03A;
-    background: #D7FFB8;
-    box-shadow: 0 4px 0 0 #79D03A;
-    color: #2D7A0E;
+    border-color: var(--green-400);
+    background: rgba(20, 184, 86, 0.18);
+    box-shadow: 0 3px 0 0 var(--green-500);
+    color: #56DA89;
   }
   .choice-btn.incorrect {
-    border-color: #FF8B8B;
-    background: #FFDFE0;
-    box-shadow: 0 4px 0 0 #FF8B8B;
-    color: #BC2A2A;
+    border-color: #E5364B;
+    background: rgba(229, 54, 75, 0.18);
+    box-shadow: 0 3px 0 0 #E5364B;
+    color: #FFB3BC;
   }
   .choice-btn:disabled { cursor: default; }
 
   .keycap {
-    @apply inline-flex items-center justify-center w-7 h-7 rounded-md font-extrabold text-[12px]
-           border-2 mr-3;
-    border-color: #E5E5E5;
-    color: #777;
+    @apply inline-flex items-center justify-center w-7 h-7 rounded-md
+           font-mono font-bold text-[13px] mr-3 flex-shrink-0;
+    background: rgba(255,255,255,0.08);
+    color: var(--fg-muted);
   }
-  .choice-btn.picked .keycap { border-color: #1899D6; color: #1899D6; }
-  .choice-btn.correct .keycap { border-color: #2D7A0E; color: #2D7A0E; }
-  .choice-btn.incorrect .keycap { border-color: #BC2A2A; color: #BC2A2A; }
+  .choice-btn.picked .keycap   { background: var(--violet-500); color: #fff; }
+  .choice-btn.correct .keycap  { background: var(--green-500); color: #fff; }
+  .choice-btn.incorrect .keycap{ background: #E5364B; color: #fff; }
 
-  /* Stat pill chips — used in headers */
+  /* Stat pill chips */
   .stat-pill {
-    @apply inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-full font-extrabold text-sm;
+    @apply inline-flex items-center gap-1.5 px-3 py-1.5 rounded-pill font-display font-extrabold text-sm;
+  }
+  .display-num {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 900;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.02em;
   }
 
   /* Bold pill (chips) */
   .pill {
-    @apply inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold uppercase;
-    letter-spacing: 0.04em;
+    @apply inline-flex items-center gap-1.5 px-2.5 py-1 rounded-pill text-[11px] uppercase;
+    font-family: 'Outfit', sans-serif;
+    font-weight: 700;
+    letter-spacing: 0.06em;
   }
-  .chip-product { background: rgba(94, 96, 206, 0.12); color: #5E60CE; }
-  .chip-ua      { background: rgba(45, 206, 137, 0.12); color: #19a06b; }
-  .chip-mon     { background: rgba(247, 144, 9, 0.12); color: #C26500; }
-  .chip-creative{ background: rgba(236, 72, 153, 0.12); color: #EC4899; }
-  .chip-business{ background: rgba(71, 85, 105, 0.10); color: #475569; }
+  .chip-product   { background: rgba(105, 56, 239, 0.18); color: #C5ADFF; }
+  .chip-ua        { background: rgba(45, 127, 249, 0.18); color: #94BFFF; }
+  .chip-mon       { background: rgba(255, 205, 60, 0.18); color: var(--sun-400); }
+  .chip-creative  { background: rgba(255, 61, 142, 0.18); color: var(--pink-300); }
+  .chip-business  { background: rgba(166, 132, 255, 0.18); color: #C5ADFF; }
 
-  /* Lesson path snake — circular node */
+  /* Surfaces */
+  .surface, .card {
+    background: var(--surface-1);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+  }
+  .surface-deep {
+    background: var(--surface-0);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+  }
+
+  /* Lesson nodes — snake path bubbles */
   .lesson-node {
-    @apply relative grid place-items-center w-[78px] h-[78px] rounded-full
+    @apply relative grid place-items-center w-[78px] h-[78px] rounded-pill
            transition-transform duration-100 select-none;
-    box-shadow: 0 6px 0 0 rgba(0,0,0,0.15);
   }
   .lesson-node:active:not(.locked):not(:disabled) {
     transform: translateY(4px);
-    box-shadow: 0 2px 0 0 rgba(0,0,0,0.15);
+    box-shadow: 0 2px 0 0 rgba(0,0,0,0.5) !important;
   }
-  .lesson-node.current { background: #FFC800; box-shadow: 0 6px 0 0 #C99800; }
-  .lesson-node.done    { background: #58CC02; box-shadow: 0 6px 0 0 #46A302; }
-  .lesson-node.next    { background: #E5E5E5; box-shadow: 0 6px 0 0 #BFC4CC; }
-  .lesson-node.locked  { background: #E5E5E5; box-shadow: 0 6px 0 0 #BFC4CC; cursor: not-allowed; opacity: 0.7; }
-
-  /* Cards (no border, light surface, soft shadow) */
-  .surface, .card {
-    @apply bg-white rounded-2xl shadow-[0_2px_0_0_rgba(0,0,0,0.04)] border border-slate-100;
+  .lesson-node.current {
+    background: var(--violet-500);
+    box-shadow: 0 6px 0 0 var(--violet-700);
   }
-  .surface-flat { @apply bg-white rounded-2xl border border-slate-100; }
-
-  /* Path detail header banners — function-themed gradients */
-  .path-banner-product  { background: linear-gradient(135deg, #5E60CE 0%, #7B5DD9 100%); }
-  .path-banner-ua       { background: linear-gradient(135deg, #2DCE89 0%, #1FA47A 100%); }
-  .path-banner-mon      { background: linear-gradient(135deg, #F79009 0%, #E8770B 100%); }
-  .path-banner-creative { background: linear-gradient(135deg, #EC4899 0%, #C03789 100%); }
-  .path-banner-business { background: linear-gradient(135deg, #1CB0F6 0%, #1899D6 100%); }
-
-  /* Big number display */
-  .display-num {
-    @apply font-black tracking-tight;
-    font-feature-settings: "tnum" 1;
+  .lesson-node.done {
+    background: var(--blue-400);
+    box-shadow: 0 6px 0 0 var(--blue-700);
   }
+  .lesson-node.next {
+    background: var(--surface-3);
+    box-shadow: 0 6px 0 0 rgba(0,0,0,0.5);
+  }
+  .lesson-node.locked {
+    background: var(--surface-2);
+    box-shadow: 0 6px 0 0 rgba(0,0,0,0.5);
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+
+  /* Path-themed gradient banners (used on hero blocks) */
+  .path-banner-product  { background: linear-gradient(135deg, #6938EF 0%, #4218A8 100%); }
+  .path-banner-ua       { background: linear-gradient(135deg, #2D7FF9 0%, #0E3A88 100%); }
+  .path-banner-mon      { background: linear-gradient(135deg, #FFCD3C 0%, #C58E00 100%); color: var(--sun-900) !important; }
+  .path-banner-creative { background: linear-gradient(135deg, #FF3D8E 0%, #850A41 100%); }
+  .path-banner-business { background: linear-gradient(135deg, #6938EF 0%, #2D7FF9 100%); }
 
   .formula {
-    @apply font-mono text-[15px] bg-slate-50 border border-slate-200 rounded-md px-2 py-1 inline-block;
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 2px 6px;
+    color: var(--fg);
+    font-size: 14px;
+    display: inline-block;
+  }
+
+  /* Eyebrow */
+  .eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--fg-muted);
   }
 }
 
-/* =========================================================
+/* =========================================================================
    Animations
-   ========================================================= */
+   ========================================================================= */
 @keyframes shake-x {
   0%,100% { transform: translateX(0); }
   20% { transform: translateX(-6px); }
@@ -195,26 +307,20 @@
   from { transform: translateY(100%); }
   to { transform: translateY(0); }
 }
-@keyframes pop {
-  0% { transform: scale(0.85); }
-  60% { transform: scale(1.06); }
-  100% { transform: scale(1); }
-}
 @keyframes pulse-ring {
-  0% { box-shadow: 0 6px 0 0 #C99800, 0 0 0 0 rgba(255, 200, 0, 0.6); }
-  70% { box-shadow: 0 6px 0 0 #C99800, 0 0 0 18px rgba(255, 200, 0, 0); }
-  100% { box-shadow: 0 6px 0 0 #C99800, 0 0 0 0 rgba(255, 200, 0, 0); }
+  0% { box-shadow: 0 6px 0 0 var(--violet-700), 0 0 0 0 rgba(105, 56, 239, 0.7); }
+  70% { box-shadow: 0 6px 0 0 var(--violet-700), 0 0 0 18px rgba(105, 56, 239, 0); }
+  100% { box-shadow: 0 6px 0 0 var(--violet-700), 0 0 0 0 rgba(105, 56, 239, 0); }
 }
 @keyframes confetti-fall {
   0%   { transform: translateY(-100vh) rotate(0deg); opacity: 1; }
   100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
 }
 
-.animate-shake { animation: shake-x 0.42s ease-in-out; }
-.animate-burst { animation: burst 0.42s cubic-bezier(0.34,1.56,0.64,1); }
-.animate-slide-up { animation: slide-up 0.28s cubic-bezier(0.22,1,0.36,1); }
-.animate-pop { animation: pop 0.28s ease-out; }
-.animate-pulse-ring { animation: pulse-ring 1.6s ease-out infinite; }
+.animate-shake     { animation: shake-x 0.42s ease-in-out; }
+.animate-burst     { animation: burst 0.48s cubic-bezier(0.34,1.56,0.64,1); }
+.animate-slide-up  { animation: slide-up 0.28s cubic-bezier(0.22,1,0.36,1); }
+.animate-pulse-ring{ animation: pulse-ring 1.6s ease-out infinite; }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {

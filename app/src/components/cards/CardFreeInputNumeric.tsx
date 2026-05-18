@@ -37,7 +37,7 @@ export function CardFreeInputNumeric({
     <div className="flex flex-col gap-6">
       <h2 className="text-[22px] md:text-2xl font-black leading-snug">{card.prompt}</h2>
       <div className="surface px-5 py-6">
-        <label className="text-[10px] uppercase tracking-wider text-sub-light font-bold">Your answer</label>
+        <label className="text-[10px] uppercase tracking-wider text-fgmuted font-bold">Your answer</label>
         <div className="mt-2 flex items-center gap-2">
           {card.unit === '$' && <span className="text-3xl font-mono font-black">$</span>}
           <input
@@ -46,11 +46,11 @@ export function CardFreeInputNumeric({
             disabled={disabled}
             inputMode="decimal"
             placeholder="0.00"
-            className="flex-1 font-mono text-3xl font-black px-3 py-2 border-b-4 border-[#1CB0F6] focus:outline-none placeholder:text-slate-300"
+            className="flex-1 font-mono text-3xl font-black px-3 py-2 border-b-4 border-violet-500 focus:outline-none placeholder:text-fgsubtle"
           />
           {card.unit && card.unit !== '$' && <span className="text-3xl font-mono font-black">{card.unit}</span>}
         </div>
-        <p className="text-xs text-sub-light mt-3">Within {Math.round(tol * 100)}% tolerance. Accepts decimal or percentage form.</p>
+        <p className="text-xs text-fgmuted mt-3">Within {Math.round(tol * 100)}% tolerance. Accepts decimal or percentage form.</p>
       </div>
       <button onClick={check} disabled={!value || disabled} className="duo-btn-primary w-full">Check</button>
     </div>

@@ -48,7 +48,7 @@ export function Admin() {
       <div className="flex items-baseline justify-between mb-4">
         <div>
           <h1 className="text-2xl font-extrabold">Admin · content & analytics</h1>
-          <p className="text-sub-light text-sm">Demo authoring tool. Edits save to localStorage; in prod they go to BigQuery via ApprovalLog (see ADR-005).</p>
+          <p className="text-fgmuted text-sm">Demo authoring tool. Edits save to localStorage; in prod they go to BigQuery via ApprovalLog (see ADR-005).</p>
         </div>
         <div className="flex gap-2">
           <button onClick={() => setTab('content')} className={tab === 'content' ? 'duo-btn-primary' : 'duo-btn-secondary'}>Content</button>
@@ -59,22 +59,22 @@ export function Admin() {
       {tab === 'content' ? (
         <div className="grid grid-cols-1 md:grid-cols-[260px_280px_1fr] gap-4">
           <aside className="card p-3 h-[calc(100vh-180px)] overflow-auto">
-            <div className="text-xs uppercase font-semibold text-sub-light px-2 mb-2">Content tree</div>
+            <div className="text-xs uppercase font-semibold text-fgmuted px-2 mb-2">Content tree</div>
             {PATHS.map((p) => (
               <details key={p.slug} open className="mb-2">
-                <summary className="cursor-pointer px-2 py-1 hover:bg-slate-50 rounded text-sm font-bold">
+                <summary className="cursor-pointer px-2 py-1 hover:bg-bg-2 rounded text-sm font-bold">
                   {p.name}
                 </summary>
                 <div className="pl-3">
                   {p.units.map((u) => (
                     <details key={u.id} className="my-1">
-                      <summary className="cursor-pointer px-2 py-1 hover:bg-slate-50 rounded text-sm">
+                      <summary className="cursor-pointer px-2 py-1 hover:bg-bg-2 rounded text-sm">
                         {u.name}
                       </summary>
                       <div className="pl-3">
                         {u.lessons.map((l) => (
                           <details key={l.id}>
-                            <summary className="cursor-pointer px-2 py-1 hover:bg-slate-50 rounded text-xs text-sub-light">
+                            <summary className="cursor-pointer px-2 py-1 hover:bg-bg-2 rounded text-xs text-fgmuted">
                               {l.name}
                             </summary>
                             <div className="pl-3 text-xs">
@@ -82,7 +82,7 @@ export function Admin() {
                                 <button
                                   key={cid}
                                   onClick={() => setSelectedCardId(cid)}
-                                  className={`block w-full text-left px-2 py-1 rounded hover:bg-slate-50 ${
+                                  className={`block w-full text-left px-2 py-1 rounded hover:bg-bg-2 ${
                                     selectedCardId === cid ? 'bg-brand/10 text-brand' : ''
                                   }`}
                                 >
@@ -101,20 +101,20 @@ export function Admin() {
           </aside>
 
           <aside className="card p-3 h-[calc(100vh-180px)] overflow-auto">
-            <div className="text-xs uppercase font-semibold text-sub-light px-2 mb-2">All cards</div>
+            <div className="text-xs uppercase font-semibold text-fgmuted px-2 mb-2">All cards</div>
             {Object.values(CARDS_BY_ID).map((c) => (
               <button
                 key={c.id}
                 onClick={() => setSelectedCardId(c.id)}
-                className={`w-full text-left px-2 py-2 rounded text-xs hover:bg-slate-50 ${
+                className={`w-full text-left px-2 py-2 rounded text-xs hover:bg-bg-2 ${
                   selectedCardId === c.id ? 'bg-brand/10 text-brand' : ''
                 }`}
               >
                 <div className="font-mono">{c.id}</div>
-                <div className="text-sub-light line-clamp-1">{c.prompt}</div>
+                <div className="text-fgmuted line-clamp-1">{c.prompt}</div>
                 <div className="flex gap-1 mt-1">
                   <FunctionChip fn={c.function} />
-                  <span className="pill bg-slate-100 text-sub-light">{c.type}</span>
+                  <span className="pill bg-bg-2 text-fgmuted">{c.type}</span>
                 </div>
               </button>
             ))}
@@ -129,7 +129,7 @@ export function Admin() {
                 onChange={(patch) => update(selected.id, patch)}
               />
             ) : (
-              <div className="text-sub-light text-sm">Select a card to edit.</div>
+              <div className="text-fgmuted text-sm">Select a card to edit.</div>
             )}
           </section>
         </div>
@@ -147,11 +147,11 @@ function CardEditor({ card, override, status, onChange }: { card: Card; override
     <div>
       <div className="flex items-center justify-between mb-3">
         <div>
-          <div className="text-xs text-sub-light font-mono">{card.id}</div>
+          <div className="text-xs text-fgmuted font-mono">{card.id}</div>
           <div className="flex items-center gap-2 mt-1">
             <FunctionChip fn={card.function} />
-            <span className="pill bg-slate-100 text-sub-light">{card.type}</span>
-            <span className="pill bg-slate-100 text-sub-light">difficulty {card.difficulty}</span>
+            <span className="pill bg-bg-2 text-fgmuted">{card.type}</span>
+            <span className="pill bg-bg-2 text-fgmuted">difficulty {card.difficulty}</span>
             <StatusPill status={status} />
           </div>
         </div>
@@ -162,37 +162,37 @@ function CardEditor({ card, override, status, onChange }: { card: Card; override
       </div>
       <div className="space-y-3">
         <div>
-          <label className="text-xs uppercase font-semibold text-sub-light">Prompt</label>
+          <label className="text-xs uppercase font-semibold text-fgmuted">Prompt</label>
           <textarea
             value={effectivePrompt}
             onChange={(e) => onChange({ prompt: e.target.value })}
             rows={3}
-            className="w-full mt-1 px-3 py-2 border border-slate-200 rounded-md focus:border-brand focus:outline-none"
+            className="w-full mt-1 px-3 py-2 border border-line rounded-md focus:border-brand focus:outline-none"
           />
         </div>
         <div>
-          <label className="text-xs uppercase font-semibold text-sub-light">Explanation</label>
+          <label className="text-xs uppercase font-semibold text-fgmuted">Explanation</label>
           <textarea
             value={effectiveExplanation}
             onChange={(e) => onChange({ explanation: e.target.value })}
             rows={4}
-            className="w-full mt-1 px-3 py-2 border border-slate-200 rounded-md focus:border-brand focus:outline-none"
+            className="w-full mt-1 px-3 py-2 border border-line rounded-md focus:border-brand focus:outline-none"
           />
         </div>
         <div>
-          <label className="text-xs uppercase font-semibold text-sub-light">Metric slugs</label>
+          <label className="text-xs uppercase font-semibold text-fgmuted">Metric slugs</label>
           <div className="mt-1 flex flex-wrap gap-1.5">
-            {card.metricSlugs.length === 0 && <span className="text-xs text-sub-light">— none —</span>}
+            {card.metricSlugs.length === 0 && <span className="text-xs text-fgmuted">— none —</span>}
             {card.metricSlugs.map((m) => (
-              <span key={m} className="pill bg-slate-100 text-sub-light font-mono">{m}</span>
+              <span key={m} className="pill bg-bg-2 text-fgmuted font-mono">{m}</span>
             ))}
           </div>
         </div>
         <div>
-          <label className="text-xs uppercase font-semibold text-sub-light">Live preview</label>
-          <div className="card p-4 mt-1 bg-surface-light">
+          <label className="text-xs uppercase font-semibold text-fgmuted">Live preview</label>
+          <div className="card p-4 mt-1 bg-bg-0">
             <p className="text-[15px] leading-6">{effectivePrompt}</p>
-            <p className="text-xs text-sub-light mt-3">{effectiveExplanation}</p>
+            <p className="text-xs text-fgmuted mt-3">{effectiveExplanation}</p>
           </div>
         </div>
       </div>
@@ -202,7 +202,7 @@ function CardEditor({ card, override, status, onChange }: { card: Card; override
 
 function StatusPill({ status }: { status: Status }) {
   const map: Record<Status, string> = {
-    draft: 'bg-slate-100 text-sub-light',
+    draft: 'bg-bg-2 text-fgmuted',
     review: 'bg-streak/10 text-streak',
     published: 'bg-correct/10 text-correct'
   }
@@ -241,10 +241,10 @@ function Analytics() {
         <div className="card p-5">
           <h2 className="font-bold mb-3">Cards with lowest accuracy</h2>
           {worst.length === 0 ? (
-            <p className="text-sub-light text-sm">No card attempts yet in this session.</p>
+            <p className="text-fgmuted text-sm">No card attempts yet in this session.</p>
           ) : (
             <table className="w-full text-sm">
-              <thead className="text-xs uppercase text-sub-light">
+              <thead className="text-xs uppercase text-fgmuted">
                 <tr>
                   <th className="text-left py-1">Card</th>
                   <th className="text-right py-1">Attempts</th>
@@ -253,10 +253,10 @@ function Analytics() {
               </thead>
               <tbody>
                 {worst.map((w) => (
-                  <tr key={w.id} className="border-t border-slate-100">
+                  <tr key={w.id} className="border-t border-line">
                     <td className="py-1.5 font-mono text-xs">{w.id}</td>
                     <td className="py-1.5 text-right">{w.attempts}</td>
-                    <td className={`py-1.5 text-right ${w.acc < 0.5 ? 'text-incorrect' : 'text-sub-light'}`}>
+                    <td className={`py-1.5 text-right ${w.acc < 0.5 ? 'text-incorrect' : 'text-fgmuted'}`}>
                       {Math.round(w.acc * 100)}%
                     </td>
                   </tr>
@@ -274,9 +274,9 @@ function Analytics() {
               .reverse()
               .map((e, i) => (
                 <div key={i} className="flex items-center gap-2">
-                  <span className="text-sub-light">{new Date(e.ts).toLocaleTimeString()}</span>
+                  <span className="text-fgmuted">{new Date(e.ts).toLocaleTimeString()}</span>
                   <span className="text-brand">{e.name}</span>
-                  <span className="text-sub-light truncate">{JSON.stringify(e.params).slice(0, 60)}</span>
+                  <span className="text-fgmuted truncate">{JSON.stringify(e.params).slice(0, 60)}</span>
                 </div>
               ))}
           </div>
@@ -289,7 +289,7 @@ function Analytics() {
 function KPI({ label, value }: { label: string; value: string }) {
   return (
     <div className="card p-4">
-      <div className="text-xs text-sub-light">{label}</div>
+      <div className="text-xs text-fgmuted">{label}</div>
       <div className="text-2xl font-extrabold mt-1">{value}</div>
     </div>
   )

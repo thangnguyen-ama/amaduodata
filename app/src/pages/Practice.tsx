@@ -22,7 +22,7 @@ export function Practice() {
         <div className="card p-8 text-center">
           <div className="text-4xl mb-3">🎯</div>
           <p className="font-bold">Nothing to review right now.</p>
-          <p className="text-sub-light text-sm mt-1">Cards you get wrong in lessons land here. Come back after a lesson.</p>
+          <p className="text-fgmuted text-sm mt-1">Cards you get wrong in lessons land here. Come back after a lesson.</p>
           <button className="duo-btn-primary mt-6" onClick={() => nav('/paths')}>Go to paths</button>
         </div>
       </div>
@@ -53,19 +53,26 @@ export function Practice() {
   }
 
   return (
-    <div className="min-h-screen bg-surface-light">
-      <header className="h-14 flex items-center px-4 md:px-6 border-b border-slate-200 bg-white">
-        <button className="duo-btn-ghost" onClick={() => nav('/home')}>✕</button>
-        <div className="flex-1 mx-4">
-          <div className="h-2 bg-slate-100 rounded-full overflow-hidden">
-            <div className="h-full bg-brand" style={{ width: `${(i / due.length) * 100}%` }} />
+    <div className="min-h-screen bg-bg-0">
+      <header className="pad-safe-top border-b border-line bg-bg-1 sticky top-0 z-30">
+        <div className="h-14 flex items-center px-4 md:px-6 max-w-2xl mx-auto">
+          <button
+            aria-label="Exit"
+            type="button"
+            onClick={() => nav('/home')}
+            className="w-11 h-11 -ml-2 grid place-items-center text-fgmuted hover:text-fg rounded-full hover:bg-bg-2 text-lg"
+          >✕</button>
+          <div className="flex-1 mx-3">
+            <div className="h-2 bg-bg-2 rounded-full overflow-hidden">
+              <div className="h-full bg-violet-500" style={{ width: `${(i / due.length) * 100}%` }} />
+            </div>
           </div>
+          <span className="text-xs text-fgmuted font-mono">{i + 1} / {due.length}</span>
         </div>
-        <span className="text-xs text-sub-light font-mono">{i + 1} / {due.length}</span>
       </header>
 
       <div className="max-w-2xl mx-auto p-6">
-        <div className="text-xs uppercase text-sub-light font-semibold mb-2">Practice · spaced repetition</div>
+        <div className="text-xs uppercase text-fgmuted font-semibold mb-2">Practice · spaced repetition</div>
         <div className="card p-6">
           <CardRenderer card={card} onSubmit={submit} disabled={!!feedback} />
         </div>
@@ -75,7 +82,7 @@ export function Practice() {
               <div className={`font-bold ${feedback.correct ? 'text-correct' : 'text-incorrect'}`}>
                 {feedback.correct ? '✓ Correct' : '✕ Got it again — we\'ll show this one sooner'}
               </div>
-              <p className="text-sm text-ink-light mt-1">{card.explanation}</p>
+              <p className="text-sm text-fg mt-1">{card.explanation}</p>
             </div>
             <div className="mt-4 flex justify-end">
               <button className="duo-btn-primary" onClick={next}>{i + 1 >= due.length ? 'Finish (+1 ❤)' : 'Next'}</button>

@@ -1,0 +1,21 @@
+<!doctype html><html><head><meta charset="utf-8"><link rel="stylesheet" href="_shared.css">
+<style>
+  .chunky { transition: transform .09s ease, box-shadow .09s ease; cursor:pointer; }
+  .chunky:hover { transform: translateY(-2px); }
+  .chunky:active { transform: translateY(4px); box-shadow: 0 0 0 0 var(--violet-700) !important; }
+</style></head>
+<body style="padding:24px 32px;">
+  <div style="display:flex; flex-direction:column; gap:14px;">
+    <div style="display:flex; align-items:baseline; gap:10px;">
+      <div style="font-family:var(--font-display); font-weight:800; font-size:22px;">Chunky base shadow</div>
+      <span class="muted">the Duo-style "I am pressable" · disappears on :active</span>
+    </div>
+    <div style="display:flex; gap:14px; align-items:center; padding:6px 4px 16px;">
+      <button class="chunky" style="font-family:var(--font-display); font-weight:800; font-size:15px; padding:14px 22px; border-radius:16px; background:var(--violet-500); color:#fff; border:none; box-shadow:var(--shadow-base-violet);">CONTINUE</button>
+      <button class="chunky" style="font-family:var(--font-display); font-weight:800; font-size:15px; padding:14px 22px; border-radius:16px; background:var(--blue-400); color:var(--blue-900); border:none; box-shadow:var(--shadow-base-blue);">CHECK</button>
+      <button class="chunky" style="font-family:var(--font-display); font-weight:800; font-size:15px; padding:14px 22px; border-radius:16px; background:var(--pink-400); color:#fff; border:none; box-shadow:var(--shadow-base-pink);">CELEBRATE</button>
+      <button class="chunky" style="font-family:var(--font-display); font-weight:800; font-size:15px; padding:14px 22px; border-radius:16px; background:var(--sun-400); color:var(--sun-900); border:none; box-shadow:var(--shadow-base-sun);">+12 XP</button>
+      <button class="chunky" style="font-family:var(--font-display); font-weight:800; font-size:15px; padding:14px 22px; border-radius:16px; background:#fff; color:var(--ink-900); border:2px solid var(--ink-100); box-shadow:var(--shadow-base-paper);">SKIP</button>
+    </div>
+  </div>
+</body></html>

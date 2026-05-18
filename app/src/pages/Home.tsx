@@ -35,18 +35,18 @@ export function Home() {
     <div className="max-w-5xl mx-auto px-4 md:px-6 pt-4 md:pt-6 pb-6">
       {/* Greeting */}
       <div className="mb-5">
-        <div className="text-xs uppercase tracking-wider text-sub-light font-bold">Hi {user?.displayName?.split(' ')[0]}</div>
+        <div className="text-xs uppercase tracking-wider text-fgmuted font-bold">Hi {user?.displayName?.split(' ')[0]}</div>
         <div className="flex items-end justify-between gap-3">
           <h1 className="text-2xl md:text-3xl font-black">Let's learn today.</h1>
           <div className="text-right">
-            <div className="text-[10px] uppercase tracking-wider text-sub-light font-bold">Level</div>
+            <div className="text-[10px] uppercase tracking-wider text-fgmuted font-bold">Level</div>
             <div className="display-num text-2xl text-brand leading-none">{lvl.level}</div>
           </div>
         </div>
-        <div className="mt-2 h-2.5 bg-slate-100 rounded-full overflow-hidden">
-          <div className="h-full bg-gradient-to-r from-[#1CB0F6] to-[#58CC02] transition-all" style={{ width: `${lvl.pct * 100}%` }} />
+        <div className="mt-2 h-2.5 bg-bg-2 rounded-full overflow-hidden">
+          <div className="h-full bg-gradient-to-r from-violet-500 to-blue-400 transition-all" style={{ width: `${lvl.pct * 100}%` }} />
         </div>
-        <div className="text-[11px] text-sub-light mt-1.5">{lvl.toNext} XP to level {lvl.level + 1}</div>
+        <div className="text-[11px] text-fgmuted mt-1.5">{lvl.toNext} XP to level {lvl.level + 1}</div>
       </div>
 
       {/* Hero: Continue learning */}
@@ -56,7 +56,7 @@ export function Home() {
           className={`block w-full text-left rounded-2xl path-banner-${next.path.function} text-white p-5 md:p-6 mb-5 active:translate-y-1 transition-transform shadow-[0_8px_0_0_rgba(0,0,0,0.15)]`}
         >
           <div className="flex items-center gap-4">
-            <div className="w-16 h-16 rounded-2xl bg-white/20 backdrop-blur grid place-items-center text-3xl flex-shrink-0">
+            <div className="w-16 h-16 rounded-2xl bg-fg/15 backdrop-blur grid place-items-center text-3xl flex-shrink-0">
               {pathIcon(next.path.function)}
             </div>
             <div className="flex-1 min-w-0">
@@ -73,8 +73,8 @@ export function Home() {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
         <section className="surface p-5 md:col-span-2">
           <div className="flex items-center justify-between mb-3">
-            <h2 className="text-sm uppercase tracking-wider font-black text-sub-light">Today's quests</h2>
-            <span className="text-xs text-sub-light">Resets at midnight</span>
+            <h2 className="text-sm uppercase tracking-wider font-black text-fgmuted">Today's quests</h2>
+            <span className="text-xs text-fgmuted">Resets at midnight</span>
           </div>
           <ul className="space-y-3">
             {quests.map((q) => {
@@ -82,16 +82,16 @@ export function Home() {
               const done = !!q.completedAt
               return (
                 <li key={q.id} className={`flex items-center gap-3 p-2.5 rounded-xl ${done ? 'bg-correct/5' : ''}`}>
-                  <div className={`w-10 h-10 rounded-xl grid place-items-center flex-shrink-0 ${done ? 'bg-[#58CC02]' : 'bg-slate-100'}`}>
+                  <div className={`w-10 h-10 rounded-xl grid place-items-center flex-shrink-0 ${done ? 'bg-green-500' : 'bg-bg-2'}`}>
                     {done ? <span className="text-white text-lg">✓</span> : <span>{q.kind === 'xp_target' ? '⚡' : q.kind === 'practice_count' ? '🔁' : q.kind === 'perfect_lesson' ? '🏆' : '✏️'}</span>}
                   </div>
                   <div className="flex-1 min-w-0">
-                    <div className={`text-sm font-bold ${done ? 'line-through text-sub-light' : ''}`}>{q.text}</div>
-                    <div className="h-1.5 bg-slate-100 rounded-full mt-1 overflow-hidden">
-                      <div className={`h-full ${done ? 'bg-[#58CC02]' : 'bg-[#1CB0F6]'}`} style={{ width: `${pct * 100}%` }} />
+                    <div className={`text-sm font-bold ${done ? 'line-through text-fgmuted' : ''}`}>{q.text}</div>
+                    <div className="h-1.5 bg-bg-2 rounded-full mt-1 overflow-hidden">
+                      <div className={`h-full ${done ? 'bg-green-500' : 'bg-violet-500'}`} style={{ width: `${pct * 100}%` }} />
                     </div>
                   </div>
-                  <div className="text-right text-[11px] font-bold text-sub-light">
+                  <div className="text-right text-[11px] font-bold text-fgmuted">
                     <div>{q.progress}/{q.target}</div>
                     <div className="text-xp">+{q.rewardXp} XP</div>
                   </div>
@@ -102,7 +102,7 @@ export function Home() {
         </section>
 
         <section className="surface p-5">
-          <h2 className="text-sm uppercase tracking-wider font-black text-sub-light mb-3">Quick</h2>
+          <h2 className="text-sm uppercase tracking-wider font-black text-fgmuted mb-3">Quick</h2>
           <div className="space-y-1.5">
             <QuickLink to="/practice" icon="🔁" label="Practice" badge={practiceCount > 0 ? String(practiceCount) : undefined} />
             <QuickLink to="/league" icon="🏆" label="League" />
@@ -113,7 +113,7 @@ export function Home() {
       </div>
 
       {/* Path cards */}
-      <h2 className="text-sm uppercase tracking-wider font-black text-sub-light mb-3">Your paths</h2>
+      <h2 className="text-sm uppercase tracking-wider font-black text-fgmuted mb-3">Your paths</h2>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {PATHS.map((p) => {
           const pp = pathProgress[p.slug]
@@ -127,13 +127,13 @@ export function Home() {
               className={`block path-banner-${p.function} rounded-2xl p-4 text-white active:translate-y-1 transition-transform shadow-[0_6px_0_0_rgba(0,0,0,0.15)]`}
             >
               <div className="flex items-center gap-3 mb-3">
-                <div className="w-11 h-11 rounded-xl bg-white/20 grid place-items-center text-2xl">{pathIcon(p.function)}</div>
+                <div className="w-11 h-11 rounded-xl bg-fg/15 grid place-items-center text-2xl">{pathIcon(p.function)}</div>
                 <h3 className="font-black flex-1">{p.name}</h3>
               </div>
               <p className="text-xs opacity-90 line-clamp-2 leading-snug">{p.description}</p>
               <div className="mt-3 flex items-center gap-2">
-                <div className="flex-1 h-1.5 bg-white/25 rounded-full overflow-hidden">
-                  <div className="h-full bg-white" style={{ width: `${pct * 100}%` }} />
+                <div className="flex-1 h-1.5 bg-fg/25 rounded-full overflow-hidden">
+                  <div className="h-full bg-fg" style={{ width: `${pct * 100}%` }} />
                 </div>
                 <span className="text-xs font-black">{done}/{total}</span>
               </div>
@@ -147,13 +147,13 @@ export function Home() {
 
 function QuickLink({ to, icon, label, badge }: { to: string; icon: string; label: string; badge?: string }) {
   return (
-    <Link to={to} className="flex items-center justify-between px-3 py-2.5 rounded-xl hover:bg-slate-50">
+    <Link to={to} className="flex items-center justify-between px-3 py-2.5 rounded-xl hover:bg-bg-2">
       <span className="flex items-center gap-2.5">
         <span className="text-lg" aria-hidden>{icon}</span>
         <span className="font-bold text-sm">{label}</span>
       </span>
       {badge && (
-        <span className="text-[10px] font-black bg-[#FF4B4B] text-white rounded-full px-2 py-0.5 min-w-[18px] text-center">
+        <span className="text-[10px] font-black bg-magic-500 text-white rounded-full px-2 py-0.5 min-w-[18px] text-center">
           {badge}
         </span>
       )}

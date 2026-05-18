@@ -50,13 +50,13 @@ export function CardDragToOrder({
               disabled={disabled || i === 0}
               onClick={() => move(i, -1)}
               aria-label="Move up"
-              className="w-9 h-9 grid place-items-center rounded-lg text-sub-light disabled:opacity-30 hover:bg-slate-100"
+              className="w-9 h-9 grid place-items-center rounded-lg text-fgmuted disabled:opacity-30 hover:bg-bg-2"
             >▲</button>
             <button
               disabled={disabled || i === items.length - 1}
               onClick={() => move(i, 1)}
               aria-label="Move down"
-              className="w-9 h-9 grid place-items-center rounded-lg text-sub-light disabled:opacity-30 hover:bg-slate-100"
+              className="w-9 h-9 grid place-items-center rounded-lg text-fgmuted disabled:opacity-30 hover:bg-bg-2"
             >▼</button>
           </li>
         ))}

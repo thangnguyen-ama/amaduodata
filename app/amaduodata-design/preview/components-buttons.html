@@ -1,0 +1,38 @@
+<!doctype html><html><head><meta charset="utf-8"><link rel="stylesheet" href="_shared.css">
+<style>
+  .btn { font-family: var(--font-display); font-weight:800; font-size:14px; padding:14px 22px; border-radius:14px; border:none; cursor:pointer; letter-spacing:0.02em; text-transform:uppercase; transition: transform .09s ease, box-shadow .09s ease; }
+  .btn:hover { transform: translateY(-1px); }
+  .btn:active { transform: translateY(4px); }
+  .btn.primary { background:var(--violet-500); color:#fff; box-shadow:var(--shadow-base-violet); }
+  .btn.primary:active { box-shadow:0 0 0 0 var(--violet-700); }
+  .btn.action { background:var(--blue-400); color:#fff; box-shadow:var(--shadow-base-blue); }
+  .btn.action:active { box-shadow:0 0 0 0 var(--blue-700); }
+  .btn.success { background:var(--green-400); color:var(--green-900); box-shadow:0 4px 0 0 var(--green-700); }
+  .btn.success:active { box-shadow:0 0 0 0 var(--green-700); }
+  .btn.ink { background:var(--ink-900); color:var(--paper); box-shadow:var(--shadow-base-ink); }
+  .btn.ink:active { box-shadow:0 0 0 0 var(--ink-700); }
+  .btn.ghost { background:transparent; color:var(--ink-900); border:2px solid var(--ink-200); box-shadow:none; }
+  .btn.ghost:active { transform: translateY(0); }
+  .btn.disabled { background:var(--ink-100); color:var(--ink-300); box-shadow:none; cursor:not-allowed; }
+</style></head>
+<body style="padding:24px 32px;">
+  <div style="display:flex; flex-direction:column; gap:14px;">
+    <div style="display:flex; align-items:baseline; gap:10px;">
+      <div style="font-family:var(--font-display); font-weight:800; font-size:22px;">Buttons</div>
+      <span class="muted">primary \u00b7 action \u00b7 success \u00b7 ink \u00b7 ghost \u00b7 disabled</span>
+    </div>
+    <div style="display:flex; gap:10px; flex-wrap:wrap; padding-bottom:10px;">
+      <button class="btn primary">Continue</button>
+      <button class="btn action">Check</button>
+      <button class="btn success">Got it</button>
+      <button class="btn ink">Skip</button>
+      <button class="btn ghost">Later</button>
+      <button class="btn disabled" disabled>Continue</button>
+    </div>
+    <div style="font:12px var(--font-body); color:var(--fg-muted);">
+      <strong style="color:var(--violet-500);">Violet</strong> = primary CTAs \u00b7
+      <strong style="color:var(--blue-500);">Blue</strong> = active actions, in-progress \u00b7
+      <strong style="color:var(--green-600);">Green</strong> = semantic success (correct answer) only
+    </div>
+  </div>
+</body></html>

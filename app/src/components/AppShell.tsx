@@ -34,36 +34,36 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   const hideChrome = loc.pathname.startsWith('/lesson/') || loc.pathname.startsWith('/placement') || loc.pathname.startsWith('/practice/')
 
   return (
-    <div className="min-h-full flex">
+    <div className="flex min-h-full">
       {!hideChrome && (
-        <aside className="hidden md:flex w-60 flex-col gap-1 border-r border-slate-100 px-4 py-5 bg-white pad-safe-top">
+        <aside className="hidden md:flex w-60 flex-col gap-1 border-r border-line px-4 py-5 bg-bg-1 pad-safe-top sticky top-0 self-start max-h-screen overflow-auto">
           <Link to="/home" className="flex items-center gap-2 mb-6 px-2">
-            <span className="w-9 h-9 rounded-xl bg-[#1CB0F6] text-white flex items-center justify-center font-black shadow-[0_3px_0_0_#0E8EC9]">D</span>
+            <span className="w-9 h-9 rounded-xl bg-violet-500 text-white flex items-center justify-center font-black shadow-baseViolet">D</span>
             <span className="font-black tracking-tight text-lg">DuoData</span>
           </Link>
           {NAV.map((n) => (
             <DesktopNav key={n.to} {...n} />
           ))}
-          <div className="mt-auto pt-4 border-t border-slate-200 text-xs text-sub-light px-2">
-            <Link to="/admin" className="hover:text-ink-light">Admin</Link>
+          <div className="mt-auto pt-4 border-t border-line text-xs text-fgmuted px-2">
+            <Link to="/admin" className="hover:text-fg">Admin</Link>
             <span className="mx-2">·</span>
-            <Link to="/about" className="hover:text-ink-light">About</Link>
+            <Link to="/about" className="hover:text-fg">About</Link>
           </div>
         </aside>
       )}
 
       <div className="flex-1 flex flex-col min-w-0">
         {!hideChrome && (
-          <header className="bg-white pad-safe-top border-b border-slate-100">
+          <header className="bg-bg-1/90 backdrop-blur pad-safe-top border-b border-line sticky top-0 z-30">
             <div className="h-14 flex items-center justify-between px-4 md:px-6">
               <Link to="/home" className="md:hidden flex items-center gap-2">
-                <span className="w-8 h-8 rounded-lg bg-[#1CB0F6] text-white flex items-center justify-center font-black text-sm shadow-[0_2px_0_0_#0E8EC9]">D</span>
+                <span className="w-8 h-8 rounded-lg bg-violet-500 text-white flex items-center justify-center font-black text-sm shadow-baseViolet">D</span>
                 <span className="font-black tracking-tight">DuoData</span>
               </Link>
               <div className="flex items-center gap-2 md:gap-3 ml-auto">
                 <StreakCounter />
                 <HeartCounter />
-                <div className="stat-pill bg-[#DDEBFF] text-[#1570EF]">
+                <div className="stat-pill bg-violet-500/20 text-violet-300">
                   <span>⚡</span><span className="display-num">{totalXp}</span>
                 </div>
               </div>
@@ -71,13 +71,13 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           </header>
         )}
 
-        <main className={`flex-1 overflow-auto bg-surface-light/40 ${!hideChrome ? 'md:pb-0 pb-20' : ''}`}>
+        <main className={`flex-1 bg-bg-0 ${!hideChrome ? 'md:pb-6 pb-24' : ''}`}>
           {children}
         </main>
 
         {!hideChrome && (
           <nav
-            className="md:hidden fixed bottom-0 inset-x-0 bg-white border-t border-slate-100 pad-safe-bottom z-20 shadow-[0_-2px_0_0_rgba(0,0,0,0.02)]"
+            className="md:hidden fixed bottom-0 inset-x-0 bg-bg-1/95 backdrop-blur border-t border-line pad-safe-bottom z-30"
             aria-label="Primary navigation"
           >
             <div className="grid grid-cols-6">
@@ -98,7 +98,7 @@ function DesktopNav({ to, label, icon }: { to: string; label: string; icon: stri
       to={to}
       className={({ isActive }) =>
         `flex items-center gap-3 px-3 py-2 rounded-md text-[15px] ${
-          isActive ? 'bg-brand/10 text-brand font-semibold' : 'text-ink-light hover:bg-slate-100'
+          isActive ? 'bg-brand/10 text-brand font-semibold' : 'text-fg hover:bg-bg-2'
         }`
       }
     >
@@ -114,7 +114,7 @@ function MobileNav({ to, label, icon }: { to: string; label: string; icon: strin
       to={to}
       className={({ isActive }) =>
         `flex flex-col items-center justify-center py-2 text-[10px] font-medium ${
-          isActive ? 'text-brand' : 'text-sub-light'
+          isActive ? 'text-brand' : 'text-fgmuted'
         }`
       }
     >

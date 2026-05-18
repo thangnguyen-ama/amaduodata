@@ -109,17 +109,17 @@ export function LessonPlayer() {
     const accuracy = Math.round((correct / cards.length) * 100)
     const perfect = correct === cards.length
     return (
-      <div className="min-h-screen flex flex-col bg-gradient-to-b from-[#FFF8DC] to-white relative overflow-hidden">
+      <div className="min-h-screen flex flex-col bg-gradient-to-b from-violet-900/40 to-bg-0 relative overflow-hidden">
         <Confetti />
         <div className="flex-1 grid place-items-center p-6 relative z-10">
           <div className="text-center max-w-md w-full animate-burst">
             <div className="text-7xl mb-2">{perfect ? '🏆' : '🎉'}</div>
             <h1 className="text-3xl font-black">{perfect ? 'Perfect lesson!' : 'Lesson complete!'}</h1>
-            <p className="text-sub-light text-sm mt-1 mb-8">{lesson.name}</p>
+            <p className="text-fgmuted text-sm mt-1 mb-8">{lesson.name}</p>
             <div className="grid grid-cols-3 gap-3 mb-8">
-              <BigStat icon="⚡" label="Total XP" value={`+${xpThisLesson}`} tint="#1570EF" tintBg="#DDEBFF" />
-              <BigStat icon="🎯" label="Accuracy" value={`${accuracy}%`} tint="#19a06b" tintBg="#D7FFB8" />
-              <BigStat icon="❤" label="Hearts" value={`${useStore.getState().hearts.count}/5`} tint="#E92C2C" tintBg="#FFDFE0" />
+              <BigStat icon="⚡" label="Total XP" value={`+${xpThisLesson}`} tint="#FFCD3C" tintBg="rgba(255,205,60,0.18)" />
+              <BigStat icon="🎯" label="Accuracy" value={`${accuracy}%`} tint="#29D86F" tintBg="rgba(41,216,111,0.18)" />
+              <BigStat icon="❤" label="Hearts" value={`${useStore.getState().hearts.count}/5`} tint="#FF6FA0" tintBg="rgba(255,61,142,0.18)" />
             </div>
             <div className="flex flex-col gap-3">
               <button className="duo-btn-success w-full" onClick={() => nav(`/paths/${pathSlug}`)}>
@@ -140,11 +140,11 @@ export function LessonPlayer() {
 
   if (outOfHearts) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-[#FFE4E4] to-white grid place-items-center p-6">
+      <div className="min-h-screen bg-gradient-to-b from-magic-900/40 to-bg-0 grid place-items-center p-6">
         <div className="text-center max-w-sm w-full animate-burst">
           <div className="text-7xl mb-2">💔</div>
           <h1 className="text-3xl font-black">Out of hearts</h1>
-          <p className="text-sub-light text-sm mt-1 mb-8 px-2 leading-6">Refill by practicing past cards, or wait — one heart regenerates every 30 minutes.</p>
+          <p className="text-fgmuted text-sm mt-1 mb-8 px-2 leading-6">Refill by practicing past cards, or wait — one heart regenerates every 30 minutes.</p>
           <div className="flex flex-col gap-3">
             <button className="duo-btn-primary w-full" onClick={() => nav('/practice')}>Practice to refill</button>
             <button
@@ -162,32 +162,33 @@ export function LessonPlayer() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-white">
-      {/* Lesson header */}
-      <header className="pad-safe-top px-4 md:px-6 pt-3 pb-2 border-b border-slate-100">
-        <div className="max-w-2xl mx-auto flex items-center gap-3">
+    <div className="min-h-screen flex flex-col bg-bg-1">
+      {/* Lesson header — outer applies safe-area inset only; inner has actual padding */}
+      <header className="pad-safe-top border-b border-line bg-bg-1 sticky top-0 z-30">
+        <div className="max-w-2xl mx-auto flex items-center gap-3 px-4 md:px-6 py-3">
           <button
             aria-label="Exit lesson"
+            type="button"
             onClick={() => setExitConfirm(true)}
-            className="w-9 h-9 grid place-items-center text-sub-light hover:text-ink-light rounded-full hover:bg-slate-100"
+            className="w-11 h-11 -ml-2 grid place-items-center text-fgmuted hover:text-fg rounded-full hover:bg-bg-2 text-lg"
           >✕</button>
-          <div className="flex-1 h-3 bg-slate-100 rounded-full overflow-hidden flex">
+          <div className="flex-1 h-3 bg-bg-2 rounded-full overflow-hidden flex">
             {cards.map((_, i) => (
               <span
                 key={i}
                 className={`flex-1 transition-all ${
                   i < cardIndex
-                    ? results[i]?.correct ? 'bg-[#58CC02]' : 'bg-[#FF4B4B]'
+                    ? results[i]?.correct ? 'bg-green-500' : 'bg-magic-500'
                     : i === cardIndex && feedback
-                    ? feedback.correct ? 'bg-[#58CC02]' : 'bg-[#FF4B4B]'
+                    ? feedback.correct ? 'bg-green-500' : 'bg-magic-500'
                     : i === cardIndex
-                    ? 'bg-[#1CB0F6]'
+                    ? 'bg-violet-500'
                     : 'bg-transparent'
                 }`}
               />
             ))}
           </div>
-          <div className={`stat-pill bg-[#FFE5E5] text-[#FF4B4B] ${shake ? 'animate-shake' : ''}`}>
+          <div className={`stat-pill bg-magic-500/20 text-magic-400 ${shake ? 'animate-shake' : ''}`}>
             <span>❤</span>
             <span className="display-num">{heartsState.count}</span>
           </div>
@@ -197,13 +198,13 @@ export function LessonPlayer() {
       {/* Card body */}
       <div className="flex-1 px-4 md:px-6 py-6 pb-40 md:pb-32">
         <div className="max-w-2xl mx-auto">
-          <h2 className="text-[11px] uppercase tracking-wider font-bold text-sub-light mb-3">
+          <h2 className="text-[11px] uppercase tracking-wider font-bold text-fgmuted mb-3">
             {path.name} · {unit.name}
           </h2>
           <div className="relative">
             <CardRenderer card={card} onSubmit={(ok) => handleSubmit(ok)} disabled={!!feedback} />
             {xpBurst !== null && (
-              <div className="absolute -top-2 right-0 stat-pill bg-[#DDEBFF] text-[#1570EF] animate-burst font-black">
+              <div className="absolute -top-2 right-0 stat-pill bg-violet-500/20 text-violet-300 animate-burst font-black">
                 <span>⚡</span><span>+{xpBurst}</span>
               </div>
             )}
@@ -215,34 +216,34 @@ export function LessonPlayer() {
       {feedback && (
         <div
           className={`fixed inset-x-0 bottom-0 z-30 pad-safe-bottom animate-slide-up ${
-            feedback.correct ? 'bg-[#D7FFB8]' : 'bg-[#FFDFE0]'
+            feedback.correct ? 'bg-green-500/20' : 'bg-magic-500/20'
           }`}
         >
           <div className="max-w-2xl mx-auto px-5 py-5 md:py-6">
             <div className="flex items-start gap-3">
               <div
                 className={`w-12 h-12 rounded-full grid place-items-center flex-shrink-0 ${
-                  feedback.correct ? 'bg-[#58CC02]' : 'bg-[#FF4B4B]'
+                  feedback.correct ? 'bg-green-500' : 'bg-magic-500'
                 }`}
               >
                 <span className="text-white text-2xl font-black">{feedback.correct ? '✓' : '✕'}</span>
               </div>
               <div className="flex-1 min-w-0">
-                <div className={`text-xl font-black ${feedback.correct ? 'text-[#2D7A0E]' : 'text-[#BC2A2A]'}`}>
+                <div className={`text-xl font-black ${feedback.correct ? 'text-green-400' : 'text-magic-300'}`}>
                   {feedback.correct ? 'Nice!' : 'Correct answer:'}
                 </div>
                 {!feedback.correct && (
-                  <div className="text-[#BC2A2A] font-bold text-base mb-1 mt-0.5 leading-snug">
+                  <div className="text-magic-300 font-bold text-base mb-1 mt-0.5 leading-snug">
                     {canonicalAnswerLabel(card)}
                   </div>
                 )}
-                <p className={`text-sm leading-6 mt-1 ${feedback.correct ? 'text-[#2D7A0E]' : 'text-[#BC2A2A]'}`}>
+                <p className={`text-sm leading-6 mt-1 ${feedback.correct ? 'text-green-400' : 'text-magic-300'}`}>
                   {card.explanation}
                 </p>
                 {card.metricSlugs.length > 0 && (
                   <div className="mt-2 flex flex-wrap gap-1.5">
                     {card.metricSlugs.map((m) => (
-                      <span key={m} className="pill bg-white/60 text-ink-light/70">{m}</span>
+                      <span key={m} className="pill bg-bg-1/60 text-fg/70">{m}</span>
                     ))}
                   </div>
                 )}
@@ -268,7 +269,7 @@ export function LessonPlayer() {
         <div className="fixed inset-0 z-40 bg-black/40 grid place-items-end md:place-items-center p-4 animate-burst">
           <div className="surface w-full max-w-sm p-6 animate-slide-up">
             <h3 className="text-xl font-black">Leave the lesson?</h3>
-            <p className="text-sub-light text-sm mt-1 leading-6">You'll lose progress on this lesson, but your XP earned so far stays.</p>
+            <p className="text-fgmuted text-sm mt-1 leading-6">You'll lose progress on this lesson, but your XP earned so far stays.</p>
             <div className="flex flex-col gap-2 mt-5">
               <button className="duo-btn-danger w-full" onClick={() => nav('/home')}>Leave</button>
               <button className="duo-btn-secondary w-full" onClick={() => setExitConfirm(false)}>Keep learning</button>

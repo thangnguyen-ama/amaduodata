@@ -59,15 +59,15 @@ export function MetricTree() {
         <button
           onClick={() => selectNode(node.slug)}
           className={`flex items-center gap-2 px-2 py-1 rounded-md text-sm w-full text-left transition-colors ${
-            selected === node.slug ? `bg-fn-${node.function}/15 ring-1 ring-fn-${node.function}/40` : 'hover:bg-slate-100'
+            selected === node.slug ? `bg-fn-${node.function}/15 ring-1 ring-fn-${node.function}/40` : 'hover:bg-bg-2'
           }`}
         >
           <span className={`w-2 h-2 rounded-full bg-fn-${node.function}`} />
           <span className="font-medium">{node.name}</span>
-          {node.formula && <span className="font-mono text-[10px] text-sub-light truncate">· {node.formula}</span>}
+          {node.formula && <span className="font-mono text-[10px] text-fgmuted truncate">· {node.formula}</span>}
         </button>
         {children.length > 0 && (
-          <div className="pl-4 border-l border-slate-200 space-y-1.5">
+          <div className="pl-4 border-l border-line space-y-1.5">
             {children.map((c) => renderBranch(c, depth + 1))}
           </div>
         )}
@@ -80,13 +80,13 @@ export function MetricTree() {
       <div className="flex items-baseline justify-between flex-wrap gap-3 mb-4">
         <div>
           <h1 className="text-2xl font-extrabold">Metric tree</h1>
-          <p className="text-sub-light text-sm">Mirrors the Amanotes metric tree on Confluence. Click any node for its definition.</p>
+          <p className="text-fgmuted text-sm">Mirrors the Amanotes metric tree on Confluence. Click any node for its definition.</p>
         </div>
         <input
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           placeholder="Search metrics…"
-          className="px-3 py-2 border border-slate-200 rounded-md w-64 focus:border-brand focus:outline-none"
+          className="px-3 py-2 border border-line rounded-md w-64 focus:border-brand focus:outline-none"
         />
       </div>
 
@@ -98,7 +98,7 @@ export function MetricTree() {
               key={f.fn}
               onClick={() => toggleFn(f.fn)}
               className={`pill border ${
-                on ? `bg-fn-${f.fn}/10 text-fn-${f.fn} border-fn-${f.fn}/30` : 'bg-white text-sub-light border-slate-200 line-through'
+                on ? `bg-fn-${f.fn}/10 text-fn-${f.fn} border-fn-${f.fn}/30` : 'bg-bg-1 text-fgmuted border-line line-through'
               }`}
             >
               <span className={`w-2 h-2 rounded-full bg-fn-${f.fn}`} />
@@ -120,13 +120,13 @@ export function MetricTree() {
             <div>
               <FunctionChip fn={node.function} />
               <h2 className="text-xl font-extrabold mt-2">{node.name}</h2>
-              <p className="text-xs text-sub-light mt-1">
+              <p className="text-xs text-fgmuted mt-1">
                 View: <strong>{node.view === 'act_date' ? 'Act-date' : node.view === 'cohort' ? 'Cohort' : 'Both'}</strong>
               </p>
               <p className="mt-4 leading-6">{node.definition}</p>
               {node.formula && (
                 <div className="mt-3">
-                  <div className="text-xs uppercase text-sub-light font-semibold mb-1">Formula</div>
+                  <div className="text-xs uppercase text-fgmuted font-semibold mb-1">Formula</div>
                   <code className="formula">{node.formula}</code>
                 </div>
               )}
@@ -135,7 +135,7 @@ export function MetricTree() {
                 if (children.length === 0) return null
                 return (
                   <div className="mt-4">
-                    <div className="text-xs uppercase text-sub-light font-semibold mb-1.5">Children</div>
+                    <div className="text-xs uppercase text-fgmuted font-semibold mb-1.5">Children</div>
                     <div className="flex flex-wrap gap-1.5">
                       {children.map((c) => (
                         <button key={c.slug} onClick={() => selectNode(c.slug)} className={`pill chip-${c.function} hover:opacity-80`}>
@@ -154,12 +154,12 @@ export function MetricTree() {
                   </button>
                 </div>
               )}
-              <p className="text-xs text-sub-light mt-4 leading-5">
+              <p className="text-xs text-fgmuted mt-4 leading-5">
                 Source of truth: DataHub. In the real app, definitions sync via the DataHub API every 5 min and a drift report flags stale cards.
               </p>
             </div>
           ) : (
-            <div className="text-sub-light">Select a node…</div>
+            <div className="text-fgmuted">Select a node…</div>
           )}
         </aside>
       </div>

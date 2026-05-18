@@ -14,7 +14,7 @@ export function CardScenarioJudgment({
   return (
     <div className="flex flex-col gap-6">
       <h2 className="text-[22px] md:text-2xl font-black leading-snug">{card.prompt}</h2>
-      <div className="surface px-4 py-4 border-l-4 border-l-[#1CB0F6] text-[15px] leading-6 text-ink-light">
+      <div className="surface px-4 py-4 border-l-4 border-l-violet-500 text-[15px] leading-6 text-fg">
         {card.scenario}
       </div>
       <div className="space-y-3">

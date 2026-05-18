@@ -22,15 +22,15 @@ export function League() {
         <div className="flex items-center gap-3">
           <span className="text-3xl">🏆</span>
           <div className="flex-1">
-            <div className="text-xs text-sub-light uppercase">League tier</div>
+            <div className="text-xs text-fgmuted uppercase">League tier</div>
             <h1 className="text-2xl font-extrabold">{league.tier}</h1>
           </div>
           <div className="text-right">
-            <div className="text-xs text-sub-light">{daysLeft} day{daysLeft === 1 ? '' : 's'} left</div>
-            <div className="text-xs text-sub-light">Week of {league.weekStartISO}</div>
+            <div className="text-xs text-fgmuted">{daysLeft} day{daysLeft === 1 ? '' : 's'} left</div>
+            <div className="text-xs text-fgmuted">Week of {league.weekStartISO}</div>
           </div>
         </div>
-        <p className="text-xs text-sub-light mt-3">
+        <p className="text-xs text-fgmuted mt-3">
           Tier names follow Amanotes product-lifecycle stages: POC → MVP → SoftLaunch → PMF → ScaleUp → Revenue → Maintenance.
           {tierIdx < TIER_NAMES.length - 1 && ` Top 7 promote to ${TIER_NAMES[tierIdx + 1]}.`}
         </p>
@@ -38,7 +38,7 @@ export function League() {
 
       <div className="card overflow-hidden">
         <table className="w-full">
-          <thead className="bg-slate-50 text-xs uppercase text-sub-light">
+          <thead className="bg-bg-2 text-xs uppercase text-fgmuted">
             <tr>
               <th className="text-left py-2 px-3 w-12">#</th>
               <th className="text-left py-2 px-3">Name</th>
@@ -59,7 +59,7 @@ export function League() {
                 ? 'bg-streak/5'
                 : ''
               return (
-                <tr key={m.id} className={`border-t border-slate-100 ${bg}`}>
+                <tr key={m.id} className={`border-t border-line ${bg}`}>
                   <td className="py-2.5 px-3 font-mono text-sm">
                     {rank} {promoZone && '⬆️'} {demoZone && '⬇️'}
                   </td>
@@ -67,7 +67,7 @@ export function League() {
                     {m.name}
                     {m.isMe && <span className="ml-2 pill bg-brand/10 text-brand">you</span>}
                   </td>
-                  <td className="py-2.5 px-3 text-sub-light text-sm">{m.role}</td>
+                  <td className="py-2.5 px-3 text-fgmuted text-sm">{m.role}</td>
                   <td className="py-2.5 px-3 text-right font-mono">{m.weeklyXp}</td>
                 </tr>
               )
@@ -75,7 +75,7 @@ export function League() {
           </tbody>
         </table>
       </div>
-      <p className="text-xs text-sub-light mt-3">Promotion zone: top 7 (green). Demotion zone: bottom 5 (orange).</p>
+      <p className="text-xs text-fgmuted mt-3">Promotion zone: top 7 (green). Demotion zone: bottom 5 (orange).</p>
     </div>
   )
 }

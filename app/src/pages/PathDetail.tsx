@@ -43,7 +43,7 @@ export function PathDetail() {
             ← All paths
           </Link>
           <div className="flex items-center gap-3 mt-3">
-            <div className="w-14 h-14 rounded-2xl bg-white/15 backdrop-blur grid place-items-center text-3xl">
+            <div className="w-14 h-14 rounded-2xl bg-fg/15 backdrop-blur grid place-items-center text-3xl">
               {pathIcon(path)}
             </div>
             <div className="flex-1">
@@ -165,9 +165,9 @@ function UnitHeader({ unit, index, unlocked, function_ }: { unit: Unit; index: n
         {index + 1}
       </div>
       <div className="flex-1">
-        <div className="text-[10px] uppercase tracking-wider text-sub-light font-bold">Unit {index + 1}</div>
+        <div className="text-[10px] uppercase tracking-wider text-fgmuted font-bold">Unit {index + 1}</div>
         <div className="font-extrabold leading-tight">{unit.name}</div>
-        <div className="text-xs text-sub-light leading-snug mt-0.5">{unit.goal}</div>
+        <div className="text-xs text-fgmuted leading-snug mt-0.5">{unit.goal}</div>
       </div>
       {!unlocked && <span aria-hidden className="text-xl">🔒</span>}
     </div>
@@ -191,29 +191,30 @@ function LessonBubble({
     String(indexInUnit + 1)
 
   return (
-    <div className="relative w-full grid place-items-center">
+    <div className="w-full flex justify-center">
       <div
-        className="absolute"
-        style={{ transform: `translateX(${x * 90}px)` }}
+        className="relative group"
+        style={{ transform: `translateX(${x * 70}px)` }}
       >
-        <div className="relative group">
-          <button
-            disabled={node.state === 'locked'}
-            onClick={onClick}
-            className={`lesson-node ${node.state} ${node.state === 'current' ? 'animate-pulse-ring' : ''}`}
-            aria-label={`Lesson: ${node.lesson.name} — ${node.state}`}
-          >
-            <span className="text-white text-3xl font-black drop-shadow">{label}</span>
-          </button>
+        <button
+          type="button"
+          disabled={node.state === 'locked'}
+          onClick={onClick}
+          className={`lesson-node ${node.state === 'locked' ? 'locked' : node.state} ${node.state === 'current' ? 'animate-pulse-ring' : ''}`}
+          aria-label={`Lesson: ${node.lesson.name} — ${node.state}`}
+        >
+          <span className="text-white text-3xl font-black drop-shadow pointer-events-none">{label}</span>
+        </button>
 
-          {/* Hover/active label tooltip */}
-          <div className={`pointer-events-none absolute left-1/2 -translate-x-1/2 -top-12 surface px-3 py-1.5 text-xs font-bold whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity ${node.state === 'current' ? '!opacity-100' : ''}`}>
-            {node.state === 'current' ? 'Start' : ''} {node.lesson.name}
-          </div>
+        {/* Always-on label for the current lesson; hover-only for others */}
+        <div
+          className={`pointer-events-none absolute left-1/2 -translate-x-1/2 -top-9 surface px-3 py-1.5 text-xs font-bold whitespace-nowrap transition-opacity ${
+            node.state === 'current' ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'
+          }`}
+        >
+          {node.state === 'current' ? 'Start · ' : ''}{node.lesson.name}
         </div>
       </div>
-      {/* Spacer to give vertical layout height */}
-      <div className="h-[78px] w-[78px] opacity-0" aria-hidden />
     </div>
   )
 }

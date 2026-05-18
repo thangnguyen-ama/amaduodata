@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 220" role="img" aria-label="Beat celebrating">
+  <ellipse cx="110" cy="206" rx="58" ry="6" fill="#131326" opacity="0.10"></ellipse>
+
+  
+  <g fill="#FFCD3C">
+    <path d="M28 36 l 3 8 l 8 3 l -8 3 l -3 8 l -3 -8 l -8 -3 l 8 -3 z"></path>
+    <path d="M194 28 l 3 7 l 7 3 l -7 3 l -3 7 l -3 -7 l -7 -3 l 7 -3 z"></path>
+  </g>
+  <g fill="#FF3D8E">
+    <path d="M186 168 l 2 6 l 6 2 l -6 2 l -2 6 l -2 -6 l -6 -2 l 6 -2 z"></path>
+    <path d="M20 158 l 2 6 l 6 2 l -6 2 l -2 6 l -2 -6 l -6 -2 l 6 -2 z"></path>
+  </g>
+
+  
+  <circle cx="110" cy="20" r="6" fill="#FFCD3C"></circle>
+  <line x1="110" y1="28" x2="110" y2="40" stroke="#131326" stroke-width="3" stroke-linecap="round"></line>
+
+  
+  <path d="M50 110&#xA;           C 50 66, 66 50, 110 50&#xA;           C 154 50, 170 66, 170 110&#xA;           C 170 154, 154 170, 110 170&#xA;           C 66 170, 50 154, 50 110 Z" fill="#6938EF"></path>
+
+  
+  <path d="M74 74 C 90 62, 130 62, 146 74 C 132 66, 88 66, 74 74 Z" fill="#A684FF" opacity="0.45"></path>
+
+  
+  <path d="M78 102 Q 90 88 102 102" stroke="#131326" stroke-width="6" stroke-linecap="round" fill="none"></path>
+  <path d="M118 102 Q 130 88 142 102" stroke="#131326" stroke-width="6" stroke-linecap="round" fill="none"></path>
+
+  
+  <path d="M82 124 Q 110 152 138 124" stroke="#131326" stroke-width="6" stroke-linecap="round" fill="none"></path>
+</svg>

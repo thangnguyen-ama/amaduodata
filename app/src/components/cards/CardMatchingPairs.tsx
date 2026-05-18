@@ -10,6 +10,11 @@ function shuffle<T>(arr: T[]): T[] {
   return a
 }
 
+interface RightSlot {
+  id: string  // stable per-slot id (so duplicate text values don't collide)
+  text: string
+}
+
 export function CardMatchingPairs({
   card,
   onSubmit,
@@ -19,42 +24,54 @@ export function CardMatchingPairs({
   onSubmit: (isCorrect: boolean, answer: unknown) => void
   disabled?: boolean
 }) {
+  // Track right items by index — text alone collides when 2 pairs share a right value
+  // (e.g. "Cohort" appears twice). Each slot keeps its own id so used/freed state
+  // is local to that slot.
   const lefts = useMemo(() => shuffle(card.pairs.map((p) => p.left)), [card.id])
-  const rights = useMemo(() => shuffle(card.pairs.map((p) => p.right)), [card.id])
+  const rightSlots = useMemo<RightSlot[]>(
+    () => shuffle(card.pairs.map((p, i) => ({ id: `r${i}`, text: p.right }))),
+    [card.id]
+  )
+
   const [pickedLeft, setPickedLeft] = useState<string | null>(null)
+  // left text -> right slot id
   const [pairs, setPairs] = useState<Record<string, string>>({})
-  const [usedRights, setUsedRights] = useState<Set<string>>(new Set())
+
+  function rightSlotFor(left: string): RightSlot | undefined {
+    const id = pairs[left]
+    return id ? rightSlots.find((s) => s.id === id) : undefined
+  }
 
   function selectLeft(l: string) {
     if (pairs[l]) {
+      // unpair: only frees this specific right slot, not other slots with same text
       const next = { ...pairs }
-      const r = next[l]
       delete next[l]
-      const ur = new Set(usedRights)
-      ur.delete(r)
       setPairs(next)
-      setUsedRights(ur)
       return
     }
     setPickedLeft(l)
   }
 
-  function selectRight(r: string) {
+  function selectRight(slot: RightSlot) {
     if (!pickedLeft) return
-    if (usedRights.has(r)) return
-    const next = { ...pairs, [pickedLeft]: r }
-    const ur = new Set(usedRights)
-    ur.add(r)
-    setPairs(next)
-    setUsedRights(ur)
+    // is this slot already used?
+    if (Object.values(pairs).includes(slot.id)) return
+    setPairs({ ...pairs, [pickedLeft]: slot.id })
     setPickedLeft(null)
   }
 
+  const usedSlotIds = new Set(Object.values(pairs))
   const complete = Object.keys(pairs).length === card.pairs.length
 
   function check() {
-    const correctMap = Object.fromEntries(card.pairs.map((p) => [p.left, p.right]))
-    const ok = Object.entries(pairs).every(([l, r]) => correctMap[l] === r)
+    const correctRightFor: Record<string, string> = Object.fromEntries(
+      card.pairs.map((p) => [p.left, p.right])
+    )
+    const ok = Object.entries(pairs).every(([left, slotId]) => {
+      const slot = rightSlots.find((s) => s.id === slotId)
+      return !!slot && correctRightFor[left] === slot.text
+    })
     onSubmit(ok, pairs)
   }
 
@@ -63,33 +80,37 @@ export function CardMatchingPairs({
       <h2 className="text-[22px] md:text-2xl font-black leading-snug">{card.prompt}</h2>
       <div className="grid grid-cols-2 gap-3">
         <div className="space-y-2.5">
-          {lefts.map((l) => (
-            <button
-              key={l}
-              disabled={disabled}
-              onClick={() => selectLeft(l)}
-              className={`choice-btn ${pickedLeft === l ? 'picked' : pairs[l] ? 'correct' : ''}`}
-            >
-              <div className="text-[14px] font-bold">{l}</div>
-              {pairs[l] && (
-                <div className="text-[11px] mt-0.5 opacity-70">→ {pairs[l]}</div>
-              )}
-            </button>
-          ))}
+          {lefts.map((l) => {
+            const paired = rightSlotFor(l)
+            return (
+              <button
+                key={l}
+                disabled={disabled}
+                onClick={() => selectLeft(l)}
+                className={`choice-btn ${pickedLeft === l ? 'picked' : paired ? 'correct' : ''}`}
+              >
+                <div className="text-[14px] font-bold">{l}</div>
+                {paired && (
+                  <div className="text-[11px] mt-0.5 opacity-70">→ {paired.text}</div>
+                )}
+              </button>
+            )
+          })}
         </div>
         <div className="space-y-2.5">
-          {rights.map((r) => (
-            <button
-              key={r}
-              disabled={disabled || usedRights.has(r)}
-              onClick={() => selectRight(r)}
-              className={`choice-btn ${
-                usedRights.has(r) ? 'opacity-40 line-through' : ''
-              }`}
-            >
-              <div className="text-[14px] font-bold">{r}</div>
-            </button>
-          ))}
+          {rightSlots.map((slot) => {
+            const used = usedSlotIds.has(slot.id)
+            return (
+              <button
+                key={slot.id}
+                disabled={disabled || used}
+                onClick={() => selectRight(slot)}
+                className={`choice-btn ${used ? 'opacity-40 line-through' : ''}`}
+              >
+                <div className="text-[14px] font-bold">{slot.text}</div>
+              </button>
+            )
+          })}
         </div>
       </div>
       <button disabled={!complete || disabled} onClick={check} className="duo-btn-primary w-full">Check</button>

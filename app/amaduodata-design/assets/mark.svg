@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Ama Duo Data mark">
+  <rect x="0" y="0" width="64" height="64" rx="18" fill="#6938EF"></rect>
+  <rect x="14" y="38" width="8" height="14" rx="3" fill="#FFCD3C"></rect>
+  <rect x="28" y="28" width="8" height="24" rx="3" fill="#2D7FF9"></rect>
+  <rect x="42" y="16" width="8" height="36" rx="3" fill="#FF3D8E"></rect>
+  <circle cx="50" cy="12" r="3.5" fill="#FFFFFF"></circle>
+</svg>

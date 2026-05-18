@@ -18,7 +18,7 @@ export function HeartCounter({ shake }: { shake?: boolean } = {}) {
 
   return (
     <div
-      className={`stat-pill bg-[#FFE5E5] text-[#FF4B4B] ${shake ? 'animate-shake' : ''}`}
+      className={`stat-pill bg-magic-500/20 text-magic-400 ${shake ? 'animate-shake' : ''}`}
       title={nextIn ? `Next heart in ${formatCountdown(nextIn)}` : 'Hearts full'}
     >
       <span aria-hidden>❤</span>
