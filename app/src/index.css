@@ -1,0 +1,224 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --brand: #0F62FE;
+    --sat: env(safe-area-inset-top, 0px);
+    --sab: env(safe-area-inset-bottom, 0px);
+  }
+  html, body, #root { height: 100%; }
+  body {
+    font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Inter, sans-serif;
+    -webkit-tap-highlight-color: transparent;
+    overscroll-behavior-y: none;
+    -webkit-user-select: none;
+    user-select: none;
+  }
+  input, textarea { -webkit-user-select: text; user-select: text; }
+  .pad-safe-top { padding-top: env(safe-area-inset-top, 0px); }
+  .pad-safe-bottom { padding-bottom: env(safe-area-inset-bottom, 0px); }
+  button { -webkit-touch-callout: none; }
+}
+
+/* =========================================================
+   Duolingo-style chunky 3D buttons
+   - hard bottom shadow that "presses" on :active
+   ========================================================= */
+@layer components {
+  /* Generic press-button: depth shadow on bottom, animates to flat on active */
+  .duo-btn {
+    @apply relative inline-flex items-center justify-center select-none
+           font-extrabold uppercase tracking-wide rounded-2xl
+           transition-[transform,box-shadow] duration-100
+           disabled:opacity-40 disabled:cursor-not-allowed;
+    padding: 14px 22px;
+    font-size: 15px;
+    letter-spacing: 0.04em;
+  }
+  .duo-btn:active:not(:disabled) {
+    transform: translateY(3px);
+    box-shadow: 0 0 0 rgba(0,0,0,0) !important;
+  }
+
+  /* Primary brand button */
+  .duo-btn-primary {
+    @apply duo-btn text-white;
+    background: #1CB0F6;
+    box-shadow: 0 4px 0 0 #0E8EC9;
+  }
+  .duo-btn-primary:hover:not(:disabled) { background: #29B9FB; }
+
+  /* Success/green for correct continue */
+  .duo-btn-success {
+    @apply duo-btn text-white;
+    background: #58CC02;
+    box-shadow: 0 4px 0 0 #46A302;
+  }
+  .duo-btn-success:hover:not(:disabled) { background: #61D60A; }
+
+  /* Danger red for incorrect continue */
+  .duo-btn-danger {
+    @apply duo-btn text-white;
+    background: #FF4B4B;
+    box-shadow: 0 4px 0 0 #CC3939;
+  }
+
+  /* Outlined secondary — gray with depth */
+  .duo-btn-secondary {
+    @apply duo-btn text-ink-light;
+    background: #FFFFFF;
+    border: 2px solid #E5E5E5;
+    box-shadow: 0 4px 0 0 #E5E5E5;
+  }
+  .duo-btn-secondary:hover:not(:disabled) { border-color: #D0D5DD; }
+
+  /* Ghost — no depth, transparent */
+  .duo-btn-ghost {
+    @apply inline-flex items-center justify-center font-bold uppercase tracking-wide
+           px-4 py-2.5 rounded-xl text-sub-light hover:bg-slate-100;
+    font-size: 13px;
+    letter-spacing: 0.04em;
+  }
+
+  /* Chunky choice button — used for multiple choice / scenarios */
+  .choice-btn {
+    @apply relative w-full text-left rounded-2xl px-4 py-4 transition-[transform,box-shadow]
+           duration-100 bg-white border-2 select-none;
+    border-color: #E5E5E5;
+    box-shadow: 0 4px 0 0 #E5E5E5;
+  }
+  .choice-btn:hover:not(:disabled) { border-color: #BFC4CC; box-shadow: 0 4px 0 0 #BFC4CC; }
+  .choice-btn:active:not(:disabled) { transform: translateY(3px); box-shadow: 0 0 0 0 transparent; }
+  .choice-btn.picked {
+    border-color: #84D8FF;
+    background: #DDF4FF;
+    box-shadow: 0 4px 0 0 #84D8FF;
+    color: #1899D6;
+  }
+  .choice-btn.correct {
+    border-color: #79D03A;
+    background: #D7FFB8;
+    box-shadow: 0 4px 0 0 #79D03A;
+    color: #2D7A0E;
+  }
+  .choice-btn.incorrect {
+    border-color: #FF8B8B;
+    background: #FFDFE0;
+    box-shadow: 0 4px 0 0 #FF8B8B;
+    color: #BC2A2A;
+  }
+  .choice-btn:disabled { cursor: default; }
+
+  .keycap {
+    @apply inline-flex items-center justify-center w-7 h-7 rounded-md font-extrabold text-[12px]
+           border-2 mr-3;
+    border-color: #E5E5E5;
+    color: #777;
+  }
+  .choice-btn.picked .keycap { border-color: #1899D6; color: #1899D6; }
+  .choice-btn.correct .keycap { border-color: #2D7A0E; color: #2D7A0E; }
+  .choice-btn.incorrect .keycap { border-color: #BC2A2A; color: #BC2A2A; }
+
+  /* Stat pill chips — used in headers */
+  .stat-pill {
+    @apply inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-full font-extrabold text-sm;
+  }
+
+  /* Bold pill (chips) */
+  .pill {
+    @apply inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold uppercase;
+    letter-spacing: 0.04em;
+  }
+  .chip-product { background: rgba(94, 96, 206, 0.12); color: #5E60CE; }
+  .chip-ua      { background: rgba(45, 206, 137, 0.12); color: #19a06b; }
+  .chip-mon     { background: rgba(247, 144, 9, 0.12); color: #C26500; }
+  .chip-creative{ background: rgba(236, 72, 153, 0.12); color: #EC4899; }
+  .chip-business{ background: rgba(71, 85, 105, 0.10); color: #475569; }
+
+  /* Lesson path snake — circular node */
+  .lesson-node {
+    @apply relative grid place-items-center w-[78px] h-[78px] rounded-full
+           transition-transform duration-100 select-none;
+    box-shadow: 0 6px 0 0 rgba(0,0,0,0.15);
+  }
+  .lesson-node:active:not(.locked):not(:disabled) {
+    transform: translateY(4px);
+    box-shadow: 0 2px 0 0 rgba(0,0,0,0.15);
+  }
+  .lesson-node.current { background: #FFC800; box-shadow: 0 6px 0 0 #C99800; }
+  .lesson-node.done    { background: #58CC02; box-shadow: 0 6px 0 0 #46A302; }
+  .lesson-node.next    { background: #E5E5E5; box-shadow: 0 6px 0 0 #BFC4CC; }
+  .lesson-node.locked  { background: #E5E5E5; box-shadow: 0 6px 0 0 #BFC4CC; cursor: not-allowed; opacity: 0.7; }
+
+  /* Cards (no border, light surface, soft shadow) */
+  .surface, .card {
+    @apply bg-white rounded-2xl shadow-[0_2px_0_0_rgba(0,0,0,0.04)] border border-slate-100;
+  }
+  .surface-flat { @apply bg-white rounded-2xl border border-slate-100; }
+
+  /* Path detail header banners — function-themed gradients */
+  .path-banner-product  { background: linear-gradient(135deg, #5E60CE 0%, #7B5DD9 100%); }
+  .path-banner-ua       { background: linear-gradient(135deg, #2DCE89 0%, #1FA47A 100%); }
+  .path-banner-mon      { background: linear-gradient(135deg, #F79009 0%, #E8770B 100%); }
+  .path-banner-creative { background: linear-gradient(135deg, #EC4899 0%, #C03789 100%); }
+  .path-banner-business { background: linear-gradient(135deg, #1CB0F6 0%, #1899D6 100%); }
+
+  /* Big number display */
+  .display-num {
+    @apply font-black tracking-tight;
+    font-feature-settings: "tnum" 1;
+  }
+
+  .formula {
+    @apply font-mono text-[15px] bg-slate-50 border border-slate-200 rounded-md px-2 py-1 inline-block;
+  }
+}
+
+/* =========================================================
+   Animations
+   ========================================================= */
+@keyframes shake-x {
+  0%,100% { transform: translateX(0); }
+  20% { transform: translateX(-6px); }
+  40% { transform: translateX(6px); }
+  60% { transform: translateX(-4px); }
+  80% { transform: translateX(4px); }
+}
+@keyframes burst {
+  0%   { transform: scale(0.4) translateY(8px); opacity: 0; }
+  60%  { transform: scale(1.15) translateY(-2px); opacity: 1; }
+  100% { transform: scale(1) translateY(0); opacity: 1; }
+}
+@keyframes slide-up {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+@keyframes pop {
+  0% { transform: scale(0.85); }
+  60% { transform: scale(1.06); }
+  100% { transform: scale(1); }
+}
+@keyframes pulse-ring {
+  0% { box-shadow: 0 6px 0 0 #C99800, 0 0 0 0 rgba(255, 200, 0, 0.6); }
+  70% { box-shadow: 0 6px 0 0 #C99800, 0 0 0 18px rgba(255, 200, 0, 0); }
+  100% { box-shadow: 0 6px 0 0 #C99800, 0 0 0 0 rgba(255, 200, 0, 0); }
+}
+@keyframes confetti-fall {
+  0%   { transform: translateY(-100vh) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+}
+
+.animate-shake { animation: shake-x 0.42s ease-in-out; }
+.animate-burst { animation: burst 0.42s cubic-bezier(0.34,1.56,0.64,1); }
+.animate-slide-up { animation: slide-up 0.28s cubic-bezier(0.22,1,0.36,1); }
+.animate-pop { animation: pop 0.28s ease-out; }
+.animate-pulse-ring { animation: pulse-ring 1.6s ease-out infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
