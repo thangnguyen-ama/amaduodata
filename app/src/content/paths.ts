@@ -280,17 +280,17 @@ export const PATHS: Path[] = [
         ]
       },
       {
-        id: 'cf-u7', name: 'TESS & LiveOps',
-        goal: 'Framework for scalable events.',
+        id: 'cf-u7', name: 'Benchmarks & thresholds',
+        goal: 'Key benchmarks for decision-making.',
         lessons: [
-          { id: 'cf-u7-l1', name: 'TESS framework', cardIds: ['cf-u7-l1-c1', 'cf-u7-l1-c2', 'cf-u7-l1-c3'] }
+          { id: 'cf-u7-l1', name: 'Benchmark evaluation', cardIds: ['cf-u7-l1-c1', 'cf-u7-l1-c2', 'cf-u7-l1-c3', 'cf-u7-l1-c4'] }
         ]
       },
       {
         id: 'cf-u8', name: 'Decision frameworks',
-        goal: 'Full-loop decisions and game stages.',
+        goal: 'Advanced cross-functional decision-making.',
         lessons: [
-          { id: 'cf-u8-l1', name: 'PMF & stages', cardIds: ['cf-u8-l1-c1', 'cf-u8-l1-c2', 'cf-u8-l1-c3', 'cf-u8-l1-c4'] }
+          { id: 'cf-u8-l1', name: 'Full-loop decisions', cardIds: ['cf-u8-l1-c1', 'cf-u8-l1-c2', 'cf-u8-l1-c3', 'cf-u8-l1-c4', 'cf-u8-l1-c5'] }
         ]
       }
     ]
