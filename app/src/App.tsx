@@ -12,6 +12,7 @@ import { League } from './pages/League'
 import { Profile } from './pages/Profile'
 import { MetricTree } from './pages/MetricTree'
 import { Admin } from './pages/Admin'
+import { SkipTest } from './pages/SkipTest'
 import { About } from './pages/About'
 import { AppShell } from './components/AppShell'
 
@@ -36,6 +37,7 @@ export default function App() {
       <Route path="/paths" element={<Authed><Paths /></Authed>} />
       <Route path="/paths/:slug" element={<Authed><PathDetail /></Authed>} />
       <Route path="/lesson/:pathSlug/:unitId/:lessonId" element={<Authed><LessonPlayer /></Authed>} />
+      <Route path="/skip-test/:pathSlug/:unitId" element={<Authed><SkipTest /></Authed>} />
       <Route path="/practice" element={<Authed><Practice /></Authed>} />
       <Route path="/league" element={<Authed><League /></Authed>} />
       <Route path="/tree" element={<Authed><MetricTree /></Authed>} />

@@ -72,7 +72,7 @@ export function PathDetail() {
           const unlocked = unitNodes.some((n) => n.state !== 'locked')
           return (
             <section key={unit.id} className="mb-10">
-              <UnitHeader unit={unit} index={ui} unlocked={unlocked} function_={path.function} />
+              <UnitHeader unit={unit} index={ui} unlocked={unlocked} function_={path.function} pathSlug={path.slug} />
               <div className="relative flex flex-col items-center gap-7 mt-6">
                 {unitNodes.map((node, i) => (
                   <LessonBubble
@@ -158,7 +158,8 @@ function snakeOffset(i: number) {
   }
 }
 
-function UnitHeader({ unit, index, unlocked, function_ }: { unit: Unit; index: number; unlocked: boolean; function_: string }) {
+function UnitHeader({ unit, index, unlocked, function_, pathSlug }: { unit: Unit; index: number; unlocked: boolean; function_: string; pathSlug: string }) {
+  const nav = useNavigate()
   return (
     <div className={`surface px-4 py-3 mb-2 flex items-center gap-3 ${!unlocked ? 'opacity-60' : ''}`}>
       <div className={`w-9 h-9 rounded-xl chip-${function_} grid place-items-center font-extrabold`}>
@@ -169,7 +170,15 @@ function UnitHeader({ unit, index, unlocked, function_ }: { unit: Unit; index: n
         <div className="font-extrabold leading-tight">{unit.name}</div>
         <div className="text-xs text-fgmuted leading-snug mt-0.5">{unit.goal}</div>
       </div>
-      {!unlocked && <span aria-hidden className="text-xl">🔒</span>}
+      {!unlocked && index > 0 && (
+        <button
+          onClick={() => nav(`/skip-test/${pathSlug}/${unit.id}`)}
+          className="flex-shrink-0 px-3 py-1.5 rounded-xl bg-violet-500/20 text-violet-400 text-xs font-bold hover:bg-violet-500/30 transition-colors"
+        >
+          Test out?
+        </button>
+      )}
+      {!unlocked && index === 0 && <span aria-hidden className="text-xl">🔒</span>}
     </div>
   )
 }

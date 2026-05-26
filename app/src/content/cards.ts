@@ -3,351 +3,338 @@ import { Card } from '../types'
 // All card content uses canonical Amanotes terminology per glossary.md.
 // Numbers in cards are illustrative — never claim a live PIa/BHi/etc. value.
 export const CARDS: Card[] = [
-  // ============================================================
-  // PRODUCT 101 — Unit 1: Active users & views
-  // ============================================================
-  {
-    id: 'p101-u1-l1-c1',
-    type: 'multiple_choice',
-    prompt: 'Which view does DAU use?',
-    choices: ['Act-date view', 'Cohort view', 'Both, depending on dashboard', 'Neither'],
-    answerIndex: 0,
-    explanation: 'DAU = Daily Active Users today. It is measured by *when the action happens*, so it is act-date view. Cohort view anchors on install date.',
-    xpReward: 10, difficulty: 1, metricSlugs: ['dau'], function: 'product'
-  },
-  {
-    id: 'p101-u1-l1-c2',
-    type: 'multiple_choice',
-    prompt: 'Which metric is the company-level KPI for Amanoters?',
-    choices: ['DAU', 'MAU', 'Returned Users D30+', 'R30'],
-    answerIndex: 2,
-    explanation: 'Returned Users D30+ is the company KPI: users still active 30 days post-install. R30 is the % version of the same idea.',
-    xpReward: 10, difficulty: 1, metricSlugs: ['returned-users-d30'], function: 'product'
-  },
-  {
-    id: 'p101-u1-l1-c3',
-    type: 'matching_pairs',
-    prompt: 'Match each metric to its view.',
-    pairs: [
-      { left: 'DAU', right: 'Act-date' },
-      { left: 'R7', right: 'Cohort' },
-      { left: 'ARPDAU', right: 'Act-date' },
-      { left: 'UV7', right: 'Cohort' }
-    ],
-    explanation: 'Daily totals (DAU, ARPDAU, daily Revenue) → act-date. Anything anchored to install date (R*, UV*, ROAS) → cohort.',
-    xpReward: 15, difficulty: 2, metricSlugs: ['dau', 'r7', 'arpdau', 'uv7'], function: 'product'
-  },
+  // ════════════════════════════════════════════════════════════════
+  // METRIC DEFINITIONS — 8 units, ~120 cards
+  // ════════════════════════════════════════════════════════════════
 
-  // PRODUCT 101 — Unit 2: Cohort view
-  {
-    id: 'p101-u2-l1-c1',
-    type: 'multiple_choice',
-    prompt: 'A user installs on 1 May. On 8 May they open the app. Which retention metric do they contribute to?',
-    choices: ['R1', 'R7', 'R30', 'They count for ARPDAU only'],
-    answerIndex: 1,
-    explanation: 'R7 = % of an install cohort returning 7 days later. 1 May install + 8 May return = 7 days, so R7.',
-    xpReward: 10, difficulty: 2, metricSlugs: ['r7'], function: 'product'
-  },
-  {
-    id: 'p101-u2-l1-c2',
-    type: 'scenario_judgment',
-    prompt: 'Cohort vs act-date',
-    scenario: 'A PO sees daily Revenue down 8% today on PIa, but UV7 for the most recent install cohort is up 3%. What does this tell you?',
-    choices: [
-      'Both views agree — monetization is getting worse.',
-      'They measure different things — daily revenue is act-date (today\'s users), UV7 is a property of recent install cohorts.',
-      'UV7 is wrong because daily revenue moves first.',
-      'You cannot interpret without ARPDAU.'
-    ],
-    answerIndex: 1,
-    explanation: 'Daily revenue dips can come from DAU mix shifts. UV7 measures the value newly-installed users will generate by D7 — a *cohort* property. Both can be true at once.',
-    xpReward: 20, difficulty: 4, metricSlugs: ['uv7', 'arpdau'], function: 'product'
-  },
+  // ── Unit 1: Basic User Metrics ─────────────────────────────────
+  // --- Lesson 1: What is DAU / MAU ---
+  { id: 'def-u1-l1-c1', type: 'multiple_choice', prompt: 'What does DAU stand for?', choices: ['Daily Active Users', 'Daily Average Users', 'Daily Acquired Users', 'Daily Ad Users'], answerIndex: 0, explanation: 'DAU = Daily Active Users — the number of unique users who open the app on a given day.', xpReward: 5, difficulty: 1, metricSlugs: ['dau'], function: 'business' },
+  { id: 'def-u1-l1-c2', type: 'multiple_choice', prompt: 'What does MAU stand for?', choices: ['Monthly Active Users', 'Maximum Active Users', 'Monthly Acquired Users', 'Monthly Ad Users'], answerIndex: 0, explanation: 'MAU = Monthly Active Users — unique users who opened the app at least once in a 30-day period.', xpReward: 5, difficulty: 1, metricSlugs: ['mau'], function: 'business' },
+  { id: 'def-u1-l1-c3', type: 'multiple_choice', prompt: 'A user opens the app 5 times in one day. How many DAU does that count as?', choices: ['5', '1', '0', 'Depends on session length'], answerIndex: 1, explanation: 'DAU counts unique users, not sessions. One user = 1 DAU regardless of how many times they open the app.', xpReward: 10, difficulty: 1, metricSlugs: ['dau'], function: 'business' },
+  { id: 'def-u1-l1-c4', type: 'multiple_choice', prompt: 'Which view does DAU use?', choices: ['Act-date view', 'Cohort view', 'Both', 'Neither'], answerIndex: 0, explanation: 'DAU is measured by when the action happens (today), so it uses act-date view.', xpReward: 10, difficulty: 1, metricSlugs: ['dau'], function: 'business' },
+  { id: 'def-u1-l1-c5', type: 'matching_pairs', prompt: 'Match each abbreviation to its meaning.', pairs: [{ left: 'DAU', right: 'Daily Active Users' }, { left: 'MAU', right: 'Monthly Active Users' }, { left: 'R1', right: 'Day-1 Retention' }, { left: 'UV', right: 'User Value' }], explanation: 'These are the most fundamental metrics at Amanotes.', xpReward: 10, difficulty: 1, metricSlugs: ['dau', 'mau', 'r1', 'uv'], function: 'business' },
+  { id: 'def-u1-l1-c6', type: 'multiple_choice', prompt: 'True or false: DAU can never exceed MAU.', choices: ['True', 'False'], answerIndex: 0, explanation: 'DAU is always a subset of MAU. Every daily active user is counted in the monthly total.', xpReward: 5, difficulty: 1, metricSlugs: ['dau', 'mau'], function: 'business' },
 
-  // PRODUCT 101 — Unit 3: Retention
-  {
-    id: 'p101-u3-l1-c1',
-    type: 'drag_to_order',
-    prompt: 'Order these retention checkpoints by day post-install (earliest first).',
-    items: ['R30', 'R1', 'R14', 'R7'],
-    correctOrder: ['R1', 'R7', 'R14', 'R30'],
-    explanation: 'Standard Amanotes retention curve checkpoints: R1, R7, R14, R30.',
-    xpReward: 10, difficulty: 1, metricSlugs: ['r1', 'r7', 'r30'], function: 'product'
-  },
-  {
-    id: 'p101-u3-l1-c2',
-    type: 'multiple_choice',
-    prompt: 'What does sumR7 capture that R7 alone does not?',
-    choices: [
-      'How many users returned on D7 specifically',
-      'Cumulative engagement depth across days 1 through 7',
-      'Revenue earned per cohort',
-      'Number of paid installs'
-    ],
-    answerIndex: 1,
-    explanation: 'sumR7 = sum of retention curve from D1 to D7. R7 is a single point; sumR7 is the area under the curve — better at catching shallow vs deep engagement.',
-    xpReward: 15, difficulty: 3, metricSlugs: ['sumr7', 'r7'], function: 'product'
-  },
+  // --- Lesson 2: New Users & Returned Users ---
+  { id: 'def-u1-l2-c1', type: 'multiple_choice', prompt: 'Which metric is the company-level KPI for Amanotes?', choices: ['DAU', 'MAU', 'Returned Users D30+', 'Revenue'], answerIndex: 2, explanation: 'Returned Users D30+ is the company KPI: users still active 30+ days post-install.', xpReward: 10, difficulty: 1, metricSlugs: ['returned-users-d30'], function: 'business' },
+  { id: 'def-u1-l2-c2', type: 'multiple_choice', prompt: 'A "Churn User" at Amanotes is defined as a player who has not been active for how many consecutive days?', choices: ['3 days', '5 days', '7 days', '14 days'], answerIndex: 2, explanation: 'Churn User = a player who has not been active for 7 consecutive days.', xpReward: 10, difficulty: 2, metricSlugs: [], function: 'business' },
+  { id: 'def-u1-l2-c3', type: 'multiple_choice', prompt: '"Early Churn" means the user\'s last active day was:', choices: ['Day 0 only', 'Day 1 only', 'Day 2-7', 'Day 30+'], answerIndex: 1, explanation: 'Early Churn = users whose last active day is Day 1, then inactive after that.', xpReward: 10, difficulty: 2, metricSlugs: [], function: 'business' },
+  { id: 'def-u1-l2-c4', type: 'multiple_choice', prompt: '"Late Churn" means the user was active between:', choices: ['Day 0 only', 'Day 1 only', 'Day 2-7, then inactive', 'Day 30+'], answerIndex: 2, explanation: 'Late Churn = active between Day 2-7, then inactive. Shows some engagement before dropping off.', xpReward: 10, difficulty: 2, metricSlugs: [], function: 'business' },
+  { id: 'def-u1-l2-c5', type: 'matching_pairs', prompt: 'Match each churn type to its definition.', pairs: [{ left: 'Early Churn', right: 'Last active Day 1, then gone' }, { left: 'Late Churn', right: 'Active Day 2-7, then gone' }, { left: 'Churn User', right: 'Inactive 7+ consecutive days' }, { left: 'Returned Users D30+', right: 'Still active 30+ days post-install' }], explanation: 'Understanding churn stages helps pinpoint where users drop off.', xpReward: 15, difficulty: 2, metricSlugs: [], function: 'business' },
 
-  // PRODUCT 101 — Unit 4: Engagement depth (compact)
-  {
-    id: 'p101-u4-l1-c1',
-    type: 'matching_pairs',
-    prompt: 'Match Music Engagement events to their meaning.',
-    pairs: [
-      { left: 'me_start', right: 'A music engagement session begins' },
-      { left: 'song_start', right: 'User starts playing a specific song' },
-      { left: 'song_result', right: 'Song ends — result screen' },
-      { left: 'song_revive', right: 'User uses a revive after failing' }
-    ],
-    explanation: 'These four events are the core Music Engagement instrumentation across MT3, Tiles Hop, Dancing Road, Duet Cats.',
-    xpReward: 15, difficulty: 2, metricSlugs: ['sumME'], function: 'product'
-  },
+  // --- Lesson 3: Act-date vs Cohort view ---
+  { id: 'def-u1-l3-c1', type: 'multiple_choice', prompt: 'Act-date view measures metrics based on:', choices: ['When the user installed', 'When the action happens', 'The user\'s country', 'The campaign source'], answerIndex: 1, explanation: 'Act-date view = metrics measured by when the action occurs (e.g., revenue earned today).', xpReward: 10, difficulty: 1, metricSlugs: [], function: 'business' },
+  { id: 'def-u1-l3-c2', type: 'multiple_choice', prompt: 'Cohort view measures metrics based on:', choices: ['When the user installed the app', 'When the user last opened the app', 'The user\'s spending level', 'The ad network'], answerIndex: 0, explanation: 'Cohort view = metrics anchored to the install date. Used for LTV and long-term analysis.', xpReward: 10, difficulty: 1, metricSlugs: [], function: 'business' },
+  { id: 'def-u1-l3-c3', type: 'matching_pairs', prompt: 'Match each metric to its view.', pairs: [{ left: 'DAU', right: 'Act-date' }, { left: 'R7', right: 'Cohort' }, { left: 'ARPDAU', right: 'Act-date' }, { left: 'UV7', right: 'Cohort' }], explanation: 'Daily totals (DAU, ARPDAU) use act-date. Install-anchored metrics (R*, UV*) use cohort.', xpReward: 15, difficulty: 2, metricSlugs: ['dau', 'r7', 'arpdau', 'uv7'], function: 'business' },
+  { id: 'def-u1-l3-c4', type: 'multiple_choice', prompt: 'Which view is used for operational monitoring (daily dashboards)?', choices: ['Cohort view', 'Act-date view', 'Both equally', 'Neither'], answerIndex: 1, explanation: 'Act-date view is for daily ops monitoring. Cohort view is for long-term LTV analysis.', xpReward: 10, difficulty: 2, metricSlugs: [], function: 'business' },
+  { id: 'def-u1-l3-c5', type: 'multiple_choice', prompt: 'Which view should you use to compare the quality of users acquired last month vs this month?', choices: ['Act-date', 'Cohort', 'Either works', 'Neither'], answerIndex: 1, explanation: 'Cohort view lets you compare UV, retention, and quality metrics for each install cohort side-by-side.', xpReward: 10, difficulty: 2, metricSlugs: [], function: 'business' },
 
-  // PRODUCT 101 — Unit 5: FTUE
-  {
-    id: 'p101-u5-l1-c1',
-    type: 'multiple_choice',
-    prompt: 'Which metric is most directly moved by improving FTUE (tutorial completion)?',
-    choices: ['UV30', 'R1', 'ARPDAU', 'eCPM'],
-    answerIndex: 1,
-    explanation: 'FTUE quality determines whether a user comes back the next day. R1 is the closest downstream metric.',
-    xpReward: 10, difficulty: 2, metricSlugs: ['ftue', 'r1'], function: 'product'
-  },
+  // ── Unit 2: Retention Metrics ──────────────────────────────────
+  // --- Lesson 1: R1, R7, R14, R30 ---
+  { id: 'def-u2-l1-c1', type: 'multiple_choice', prompt: 'What does R1 measure?', choices: ['% of users who return 1 day after install', '% of users who return 1 week after install', 'Revenue on Day 1', 'Number of users on Day 1'], answerIndex: 0, explanation: 'R1 = Day-1 Retention = % of an install cohort that returns 1 day after install.', xpReward: 5, difficulty: 1, metricSlugs: ['r1'], function: 'business' },
+  { id: 'def-u2-l1-c2', type: 'multiple_choice', prompt: 'A user installs on May 1. They open the app again on May 8. Which retention metric do they contribute to?', choices: ['R1', 'R7', 'R30', 'R14'], answerIndex: 1, explanation: 'May 1 install + May 8 return = 7 days later, so R7.', xpReward: 10, difficulty: 1, metricSlugs: ['r7'], function: 'business' },
+  { id: 'def-u2-l1-c3', type: 'drag_to_order', prompt: 'Order retention checkpoints from earliest to latest.', items: ['R30', 'R1', 'R14', 'R7'], correctOrder: ['R1', 'R7', 'R14', 'R30'], explanation: 'Standard retention checkpoints: R1, R7, R14, R30.', xpReward: 10, difficulty: 1, metricSlugs: ['r1', 'r7', 'r14', 'r30'], function: 'business' },
+  { id: 'def-u2-l1-c4', type: 'multiple_choice', prompt: 'Which retention metric is most directly affected by FTUE quality?', choices: ['R30', 'R14', 'R1', 'R7'], answerIndex: 2, explanation: 'FTUE quality determines if users come back the next day, so it directly affects R1.', xpReward: 10, difficulty: 2, metricSlugs: ['r1', 'ftue'], function: 'business' },
+  { id: 'def-u2-l1-c5', type: 'free_input_numeric', prompt: 'If 10,000 users install on Day 0 and 2,400 return on Day 1, what is R1? (as %)', answer: 24, unit: '%', tolerance: 0.5, explanation: 'R1 = 2,400 / 10,000 = 24%.', xpReward: 15, difficulty: 2, metricSlugs: ['r1'], function: 'business' },
+  { id: 'def-u2-l1-c6', type: 'multiple_choice', prompt: 'Which retention metric is typically the highest?', choices: ['R1', 'R7', 'R14', 'R30'], answerIndex: 0, explanation: 'Retention decays over time. R1 is always the highest point on the retention curve.', xpReward: 5, difficulty: 1, metricSlugs: ['r1'], function: 'business' },
 
-  // ============================================================
-  // UA 101 — Unit 1: The UA equation
-  // ============================================================
-  {
-    id: 'ua101-u1-l1-c1',
-    type: 'formula_completion',
-    prompt: 'Complete the UA equation that governs profitability per cohort.',
-    formulaTemplate: 'Profit = Installs × (UV − ___)',
-    answer: 'eCPI',
-    acceptedAlternatives: ['ecpi', 'effective CPI'],
-    explanation: 'Profit = Installs × (UV − eCPI). UV is what a user is worth; eCPI is what they cost (blended paid + organic). This is the single most important UA formula.',
-    xpReward: 15, difficulty: 2, metricSlugs: ['ecpi', 'uv'], function: 'ua'
-  },
-  {
-    id: 'ua101-u1-l1-c2',
-    type: 'multiple_choice',
-    prompt: 'If UV7 stays flat but eCPI drops 10%, what happens to Profit?',
-    choices: ['It drops', 'It rises', 'It stays the same', 'You need ROAS to know'],
-    answerIndex: 1,
-    explanation: 'Profit = Installs × (UV − eCPI). Holding UV flat while lowering eCPI widens the margin, so Profit rises.',
-    xpReward: 10, difficulty: 2, metricSlugs: ['ecpi', 'uv7'], function: 'ua'
-  },
+  // --- Lesson 2: sumR family ---
+  { id: 'def-u2-l2-c1', type: 'multiple_choice', prompt: 'What does sumR7 measure?', choices: ['Revenue sum over 7 days', 'Cumulative retention from D1 to D7', 'Sum of DAU over 7 days', 'Number of returning users on D7'], answerIndex: 1, explanation: 'sumR7 = sum of the retention curve from D1 to D7, measuring engagement depth.', xpReward: 10, difficulty: 2, metricSlugs: ['sumr7'], function: 'business' },
+  { id: 'def-u2-l2-c2', type: 'multiple_choice', prompt: 'What does sumR7 capture that R7 alone does not?', choices: ['Revenue', 'Cumulative engagement depth across days 1-7', 'Number of paid installs', 'Cost per install'], answerIndex: 1, explanation: 'R7 is a single point; sumR7 is the area under the retention curve — better at catching shallow vs deep engagement.', xpReward: 15, difficulty: 2, metricSlugs: ['sumr7', 'r7'], function: 'business' },
+  { id: 'def-u2-l2-c3', type: 'multiple_choice', prompt: 'If two cohorts both have R7 = 15%, but Cohort A has sumR7 = 2.8 and Cohort B has sumR7 = 1.9, which has better engagement?', choices: ['Cohort A', 'Cohort B', 'They are equal', 'Cannot tell'], answerIndex: 0, explanation: 'Cohort A has higher sumR7, meaning users came back more frequently across D1-D7.', xpReward: 15, difficulty: 3, metricSlugs: ['sumr7'], function: 'business' },
+  { id: 'def-u2-l2-c4', type: 'matching_pairs', prompt: 'Match each metric to what it measures.', pairs: [{ left: 'R7', right: 'Single point: % returning on D7' }, { left: 'sumR7', right: 'Area under curve D1-D7' }, { left: 'R30', right: 'Single point: % returning on D30' }, { left: 'sumR30', right: 'Area under curve D1-D30' }], explanation: 'R* = single checkpoint. sumR* = cumulative engagement depth.', xpReward: 15, difficulty: 2, metricSlugs: ['r7', 'sumr7', 'r30'], function: 'business' },
+  { id: 'def-u2-l2-c5', type: 'free_input_numeric', prompt: 'If R1=30%, R2=22%, R3=18%, R4=16%, R5=14%, R6=13%, R7=12%, what is sumR7? (decimal sum)', answer: 1.25, unit: '', tolerance: 0.01, explanation: 'sumR7 = 0.30+0.22+0.18+0.16+0.14+0.13+0.12 = 1.25.', xpReward: 20, difficulty: 3, metricSlugs: ['sumr7'], function: 'business' },
 
-  // UA 101 — Unit 2: CPI vs eCPI
-  {
-    id: 'ua101-u2-l1-c1',
-    type: 'multiple_choice',
-    prompt: 'CPI vs eCPI — which is always ≤ which?',
-    choices: ['CPI ≤ eCPI', 'eCPI ≤ CPI', 'They are always equal', 'It depends on K-factor sign'],
-    answerIndex: 1,
-    explanation: 'eCPI divides cost across paid + organic uplift installs. Organic uplift adds to the denominator, so eCPI ≤ CPI whenever K-factor > 0.',
-    xpReward: 15, difficulty: 3, metricSlugs: ['cpi', 'ecpi', 'k-factor'], function: 'ua'
-  },
-  {
-    id: 'ua101-u2-l1-c2',
-    type: 'free_input_numeric',
-    prompt: 'If UA Cost = $10,000, paid installs = 80,000, organic uplift = 20,000. What is eCPI (in $, 2 decimals)?',
-    answer: 0.10,
-    unit: '$',
-    tolerance: 0.05,
-    explanation: 'eCPI = 10,000 / (80,000 + 20,000) = $0.10. CPI in the same scenario would be 10,000 / 80,000 = $0.125.',
-    xpReward: 20, difficulty: 3, metricSlugs: ['ecpi'], function: 'ua'
-  },
+  // --- Lesson 3: Benchmarks ---
+  { id: 'def-u2-l3-c1', type: 'multiple_choice', prompt: 'What is the R1 soft-launch benchmark for Android?', choices: ['R1 >= 15%', 'R1 >= 24%', 'R1 >= 35%', 'R1 >= 50%'], answerIndex: 1, explanation: 'Soft launch benchmark for Android: R1 >= 24%.', xpReward: 10, difficulty: 2, metricSlugs: ['r1'], function: 'business' },
+  { id: 'def-u2-l3-c2', type: 'multiple_choice', prompt: 'What is the R1 soft-launch benchmark for iOS?', choices: ['R1 >= 24%', 'R1 >= 30%', 'R1 >= 35%', 'R1 >= 40%'], answerIndex: 2, explanation: 'Soft launch benchmark for iOS: R1 >= 35%.', xpReward: 10, difficulty: 2, metricSlugs: ['r1'], function: 'business' },
+  { id: 'def-u2-l3-c3', type: 'multiple_choice', prompt: 'For PMF validation, R7 should be at least:', choices: ['5-6%', '8-10%', '12-13%', '20-25%'], answerIndex: 2, explanation: 'PMF validation benchmark: R7 >= 12-13%.', xpReward: 10, difficulty: 2, metricSlugs: ['r7'], function: 'business' },
+  { id: 'def-u2-l3-c4', type: 'matching_pairs', prompt: 'Match platform to R1 benchmark.', pairs: [{ left: 'Android Soft Launch', right: 'R1 >= 24%' }, { left: 'iOS Soft Launch', right: 'R1 >= 35%' }], explanation: 'iOS benchmarks are higher because iOS users tend to retain better.', xpReward: 10, difficulty: 2, metricSlugs: ['r1'], function: 'business' },
 
-  // UA 101 — Unit 3: ROAS — Paid vs eROAS (the most-confused pair)
-  {
-    id: 'ua101-u3-l1-c1',
-    type: 'multiple_choice',
-    prompt: 'eROAS D7 differs from Paid ROAS D7 because:',
-    choices: [
-      'eROAS uses estimated revenue; Paid uses actual',
-      'eROAS includes organic uplift in the numerator; Paid does not',
-      'eROAS is measured weekly, Paid is daily',
-      'They are synonyms'
-    ],
-    answerIndex: 1,
-    explanation: 'eROAS D7 = (Revenue D7 from paid + organic-uplift users) / Cost. Paid ROAS D7 excludes organic uplift revenue. Same denominator; different numerator.',
-    xpReward: 15, difficulty: 4, metricSlugs: ['eroas-d7', 'paid-roas-d7'], function: 'ua'
-  },
-  {
-    id: 'ua101-u3-l1-c2',
-    type: 'scenario_judgment',
-    prompt: 'A ROAS spike — which view?',
-    scenario: 'On BHi, eROAS D7 jumps +12% week-over-week but Paid ROAS D7 is flat. Which is the most likely root cause?',
-    choices: [
-      'A creative is converting better — paid quality is up.',
-      'A bug is inflating revenue.',
-      'Organic uplift ratio shifted — more organic installs are crediting against paid spend.',
-      'D7 retention dropped.'
-    ],
-    answerIndex: 2,
-    explanation: 'Paid ROAS flat → paid revenue per dollar is unchanged. eROAS up → the organic share is up. This is a K-factor / network-mix story, not a paid-quality story.',
-    xpReward: 25, difficulty: 5, metricSlugs: ['eroas-d7', 'paid-roas-d7', 'k-factor'], function: 'ua'
-  },
-  {
-    id: 'ua101-u3-l1-c3',
-    type: 'free_input_numeric',
-    prompt: 'If CPI = $0.20 and UV7 = $0.16, what is paid ROAS D7? (as %, no decimals)',
-    answer: 80,
-    unit: '%',
-    tolerance: 0.05,
-    explanation: 'Paid ROAS D7 = UV7 / CPI = 0.16 / 0.20 = 0.80 = 80%.',
-    xpReward: 15, difficulty: 3, metricSlugs: ['paid-roas-d7'], function: 'ua'
-  },
+  // ── Unit 3: Engagement Metrics ─────────────────────────────────
+  // --- Lesson 1: Core events ---
+  { id: 'def-u3-l1-c1', type: 'multiple_choice', prompt: 'What does the "me_start" event represent?', choices: ['A music engagement session begins', 'A user opens the main menu', 'A monetization event starts', 'A marketing email is sent'], answerIndex: 0, explanation: 'me_start = a music engagement session begins (user starts playing).', xpReward: 5, difficulty: 1, metricSlugs: ['sumME'], function: 'business' },
+  { id: 'def-u3-l1-c2', type: 'multiple_choice', prompt: 'What does "song_start" track?', choices: ['When a user starts playing a specific song', 'When a song is downloaded', 'When a song appears in the store', 'When background music plays'], answerIndex: 0, explanation: 'song_start fires when a user starts playing a specific song.', xpReward: 5, difficulty: 1, metricSlugs: [], function: 'business' },
+  { id: 'def-u3-l1-c3', type: 'matching_pairs', prompt: 'Match each event to its meaning.', pairs: [{ left: 'me_start', right: 'Music engagement session begins' }, { left: 'song_start', right: 'User starts playing a song' }, { left: 'song_result', right: 'Result screen appears' }, { left: 'song_revive', right: 'User revives after failing' }], explanation: 'These four events are the core Music Engagement instrumentation.', xpReward: 15, difficulty: 1, metricSlugs: ['sumME'], function: 'business' },
+  { id: 'def-u3-l1-c4', type: 'multiple_choice', prompt: '"song_end" fires when the user:', choices: ['Closes the app', 'Reaches 3 stars on a song', 'Fails a song', 'Watches an ad'], answerIndex: 1, explanation: 'song_end fires when user reaches 3 stars.', xpReward: 10, difficulty: 1, metricSlugs: [], function: 'business' },
+  { id: 'def-u3-l1-c5', type: 'multiple_choice', prompt: 'What does sumME measure?', choices: ['Sum of money earned', 'Sum of Music Engagement sessions', 'Sum of monthly earnings', 'Sum of marketing expenses'], answerIndex: 1, explanation: 'sumME = Sum of Music Engagement. It aggregates me_start events.', xpReward: 10, difficulty: 1, metricSlugs: ['sumME'], function: 'business' },
+  { id: 'def-u3-l1-c6', type: 'drag_to_order', prompt: 'Order events in the typical user flow when playing a song.', items: ['song_result', 'me_start', 'song_start', 'song_end'], correctOrder: ['me_start', 'song_start', 'song_end', 'song_result'], explanation: 'Flow: me_start -> song_start -> song_end (3 stars) -> song_result (result screen).', xpReward: 15, difficulty: 2, metricSlugs: ['sumME'], function: 'business' },
 
-  // UA 101 — Unit 4: Networks
-  {
-    id: 'ua101-u4-l1-c1',
-    type: 'matching_pairs',
-    prompt: 'Sort each network into SRN or SDK Network.',
-    pairs: [
-      { left: 'Google', right: 'SRN' },
-      { left: 'TikTok', right: 'SRN' },
-      { left: 'IronSource', right: 'SDK Network' },
-      { left: 'Mintegral', right: 'SDK Network' }
-    ],
-    explanation: 'SRN = Self-Reporting Network (Google, Meta, TikTok). SDK Networks (IronSource, Mintegral, AppLovin, Unity) report through MMP.',
-    xpReward: 15, difficulty: 2, metricSlugs: [], function: 'ua'
-  },
+  // --- Lesson 2: Activation milestones ---
+  { id: 'def-u3-l2-c1', type: 'multiple_choice', prompt: '"Activation" at Amanotes is defined as:', choices: ['User installs the app', 'User has 2 me_start in Day 0', 'User makes a purchase', 'User completes the tutorial'], answerIndex: 1, explanation: 'Activation = user has 2 me_start in Day 0 (the install day).', xpReward: 10, difficulty: 2, metricSlugs: [], function: 'business' },
+  { id: 'def-u3-l2-c2', type: 'multiple_choice', prompt: 'The "AHA Moment" at Amanotes requires:', choices: ['1 me_start in Day 0', '4 me_start in the first 2 days', '10 song_start in a week', 'Completing 3 songs'], answerIndex: 1, explanation: 'AHA Moment = user reaches 4 me_start in the first 2 days (day 0 and day 1).', xpReward: 10, difficulty: 2, metricSlugs: [], function: 'business' },
+  { id: 'def-u3-l2-c3', type: 'multiple_choice', prompt: 'The "Habit Moment" requires:', choices: ['3 me_start in 3 days', '5 me_start in 5 days', '7 me_start in the first 7 days', '10 me_start in 10 days'], answerIndex: 2, explanation: 'Habit Moment = 7 me_start in the first 7 days (day 0-6).', xpReward: 10, difficulty: 2, metricSlugs: [], function: 'business' },
+  { id: 'def-u3-l2-c4', type: 'drag_to_order', prompt: 'Order activation milestones from earliest to latest.', items: ['Habit Moment', 'Activation', 'AHA Moment'], correctOrder: ['Activation', 'AHA Moment', 'Habit Moment'], explanation: 'Activation (D0, 2 me_start) -> AHA (D0-1, 4 me_start) -> Habit (D0-6, 7 me_start).', xpReward: 15, difficulty: 2, metricSlugs: [], function: 'business' },
+  { id: 'def-u3-l2-c5', type: 'scenario_judgment', prompt: 'Activation milestone analysis', scenario: 'A user installs on Monday, has 3 me_start on Monday and 2 me_start on Tuesday. Which milestones have they achieved?', choices: ['Activation only', 'Activation + AHA Moment', 'Activation + AHA Moment + Habit Moment', 'None'], answerIndex: 1, explanation: 'Activation: 2+ me_start on D0 (has 3). AHA: 4+ me_start in D0-D1 (3+2=5). Habit: needs 7 in 7 days — only 5 so far.', xpReward: 20, difficulty: 3, metricSlugs: [], function: 'business' },
 
-  // UA 101 — Unit 5: Creative
-  {
-    id: 'ua101-u5-l1-c1',
-    type: 'multiple_choice',
-    prompt: 'IPM means:',
-    choices: [
-      'Installs Per Minute',
-      'Installs Per Mille (per 1,000 ad impressions)',
-      'Impressions Per Mille',
-      'Installs Per Marketing dollar'
-    ],
-    answerIndex: 1,
-    explanation: 'IPM = Installs Per Mille = installs per 1,000 ad impressions. Creative-side analog of CPI.',
-    xpReward: 10, difficulty: 2, metricSlugs: ['ipm'], function: 'creative'
-  },
-  {
-    id: 'ua101-u5-l1-c2',
-    type: 'multiple_choice',
-    prompt: 'A "Winning Creative" at Amanotes is defined as:',
-    choices: [
-      'Top 1 by IPM for any 1 day',
-      'Top 1 by spend or installs for ≥2 consecutive weeks',
-      'Approved by Creative DRI',
-      'Any creative with CTR > 5%'
-    ],
-    answerIndex: 1,
-    explanation: 'The canonical definition is top 1 by spend or installs for ≥2 consecutive weeks. Stability across 2 weeks is the bar.',
-    xpReward: 10, difficulty: 2, metricSlugs: [], function: 'creative'
-  },
+  // ── Unit 4: Revenue Metrics ────────────────────────────────────
+  // --- Lesson 1: Revenue, ARPDAU ---
+  { id: 'def-u4-l1-c1', type: 'multiple_choice', prompt: 'Revenue at Amanotes comes from which sources?', choices: ['Ads only', 'IAP only', 'Ads + IAP + Subscriptions', 'Subscriptions only'], answerIndex: 2, explanation: 'Revenue = total income from all sources: IAA (ads) + IAP (in-app purchases) + Subscriptions.', xpReward: 5, difficulty: 1, metricSlugs: [], function: 'business' },
+  { id: 'def-u4-l1-c2', type: 'multiple_choice', prompt: 'ARPDAU stands for:', choices: ['Average Revenue Per Daily Active User', 'Average Return Per Daily Ad Unit', 'Actual Revenue Per Download And User', 'Average Retention Per Day Active User'], answerIndex: 0, explanation: 'ARPDAU = Average Revenue Per Daily Active User.', xpReward: 5, difficulty: 1, metricSlugs: ['arpdau'], function: 'business' },
+  { id: 'def-u4-l1-c3', type: 'multiple_choice', prompt: 'ARPDAU uses which view?', choices: ['Act-date', 'Cohort', 'Both', 'Neither'], answerIndex: 0, explanation: 'ARPDAU is an act-date metric — it measures revenue per user for a specific day.', xpReward: 10, difficulty: 1, metricSlugs: ['arpdau'], function: 'business' },
+  { id: 'def-u4-l1-c4', type: 'free_input_numeric', prompt: 'If total revenue today is $5,000 and DAU is 100,000, what is ARPDAU? (in $)', answer: 0.05, unit: '$', tolerance: 0.005, explanation: 'ARPDAU = $5,000 / 100,000 = $0.05.', xpReward: 15, difficulty: 2, metricSlugs: ['arpdau'], function: 'business' },
+  { id: 'def-u4-l1-c5', type: 'matching_pairs', prompt: 'Match revenue abbreviations.', pairs: [{ left: 'IAA', right: 'In-App Advertising' }, { left: 'IAP', right: 'In-App Purchase' }, { left: 'Sub', right: 'Subscription' }, { left: 'RW', right: 'Rewarded Video' }], explanation: 'The main revenue sources and ad formats.', xpReward: 10, difficulty: 1, metricSlugs: [], function: 'business' },
 
-  // ============================================================
-  // CROSS-FUNCTIONAL — Unit 1: The Business Goal equation
-  // ============================================================
-  {
-    id: 'cf-u1-l1-c1',
-    type: 'formula_completion',
-    prompt: 'Complete the cohort-view business goal formula.',
-    formulaTemplate: 'Profit = Installs × (___ − eCPI)',
-    answer: 'LTV',
-    acceptedAlternatives: ['UV', 'UV∞'],
-    explanation: 'Long-horizon: Profit = Installs × (LTV − eCPI). UV at a finite horizon (UV7, UV30) is the proxy for LTV used in shorter feedback loops.',
-    xpReward: 15, difficulty: 3, metricSlugs: ['ltv', 'ecpi'], function: 'business'
-  },
-  {
-    id: 'cf-u1-l1-c2',
-    type: 'multiple_choice',
-    prompt: 'Two views, one tree. Which pair of metrics describes the same business reality but from different views?',
-    choices: [
-      'ARPDAU × DAU and Installs × LTV',
-      'CPI and IPM',
-      'sumR7 and R7',
-      'eROAS and Paid ROAS'
-    ],
-    answerIndex: 0,
-    explanation: 'ARPDAU × DAU (act-date) and Installs × LTV (cohort) approximate total revenue from different angles. Mixing them is the most common analysis error.',
-    xpReward: 20, difficulty: 4, metricSlugs: ['arpdau', 'dau', 'ltv'], function: 'business'
-  },
+  // --- Lesson 2: UV (User Value) ---
+  { id: 'def-u4-l2-c1', type: 'multiple_choice', prompt: 'UV (User Value) is measured using which view?', choices: ['Act-date', 'Cohort', 'Both', 'Neither'], answerIndex: 1, explanation: 'UV is a cohort metric — it measures how much revenue a user generates anchored to their install date.', xpReward: 10, difficulty: 1, metricSlugs: ['uv'], function: 'business' },
+  { id: 'def-u4-l2-c2', type: 'multiple_choice', prompt: 'UV7 measures:', choices: ['Revenue per user in the first 7 days after install', 'Revenue on the 7th day only', 'Revenue per 7,000 users', 'User visits in 7 days'], answerIndex: 0, explanation: 'UV7 = cumulative revenue from D0 to D7 / cohort size.', xpReward: 10, difficulty: 2, metricSlugs: ['uv7'], function: 'business' },
+  { id: 'def-u4-l2-c3', type: 'drag_to_order', prompt: 'Order UV horizons from shortest to longest.', items: ['UV30', 'UV0', 'UV7', 'UV14'], correctOrder: ['UV0', 'UV7', 'UV14', 'UV30'], explanation: 'UV0 -> UV7 -> UV14 -> UV30. Longer horizons capture more lifetime value.', xpReward: 10, difficulty: 1, metricSlugs: ['uv7', 'uv30'], function: 'business' },
+  { id: 'def-u4-l2-c4', type: 'multiple_choice', prompt: 'pUV60 is:', choices: ['Paid User Value at D60', 'Predicted User Value at D60', 'Product User Value at D60', 'Premium User Value at D60'], answerIndex: 1, explanation: 'pUV60 = Predicted UV60, extrapolated from UV7 using historical ratios.', xpReward: 10, difficulty: 2, metricSlugs: ['uv'], function: 'business' },
+  { id: 'def-u4-l2-c5', type: 'multiple_choice', prompt: 'What is the primary difference between ARPDAU and UV?', choices: ['ARPDAU is act-date; UV is cohort', 'ARPDAU is for iOS; UV is for Android', 'ARPDAU is for ads; UV is for IAP', 'They are the same metric'], answerIndex: 0, explanation: 'ARPDAU = act-date (revenue per user today). UV = cohort (cumulative revenue per user from install).', xpReward: 15, difficulty: 2, metricSlugs: ['arpdau', 'uv'], function: 'business' },
 
-  // CROSS-FUNCTIONAL — Unit 2: UA ↔ Product
-  {
-    id: 'cf-u2-l1-c1',
-    type: 'scenario_judgment',
-    prompt: 'CPI win, retention loss',
-    scenario: 'A UA Specialist cuts CPI by 15% by reallocating spend to a low-quality SDK network. Two weeks later, what most likely happened?',
-    choices: [
-      'UV7 unchanged, ROAS up — pure win.',
-      'R1 + R7 dropped on the new traffic; UV7 also dropped; ROAS may be flat or worse.',
-      'DAU went up; UV7 went up; no downside.',
-      'Only ARPDAU changed.'
-    ],
-    answerIndex: 1,
-    explanation: 'Cheaper installs from lower-quality traffic tend to retain worse. R1/R7 fall, UV7 falls, and ROAS can hold or drop. The CPI win is misleading without the cohort follow-through.',
-    xpReward: 25, difficulty: 5, metricSlugs: ['cpi', 'r1', 'uv7', 'roas'], function: 'business'
-  },
+  // --- Lesson 3: LTV and benchmarks ---
+  { id: 'def-u4-l3-c1', type: 'multiple_choice', prompt: 'LTV stands for:', choices: ['Lifetime Value', 'Long-Term Value', 'Latest Total Value', 'Lifetime Visits'], answerIndex: 0, explanation: 'LTV = Lifetime Value = total revenue a user generates over their entire lifetime.', xpReward: 5, difficulty: 1, metricSlugs: ['ltv'], function: 'business' },
+  { id: 'def-u4-l3-c2', type: 'multiple_choice', prompt: 'At Amanotes, user lifetime is approximately:', choices: ['7 days', '30 days', '60 days', '365 days'], answerIndex: 2, explanation: 'User lifetime at Amanotes is ~60 days, which is why ROAS60 is the break-even horizon.', xpReward: 10, difficulty: 2, metricSlugs: ['ltv'], function: 'business' },
+  { id: 'def-u4-l3-c3', type: 'formula_completion', prompt: 'Complete: pUV60 = UV7 x ___', formulaTemplate: 'pUV60 = UV7 x ___', answer: 'pUV60/UV7 ratio', acceptedAlternatives: ['ratio', 'multiplier', 'pUV60/UV7'], explanation: 'pUV60 = UV7 x (historical pUV60/UV7 ratio). The ratio is derived from past cohort data.', xpReward: 15, difficulty: 3, metricSlugs: ['uv7'], function: 'business' },
+  { id: 'def-u4-l3-c4', type: 'multiple_choice', prompt: 'For a hybrid game, what is the UV7 benchmark (US)?', choices: ['UV7 >= $0.10', 'UV7 >= $0.50', 'UV7 >= $1.00', 'UV7 >= $2.00'], answerIndex: 1, explanation: 'Hybrid benchmark: UV7 >= $0.50. UV30 >= $1.00.', xpReward: 10, difficulty: 2, metricSlugs: ['uv7'], function: 'business' },
+  { id: 'def-u4-l3-c5', type: 'multiple_choice', prompt: 'Pay Rate measures:', choices: ['% of users who make a purchase', 'Average purchase price', 'Revenue per paying user', 'Cost of IAP items'], answerIndex: 0, explanation: 'Pay Rate = % of users who make at least one purchase. Benchmark: Pay Rate D7 (US) = 1.08%.', xpReward: 10, difficulty: 2, metricSlugs: [], function: 'business' },
 
-  // CROSS-FUNCTIONAL — Unit 3: Product ↔ Mon
-  {
-    id: 'cf-u3-l1-c1',
-    type: 'scenario_judgment',
-    prompt: 'Ad-density change side effect',
-    scenario: 'A Mon Operator increases interstitial frequency on PI. ARPDAU lifts +5% next day. What second-order signal would you watch over the next 7 days?',
-    choices: [
-      'CPI on new campaigns',
-      'R1 / R7 dip — the retention hit shows up later in cohort metrics, then in UV7',
-      'IPM on creatives',
-      'eCPM only'
-    ],
-    answerIndex: 1,
-    explanation: 'Ad-density bumps almost always lift ARPDAU first and dip retention later. The right escalation: pre-flag UA + Product, watch R1/R7 on new cohorts, then UV7.',
-    xpReward: 25, difficulty: 5, metricSlugs: ['arpdau', 'r1', 'uv7'], function: 'business'
-  },
+  // ── Unit 5: Ad Metrics ─────────────────────────────────────────
+  // --- Lesson 1: eCPM, imp/DAU ---
+  { id: 'def-u5-l1-c1', type: 'multiple_choice', prompt: 'eCPM stands for:', choices: ['Effective Cost Per Mille', 'Estimated Clicks Per Minute', 'Expected Conversions Per Month', 'Effective Cost Per Million'], answerIndex: 0, explanation: 'eCPM = Effective Cost Per Mille = revenue per 1,000 ad impressions.', xpReward: 5, difficulty: 1, metricSlugs: ['ecpm'], function: 'business' },
+  { id: 'def-u5-l1-c2', type: 'formula_completion', prompt: 'Complete the eCPM formula.', formulaTemplate: 'eCPM = (earnings / impressions) x ___', answer: '1000', acceptedAlternatives: ['1,000', '1000'], explanation: 'eCPM = (earnings / impressions) x 1000.', xpReward: 10, difficulty: 1, metricSlugs: ['ecpm'], function: 'business' },
+  { id: 'def-u5-l1-c3', type: 'formula_completion', prompt: 'Complete the Ads ARPDAU decomposition.', formulaTemplate: 'Ads ARPDAU = eCPM x ___ / 1000', answer: 'imp/DAU', acceptedAlternatives: ['impressions per DAU', 'imp/dau', 'impressions/DAU'], explanation: 'Ads ARPDAU = eCPM x imp/DAU / 1000. Two levers: ad price (eCPM) and ad volume (imp/DAU).', xpReward: 15, difficulty: 2, metricSlugs: ['arpdau', 'ecpm'], function: 'business' },
+  { id: 'def-u5-l1-c4', type: 'multiple_choice', prompt: 'What is the PRIMARY driver of Ads ARPDAU?', choices: ['eCPM', 'imp/DAU', 'Fill Rate', 'Banner ads'], answerIndex: 1, explanation: 'imp/DAU (impressions per user) is the primary driver of Ads ARPDAU.', xpReward: 15, difficulty: 2, metricSlugs: ['arpdau'], function: 'business' },
+  { id: 'def-u5-l1-c5', type: 'free_input_numeric', prompt: 'If eCPM is $10 and imp/DAU is 20, what is Ads ARPDAU? (in $)', answer: 0.20, unit: '$', tolerance: 0.02, explanation: 'Ads ARPDAU = $10 x 20 / 1000 = $0.20.', xpReward: 15, difficulty: 2, metricSlugs: ['arpdau', 'ecpm'], function: 'business' },
 
-  // CROSS-FUNCTIONAL — Unit 4: Mon ↔ UA
-  {
-    id: 'cf-u4-l1-c1',
-    type: 'multiple_choice',
-    prompt: 'A sudden UV7 lift on a fresh cohort directly improves which UA metric?',
-    choices: ['CPI', 'IPM', 'Paid ROAS D7', 'CTR'],
-    answerIndex: 2,
-    explanation: 'Paid ROAS D7 = UV7 / CPI (paid-only). A UV7 lift, holding CPI constant, raises Paid ROAS D7 1:1.',
-    xpReward: 20, difficulty: 4, metricSlugs: ['uv7', 'paid-roas-d7'], function: 'business'
-  },
+  // --- Lesson 2: Ad formats ---
+  { id: 'def-u5-l2-c1', type: 'matching_pairs', prompt: 'Match ad format abbreviations.', pairs: [{ left: 'RW', right: 'Rewarded Video' }, { left: 'FS / IS', right: 'Full Screen / Interstitial' }, { left: 'BN', right: 'Banner' }, { left: 'AOA', right: 'App Open Ad' }], explanation: 'The four main ad formats in Amanotes games.', xpReward: 10, difficulty: 1, metricSlugs: [], function: 'business' },
+  { id: 'def-u5-l2-c2', type: 'multiple_choice', prompt: 'Which ad format does the user watch voluntarily in exchange for a reward?', choices: ['Interstitial', 'Banner', 'Rewarded Video', 'App Open Ad'], answerIndex: 2, explanation: 'Rewarded Video (RW) = user voluntarily watches a video ad for in-game rewards.', xpReward: 5, difficulty: 1, metricSlugs: [], function: 'business' },
+  { id: 'def-u5-l2-c3', type: 'multiple_choice', prompt: 'Fill Rate measures:', choices: ['% of ad requests successfully filled', '% of users who click ads', '% of revenue from ads', '% of sessions with ads'], answerIndex: 0, explanation: 'Fill Rate = % of ad requests that are successfully filled with an ad.', xpReward: 10, difficulty: 1, metricSlugs: [], function: 'business' },
+  { id: 'def-u5-l2-c4', type: 'scenario_judgment', prompt: 'Fill rate impact', scenario: 'Fill rate drops from 95% to 80% overnight. eCPM is unchanged. What happens to Ads ARPDAU?', choices: ['No change', 'Ads ARPDAU drops because fewer impressions are served per user', 'Ads ARPDAU rises', 'Cannot tell'], answerIndex: 1, explanation: 'Lower fill rate = fewer impressions served = lower effective imp/DAU = lower Ads ARPDAU.', xpReward: 15, difficulty: 3, metricSlugs: ['arpdau'], function: 'business' },
 
-  // CROSS-FUNCTIONAL — Unit 5: The full loop (canonical hypothesis format)
-  {
-    id: 'cf-u5-l1-c1',
-    type: 'multiple_choice',
-    prompt: 'Which sentence uses the canonical Amanotes hypothesis format?',
-    choices: [
-      'I think the new tutorial will help retention.',
-      'If we shorten the tutorial → then R1 will rise → for new PIi installs → by +2 pp in 4 weeks.',
-      'The tutorial is too long; users churn.',
-      'New tutorial: R1 up.'
-    ],
-    answerIndex: 1,
-    explanation: 'Canonical format: "If [change] → then [impact] → for [audience] → by [amount]". Specific change, specific metric, specific cohort, specific magnitude.',
-    xpReward: 20, difficulty: 3, metricSlugs: [], function: 'business'
-  },
-  {
-    id: 'cf-u5-l1-c2',
-    type: 'scenario_judgment',
-    prompt: 'Read the loop end-to-end',
-    scenario: 'A new creative drops CPI 20% on GDUCa. Install volume doubles. Two weeks later: R1 down 4 pp, R7 down 2 pp, UV7 flat, eROAS D7 holds because organic uplift rose. Which read is correct?',
-    choices: [
-      'A clear win — eROAS held.',
-      'A clear loss — R1 dropped.',
-      'Mixed: the creative scaled volume but diluted quality. eROAS held only because organic uplift compensated. Watch UV30 and Paid ROAS before doubling down.',
-      'Cannot tell without ARPDAU.'
-    ],
-    answerIndex: 2,
-    explanation: 'Volume-driven CPI wins often dilute cohort quality. eROAS hiding the dip via organic uplift is the classic trap. The honest read is mixed, with a wait-and-see on longer-horizon UV.',
-    xpReward: 30, difficulty: 5, metricSlugs: ['cpi', 'r1', 'r7', 'uv7', 'eroas-d7'], function: 'business'
-  }
+  // ── Unit 6: Cost Metrics ───────────────────────────────────────
+  // --- Lesson 1: CPI, eCPI ---
+  { id: 'def-u6-l1-c1', type: 'multiple_choice', prompt: 'CPI stands for:', choices: ['Cost Per Install', 'Cost Per Impression', 'Click Per Install', 'Conversion Per Install'], answerIndex: 0, explanation: 'CPI = Cost Per Install = how much it costs to acquire one new user.', xpReward: 5, difficulty: 1, metricSlugs: ['cpi'], function: 'business' },
+  { id: 'def-u6-l1-c2', type: 'multiple_choice', prompt: 'eCPI differs from CPI because:', choices: ['eCPI includes organic uplift installs in the denominator', 'eCPI is for iOS only', 'eCPI counts clicks instead of installs', 'eCPI is always higher than CPI'], answerIndex: 0, explanation: 'eCPI = UA costs / (paid + organic uplift users). Including organic uplift makes eCPI <= CPI.', xpReward: 10, difficulty: 2, metricSlugs: ['ecpi', 'cpi'], function: 'business' },
+  { id: 'def-u6-l1-c3', type: 'formula_completion', prompt: 'Complete the eCPI formula.', formulaTemplate: 'eCPI = UA costs / (paid installs + ___)', answer: 'organic uplift', acceptedAlternatives: ['organic uplift installs', 'organic uplift users'], explanation: 'eCPI = UA costs / (paid + organic uplift). Organic uplift lowers the effective cost.', xpReward: 15, difficulty: 2, metricSlugs: ['ecpi'], function: 'business' },
+  { id: 'def-u6-l1-c4', type: 'multiple_choice', prompt: 'CPI vs eCPI — which is always <= which?', choices: ['CPI <= eCPI', 'eCPI <= CPI', 'They are always equal', 'Depends on K-factor'], answerIndex: 1, explanation: 'eCPI <= CPI whenever K-factor > 0, because organic uplift adds to the denominator.', xpReward: 15, difficulty: 2, metricSlugs: ['cpi', 'ecpi'], function: 'business' },
+  { id: 'def-u6-l1-c5', type: 'free_input_numeric', prompt: 'UA Cost = $10,000, paid installs = 80,000, organic uplift = 20,000. What is eCPI? (in $)', answer: 0.10, unit: '$', tolerance: 0.01, explanation: 'eCPI = $10,000 / (80,000 + 20,000) = $0.10.', xpReward: 20, difficulty: 3, metricSlugs: ['ecpi'], function: 'business' },
+
+  // --- Lesson 2: CPM, K-factor ---
+  { id: 'def-u6-l2-c1', type: 'formula_completion', prompt: 'Complete: CPI = CPM / ___', formulaTemplate: 'CPI = CPM / ___', answer: 'IPM', acceptedAlternatives: ['ipm', 'Installs Per Mille'], explanation: 'CPI = CPM / IPM. Better creatives (higher IPM) = lower CPI.', xpReward: 15, difficulty: 2, metricSlugs: ['cpi', 'ipm'], function: 'business' },
+  { id: 'def-u6-l2-c2', type: 'multiple_choice', prompt: 'K-factor measures:', choices: ['The ratio of organic uplift to paid users', 'The cost of each install', 'The conversion rate', 'The retention rate'], answerIndex: 0, explanation: 'K-factor = organic uplift / paid users. Higher K-factor = more organic users per paid install.', xpReward: 10, difficulty: 2, metricSlugs: ['k-factor'], function: 'business' },
+  { id: 'def-u6-l2-c3', type: 'free_input_numeric', prompt: 'If paid installs = 10,000 and organic uplift = 2,500, what is K-factor?', answer: 0.25, unit: '', tolerance: 0.02, explanation: 'K-factor = 2,500 / 10,000 = 0.25.', xpReward: 15, difficulty: 2, metricSlugs: ['k-factor'], function: 'business' },
+  { id: 'def-u6-l2-c4', type: 'free_input_numeric', prompt: 'Paid installs = 200,000, K-factor = 0.4. How many organic uplift users?', answer: 80000, unit: 'users', tolerance: 0, explanation: 'Organic uplift = 200,000 x 0.4 = 80,000.', xpReward: 15, difficulty: 2, metricSlugs: ['k-factor'], function: 'business' },
+  { id: 'def-u6-l2-c5', type: 'free_input_numeric', prompt: 'UA Spend = $20,000, paid installs = 100,000, K-factor = 0.5. What is eCPI (in $)?', answer: 0.133, unit: '$', tolerance: 0.005, explanation: 'Total installs = 100K x (1+0.5) = 150K. eCPI = $20K / 150K = $0.133.', xpReward: 20, difficulty: 3, metricSlugs: ['ecpi', 'k-factor'], function: 'business' },
+
+  // ── Unit 7: Return Metrics (ROAS) ──────────────────────────────
+  // --- Lesson 1: ROAS basics ---
+  { id: 'def-u7-l1-c1', type: 'multiple_choice', prompt: 'ROAS stands for:', choices: ['Return On Ad Spend', 'Revenue On Active Sessions', 'Rate Of Ad Success', 'Return On Acquired Subscribers'], answerIndex: 0, explanation: 'ROAS = Return On Ad Spend = revenue / ad spend.', xpReward: 5, difficulty: 1, metricSlugs: ['roas'], function: 'business' },
+  { id: 'def-u7-l1-c2', type: 'multiple_choice', prompt: 'If ROAS = 100%, it means:', choices: ['You doubled your money', 'You broke even', 'You lost money', 'Not enough data'], answerIndex: 1, explanation: 'ROAS 100% = revenue equals spend = break-even. Above 100% = profit.', xpReward: 10, difficulty: 1, metricSlugs: ['roas'], function: 'business' },
+  { id: 'def-u7-l1-c3', type: 'multiple_choice', prompt: 'Why is ROAS60 considered the break-even horizon?', choices: ['Company policy', 'User lifetime is ~60 days', 'Data is unreliable after 60 days', 'Networks only report 60 days'], answerIndex: 1, explanation: 'User lifetime at Amanotes is ~60 days. ROAS60 >= 100% indicates break-even.', xpReward: 10, difficulty: 2, metricSlugs: ['roas'], function: 'business' },
+  { id: 'def-u7-l1-c4', type: 'formula_completion', prompt: 'Complete: Paid ROAS D7 = UV7 / ___', formulaTemplate: 'Paid ROAS D7 = UV7 / ___', answer: 'CPI', acceptedAlternatives: ['cpi', 'Cost Per Install'], explanation: 'Paid ROAS D7 = UV7 / CPI. Revenue per user / cost per user.', xpReward: 15, difficulty: 2, metricSlugs: ['roas', 'uv7', 'cpi'], function: 'business' },
+  { id: 'def-u7-l1-c5', type: 'free_input_numeric', prompt: 'CPI = $0.20, UV7 = $0.16. What is Paid ROAS D7? (as %)', answer: 80, unit: '%', tolerance: 1, explanation: 'Paid ROAS D7 = 0.16 / 0.20 = 0.80 = 80%.', xpReward: 15, difficulty: 2, metricSlugs: ['roas', 'uv7'], function: 'business' },
+  { id: 'def-u7-l1-c6', type: 'formula_completion', prompt: 'Complete: ROAS60 = pUV60 / ___', formulaTemplate: 'ROAS60 = pUV60 / ___', answer: 'eCPI', acceptedAlternatives: ['ecpi', 'effective CPI'], explanation: 'ROAS60 = pUV60 / eCPI.', xpReward: 15, difficulty: 3, metricSlugs: ['roas', 'ecpi'], function: 'business' },
+
+  // --- Lesson 2: eROAS vs Paid ROAS ---
+  { id: 'def-u7-l2-c1', type: 'multiple_choice', prompt: 'eROAS differs from Paid ROAS because:', choices: ['eROAS includes organic uplift revenue', 'eROAS is estimated', 'eROAS is for iOS only', 'eROAS uses different time windows'], answerIndex: 0, explanation: 'eROAS includes revenue from both paid and organic-uplift users. Paid ROAS = paid users only.', xpReward: 10, difficulty: 2, metricSlugs: ['eroas-d7', 'paid-roas-d7'], function: 'business' },
+  { id: 'def-u7-l2-c2', type: 'multiple_choice', prompt: 'pROAS stands for:', choices: ['Paid ROAS', 'Predicted ROAS', 'Premium ROAS', 'Platform ROAS'], answerIndex: 1, explanation: 'pROAS = Predicted ROAS = projected future ROAS based on models.', xpReward: 10, difficulty: 2, metricSlugs: ['roas'], function: 'business' },
+  { id: 'def-u7-l2-c3', type: 'multiple_choice', prompt: 'For PMF validation, pROAS365 should be at least:', choices: ['50%', '80%', '100%', '150%'], answerIndex: 2, explanation: 'PMF requires pROAS365 >= 100% (at least break even over the full year).', xpReward: 10, difficulty: 2, metricSlugs: ['roas'], function: 'business' },
+  { id: 'def-u7-l2-c4', type: 'free_input_numeric', prompt: 'pUV60 = $0.60, eCPI = $0.40. What is ROAS60? (as %)', answer: 150, unit: '%', tolerance: 1, explanation: 'ROAS60 = $0.60 / $0.40 = 1.50 = 150%.', xpReward: 15, difficulty: 3, metricSlugs: ['roas', 'ecpi'], function: 'business' },
+  { id: 'def-u7-l2-c5', type: 'scenario_judgment', prompt: 'eROAS vs Paid ROAS divergence', scenario: 'eROAS D7 jumps +12% WoW but Paid ROAS D7 is flat. What is the most likely cause?', choices: ['Paid creative quality improved', 'A revenue bug', 'Organic uplift ratio shifted — more organic installs are crediting against paid spend', 'D7 retention dropped'], answerIndex: 2, explanation: 'Paid ROAS flat = paid quality unchanged. eROAS up = organic share increased. K-factor/network-mix story.', xpReward: 25, difficulty: 4, metricSlugs: ['eroas-d7', 'paid-roas-d7', 'k-factor'], function: 'business' },
+
+  // ── Unit 8: Advanced Calculations ──────────────────────────────
+  // --- Lesson 1: Cross-metric calculations ---
+  { id: 'def-u8-l1-c1', type: 'free_input_numeric', prompt: 'eCPM = $8, imp/DAU = 4, DAU = 500,000. What is daily Ads Revenue? (in $)', answer: 16000, unit: '$', tolerance: 100, explanation: 'Ads ARPDAU = $8 x 4 / 1000 = $0.032. Daily revenue = $0.032 x 500K = $16,000.', xpReward: 25, difficulty: 4, metricSlugs: ['arpdau', 'ecpm', 'dau'], function: 'business' },
+  { id: 'def-u8-l1-c2', type: 'free_input_numeric', prompt: 'pUV60/UV7 ratio = 2.5, UV7 = $0.24, eCPI = $0.40. What is ROAS60? (as %)', answer: 150, unit: '%', tolerance: 1, explanation: 'pUV60 = $0.24 x 2.5 = $0.60. ROAS60 = $0.60 / $0.40 = 150%.', xpReward: 25, difficulty: 4, metricSlugs: ['roas', 'uv7', 'ecpi'], function: 'business' },
+  { id: 'def-u8-l1-c3', type: 'free_input_numeric', prompt: 'CPM = $3, CTR = 2%, CVR = 60%. What is CPI? (in $)', answer: 0.25, unit: '$', tolerance: 0.01, explanation: 'IPM = 0.02 x 0.60 x 1000 = 12. CPI = $3 / 12 = $0.25.', xpReward: 25, difficulty: 4, metricSlugs: ['cpi', 'ipm', 'ctr', 'cvr'], function: 'business' },
+  { id: 'def-u8-l1-c4', type: 'scenario_judgment', prompt: 'Metric relationship chain', scenario: 'A game improves FTUE: R1 +5pp, R7 +3pp, but ARPDAU dips slightly on Day 1. Should you worry?', choices: ['Yes — ARPDAU is the bottom line', 'No — better retention increases UV over time; the Day 1 ARPDAU dip may be from delayed ad exposure in the new FTUE', 'Cannot tell without CPI', 'ARPDAU and retention are unrelated'], answerIndex: 1, explanation: 'FTUE improvements often delay first ad but boost retention dramatically. UV (cohort) matters more than immediate ARPDAU.', xpReward: 25, difficulty: 4, metricSlugs: ['r1', 'r7', 'arpdau', 'uv7'], function: 'business' },
+
+  // --- Lesson 2: Full profit chain ---
+  { id: 'def-u8-l2-c1', type: 'free_input_numeric', prompt: 'UA Spend=$50K, paid installs=250K, K-factor=0.2. UV7=$0.18. What is Paid ROAS D7? (as %)', answer: 90, unit: '%', tolerance: 1, explanation: 'CPI = $50K / 250K = $0.20. Paid ROAS D7 = $0.18 / $0.20 = 90%.', xpReward: 25, difficulty: 4, metricSlugs: ['roas', 'cpi', 'uv7'], function: 'business' },
+  { id: 'def-u8-l2-c2', type: 'free_input_numeric', prompt: 'UA Spend=$80K, paid installs=400K, organic uplift=100K. UV30=$0.22. Total profit at D30? (in $)', answer: 30000, unit: '$', tolerance: 500, explanation: 'Total=500K. eCPI=$80K/500K=$0.16. Profit=500K x ($0.22-$0.16)=$30,000.', xpReward: 30, difficulty: 5, metricSlugs: ['ecpi', 'uv', 'k-factor'], function: 'business' },
+  { id: 'def-u8-l2-c3', type: 'scenario_judgment', prompt: 'Two games comparison', scenario: 'Game X: ARPDAU=$0.08, DAU=100K. Game Y: ARPDAU=$0.04, DAU=300K. Which generates more daily revenue?', choices: ['Game X — higher ARPDAU', 'Game Y — $12K vs $8K', 'Equal', 'Cannot compare without UV'], answerIndex: 1, explanation: 'X: $0.08 x 100K = $8K. Y: $0.04 x 300K = $12K. Higher ARPDAU != higher revenue if DAU is lower.', xpReward: 25, difficulty: 4, metricSlugs: ['arpdau', 'dau'], function: 'business' },
+  { id: 'def-u8-l2-c4', type: 'matching_pairs', prompt: 'Match each metric pair to its relationship.', pairs: [{ left: 'ARPDAU x DAU', right: 'Daily Revenue (act-date)' }, { left: 'Installs x LTV', right: 'Total Revenue (cohort)' }, { left: 'UV7 / CPI', right: 'Paid ROAS D7' }, { left: 'pUV60 / eCPI', right: 'ROAS60' }], explanation: 'Key formulas connecting metrics to business outcomes.', xpReward: 20, difficulty: 3, metricSlugs: ['arpdau', 'dau', 'ltv', 'roas'], function: 'business' },
+
+  // ════════════════════════════════════════════════════════════════
+  // PRODUCT 101 — 10 units, ~150 cards
+  // ════════════════════════════════════════════════════════════════
+
+  // ── Unit 1: Active users & views ───────────────────────────────
+  // --- Lesson 1: DAU basics ---
+  { id: 'p101-u1-l1-c1', type: 'multiple_choice', prompt: 'Which view does DAU use?', choices: ['Act-date view', 'Cohort view', 'Both, depending on dashboard', 'Neither'], answerIndex: 0, explanation: 'DAU = Daily Active Users today. Measured by when the action happens = act-date view.', xpReward: 10, difficulty: 1, metricSlugs: ['dau'], function: 'product' },
+  { id: 'p101-u1-l1-c2', type: 'multiple_choice', prompt: 'Which metric is the company-level KPI for Amanoters?', choices: ['DAU', 'MAU', 'Returned Users D30+', 'R30'], answerIndex: 2, explanation: 'Returned Users D30+ is the company KPI: users still active 30 days post-install.', xpReward: 10, difficulty: 1, metricSlugs: ['returned-users-d30'], function: 'product' },
+  { id: 'p101-u1-l1-c3', type: 'matching_pairs', prompt: 'Match each metric to its view.', pairs: [{ left: 'DAU', right: 'Act-date' }, { left: 'R7', right: 'Cohort' }, { left: 'ARPDAU', right: 'Act-date' }, { left: 'UV7', right: 'Cohort' }], explanation: 'Daily totals (DAU, ARPDAU) = act-date. Install-anchored (R*, UV*) = cohort.', xpReward: 15, difficulty: 2, metricSlugs: ['dau', 'r7', 'arpdau', 'uv7'], function: 'product' },
+  { id: 'p101-u1-l1-c4', type: 'multiple_choice', prompt: 'If DAU drops but MAU stays flat, the most likely reason is:', choices: ['Users are churning', 'Users are visiting less frequently but still active monthly', 'Revenue is down', 'An app crash'], answerIndex: 1, explanation: 'DAU down + MAU flat = users open the app less often per week but still come back within the month.', xpReward: 15, difficulty: 2, metricSlugs: ['dau', 'mau'], function: 'product' },
+  { id: 'p101-u1-l1-c5', type: 'multiple_choice', prompt: 'DAU is composed of:', choices: ['New Users + Returning Users', 'Paid Users + Organic Users', 'iOS Users + Android Users', 'Active + Inactive Users'], answerIndex: 0, explanation: 'DAU = New Users (installed today) + Returning Users (installed before, active today).', xpReward: 10, difficulty: 2, metricSlugs: ['dau'], function: 'product' },
+
+  // --- Lesson 2: Reading a Product dashboard ---
+  { id: 'p101-u1-l2-c1', type: 'scenario_judgment', prompt: 'DAU trend reading', scenario: 'On PIa, DAU dropped 5% yesterday. New installs were flat. What is most likely happening?', choices: ['A UA budget cut', 'Returning users are visiting less — check R1/R7 on recent cohorts', 'Revenue bug', 'eCPM spike'], answerIndex: 1, explanation: 'If new installs are flat, the DAU dip comes from the returning-user portion. Check retention metrics.', xpReward: 20, difficulty: 3, metricSlugs: ['dau', 'r1'], function: 'product' },
+  { id: 'p101-u1-l2-c2', type: 'matching_pairs', prompt: 'Match game abbreviations to their names.', pairs: [{ left: 'PI', right: 'Magic Tiles 3' }, { left: 'BH', right: 'Tiles Hop' }, { left: 'DR', right: 'Dancing Road' }, { left: 'GDUC', right: 'Duet Cats' }], explanation: 'The four main LiveOps games at Amanotes.', xpReward: 10, difficulty: 1, metricSlugs: [], function: 'product' },
+  { id: 'p101-u1-l2-c3', type: 'multiple_choice', prompt: 'What does the suffix "a" or "i" mean in PIa, BHi?', choices: ['a = Android, i = iOS', 'a = Active, i = Inactive', 'a = Asia, i = International', 'a = Ad-supported, i = IAP'], answerIndex: 0, explanation: 'a = Android, i = iOS. PIa = Magic Tiles 3 on Android.', xpReward: 5, difficulty: 1, metricSlugs: [], function: 'product' },
+  { id: 'p101-u1-l2-c4', type: 'multiple_choice', prompt: 'Amanotes divides the year into how many Cycles?', choices: ['2 (H1, H2)', '3 (C1, C2, C3)', '4 (Q1-Q4)', '12 (monthly)'], answerIndex: 1, explanation: '3 cycles: C1 (Jan-Apr), C2 (May-Aug), C3 (Sep-Dec).', xpReward: 10, difficulty: 1, metricSlugs: [], function: 'product' },
+
+  // ── Unit 2: The Cohort view ────────────────────────────────────
+  { id: 'p101-u2-l1-c1', type: 'multiple_choice', prompt: 'A user installs on 1 May. On 8 May they open the app. Which retention metric do they contribute to?', choices: ['R1', 'R7', 'R30', 'ARPDAU only'], answerIndex: 1, explanation: 'R7 = % of cohort returning 7 days later. 1 May + 7 days = 8 May.', xpReward: 10, difficulty: 2, metricSlugs: ['r7'], function: 'product' },
+  { id: 'p101-u2-l1-c2', type: 'scenario_judgment', prompt: 'Cohort vs act-date', scenario: 'A PO sees daily Revenue down 8% on PIa, but UV7 for the latest cohort is up 3%. What does this tell you?', choices: ['Both agree — monetization is worse', 'They measure different things — daily revenue is act-date, UV7 is cohort', 'UV7 is wrong because revenue moves first', 'Cannot interpret without ARPDAU'], answerIndex: 1, explanation: 'Daily revenue (act-date) can dip from DAU mix shifts. UV7 (cohort) measures new user value.', xpReward: 20, difficulty: 3, metricSlugs: ['uv7', 'arpdau'], function: 'product' },
+  { id: 'p101-u2-l1-c3', type: 'multiple_choice', prompt: 'Which metric anchors to the install date?', choices: ['ARPDAU', 'eCPM', 'UV7', 'DAU'], answerIndex: 2, explanation: 'UV7 is a cohort metric anchored to the install date.', xpReward: 10, difficulty: 1, metricSlugs: ['uv7'], function: 'product' },
+  { id: 'p101-u2-l1-c4', type: 'multiple_choice', prompt: 'When should you use cohort view instead of act-date?', choices: ['For daily revenue monitoring', 'For evaluating long-term user quality', 'For checking eCPM trends', 'For server health monitoring'], answerIndex: 1, explanation: 'Cohort view is for long-term analysis: LTV, retention quality, UV trends.', xpReward: 10, difficulty: 2, metricSlugs: [], function: 'product' },
+  { id: 'p101-u2-l1-c5', type: 'multiple_choice', prompt: 'The most common analysis error is:', choices: ['Using the wrong time zone', 'Mixing act-date and cohort metrics in one analysis', 'Forgetting to check DAU', 'Rounding errors'], answerIndex: 1, explanation: 'Mixing views (e.g., comparing ARPDAU x DAU with Installs x LTV directly) is the most common error.', xpReward: 15, difficulty: 3, metricSlugs: [], function: 'product' },
+
+  // ── Unit 3: Retention ──────────────────────────────────────────
+  { id: 'p101-u3-l1-c1', type: 'drag_to_order', prompt: 'Order retention checkpoints from earliest.', items: ['R30', 'R1', 'R14', 'R7'], correctOrder: ['R1', 'R7', 'R14', 'R30'], explanation: 'Standard retention curve checkpoints: R1, R7, R14, R30.', xpReward: 10, difficulty: 1, metricSlugs: ['r1', 'r7', 'r30'], function: 'product' },
+  { id: 'p101-u3-l1-c2', type: 'multiple_choice', prompt: 'What does sumR7 capture that R7 alone does not?', choices: ['Revenue per cohort', 'Cumulative engagement depth across D1-D7', 'Number of paid installs', 'Cost per install'], answerIndex: 1, explanation: 'sumR7 = area under the retention curve D1-D7. R7 is a single point; sumR7 captures depth.', xpReward: 15, difficulty: 2, metricSlugs: ['sumr7', 'r7'], function: 'product' },
+  { id: 'p101-u3-l1-c3', type: 'scenario_judgment', prompt: 'Retention diagnosis', scenario: 'R1 dropped 3pp on BHa this week, but R7 is flat. What is most likely?', choices: ['Tutorial got worse — users bounced on D1 but survivors are fine', 'The data is wrong', 'UV7 must also be down', 'UA paused spending'], answerIndex: 0, explanation: 'R1 down + R7 flat = the first-day experience got worse, but those who stay are equally sticky.', xpReward: 20, difficulty: 3, metricSlugs: ['r1', 'r7'], function: 'product' },
+  { id: 'p101-u3-l1-c4', type: 'multiple_choice', prompt: 'FTUE stands for:', choices: ['First-Time User Experience', 'Full-Time User Engagement', 'Free Trial User Evaluation', 'First-Time Upgrade Event'], answerIndex: 0, explanation: 'FTUE = First-Time User Experience = the onboarding flow for new users.', xpReward: 5, difficulty: 1, metricSlugs: ['ftue'], function: 'product' },
+  { id: 'p101-u3-l1-c5', type: 'multiple_choice', prompt: 'Which metric is most directly moved by improving FTUE?', choices: ['UV30', 'R1', 'ARPDAU', 'eCPM'], answerIndex: 1, explanation: 'FTUE quality determines whether a user comes back the next day. R1 is the closest metric.', xpReward: 10, difficulty: 2, metricSlugs: ['ftue', 'r1'], function: 'product' },
+  { id: 'p101-u3-l1-c6', type: 'free_input_numeric', prompt: 'Cohort of 50,000 users, R7 = 14%. How many return on Day 7?', answer: 7000, unit: 'users', tolerance: 0, explanation: '50,000 x 0.14 = 7,000 users.', xpReward: 10, difficulty: 2, metricSlugs: ['r7'], function: 'product' },
+
+  // ── Unit 4: Engagement depth ───────────────────────────────────
+  { id: 'p101-u4-l1-c1', type: 'matching_pairs', prompt: 'Match Music Engagement events to their meaning.', pairs: [{ left: 'me_start', right: 'Music engagement session begins' }, { left: 'song_start', right: 'User starts playing a song' }, { left: 'song_result', right: 'Result screen appears' }, { left: 'song_revive', right: 'User revives after failing' }], explanation: 'Core Music Engagement events across MT3, Tiles Hop, Dancing Road, Duet Cats.', xpReward: 15, difficulty: 2, metricSlugs: ['sumME'], function: 'product' },
+  { id: 'p101-u4-l1-c2', type: 'multiple_choice', prompt: 'DDA stands for:', choices: ['Dynamic Difficulty Adjustment', 'Daily Data Analysis', 'Direct Download Attribution', 'Demand-Driven Advertising'], answerIndex: 0, explanation: 'DDA = Dynamic Difficulty Adjustment — AI-driven difficulty per user in real time.', xpReward: 10, difficulty: 2, metricSlugs: [], function: 'product' },
+  { id: 'p101-u4-l1-c3', type: 'multiple_choice', prompt: 'The core gameplay loop at Amanotes is:', choices: ['Watch ads -> earn coins -> buy items', 'Play song -> earn rewards -> unlock content -> play more', 'Login -> complete quests -> logout', 'Browse store -> purchase -> download'], answerIndex: 1, explanation: 'Core Loop = play song -> earn rewards -> unlock content -> play more.', xpReward: 10, difficulty: 1, metricSlugs: [], function: 'product' },
+  { id: 'p101-u4-l1-c4', type: 'scenario_judgment', prompt: 'Engagement milestone diagnosis', scenario: '60% reach Activation, 35% reach AHA Moment, only 8% reach Habit Moment. Where is the biggest drop-off?', choices: ['Install to Activation', 'Activation to AHA Moment', 'AHA Moment to Habit Moment', 'Cannot tell'], answerIndex: 2, explanation: 'AHA to Habit drops from 35% to 8% (77% loss). The game hooks early but fails to sustain into the first week.', xpReward: 20, difficulty: 3, metricSlugs: [], function: 'product' },
+
+  // ── Unit 5: FTUE & activation ──────────────────────────────────
+  { id: 'p101-u5-l1-c1', type: 'multiple_choice', prompt: 'Activation at Amanotes is defined as:', choices: ['Installing the app', '2 me_start in Day 0', 'Making a purchase', 'Watching an ad'], answerIndex: 1, explanation: 'Activation = user has 2 me_start in Day 0.', xpReward: 10, difficulty: 2, metricSlugs: [], function: 'product' },
+  { id: 'p101-u5-l1-c2', type: 'drag_to_order', prompt: 'Order the user funnel stages.', items: ['Habit Moment', 'Install', 'Activation', 'AHA Moment'], correctOrder: ['Install', 'Activation', 'AHA Moment', 'Habit Moment'], explanation: 'Install -> Activation (2 me_start D0) -> AHA (4 me_start D0-1) -> Habit (7 me_start D0-6).', xpReward: 15, difficulty: 2, metricSlugs: [], function: 'product' },
+  { id: 'p101-u5-l1-c3', type: 'scenario_judgment', prompt: 'FTUE experiment', scenario: 'A/B test shortens FTUE from 5 steps to 3. Tutorial completion rises 65%->80%, but Activation drops 55%->45%. What happened?', choices: ['New FTUE is clearly better', 'Shortened tutorial does not teach enough — users complete but cannot play, so no second session', 'Activation is unrelated to FTUE', 'Test too short'], answerIndex: 1, explanation: 'Higher completion but lower Activation suggests the shorter tutorial fails to give users enough understanding.', xpReward: 20, difficulty: 4, metricSlugs: ['ftue'], function: 'product' },
+  { id: 'p101-u5-l1-c4', type: 'multiple_choice', prompt: 'A game has 70% tutorial completion but only 24% R1. The PO should focus on:', choices: ['Improving the tutorial further', 'Post-FTUE content and hooks — the experience after tutorial', 'Reducing CPI', 'Increasing ad frequency'], answerIndex: 1, explanation: 'High tutorial completion but low R1 = users finish onboarding but do not find reason to return.', xpReward: 15, difficulty: 3, metricSlugs: ['ftue', 'r1'], function: 'product' },
+
+  // ── Unit 6: User segmentation ──────────────────────────────────
+  { id: 'p101-u6-l1-c1', type: 'multiple_choice', prompt: 'The "Meta Layer" refers to:', choices: ['Facebook advertising platform', 'Systems on top of core loop: progression, economy, cosmetics', 'Server infrastructure', 'The game engine'], answerIndex: 1, explanation: 'Meta Layer = systems layered on top of core loop (progression, economy, social, cosmetics).', xpReward: 10, difficulty: 2, metricSlugs: [], function: 'product' },
+  { id: 'p101-u6-l1-c2', type: 'multiple_choice', prompt: 'Balancy is used for:', choices: ['Ad mediation', 'LiveOps remote config and segmentation', 'Code deployment', 'Bug tracking'], answerIndex: 1, explanation: 'Balancy is the third-party LiveOps configuration platform.', xpReward: 10, difficulty: 2, metricSlugs: [], function: 'product' },
+  { id: 'p101-u6-l1-c3', type: 'matching_pairs', prompt: 'Match game process stages.', pairs: [{ left: 'POC', right: 'Proof of Concept' }, { left: 'MVP', right: 'Minimum Viable Product' }, { left: 'PMF', right: 'Product-Market Fit' }, { left: 'SL', right: 'Soft Launch' }], explanation: 'Standard game development stages at Amanotes.', xpReward: 10, difficulty: 1, metricSlugs: [], function: 'product' },
+
+  // ── Unit 7: Product experiments ────────────────────────────────
+  { id: 'p101-u7-l1-c1', type: 'multiple_choice', prompt: 'The canonical Amanotes hypothesis format is:', choices: ['"I think X will work"', '"If [change] -> then [impact] -> for [audience] -> by [amount]"', '"We should try X"', '"Revenue will go up"'], answerIndex: 1, explanation: 'Canonical format: "If [change] -> then [impact] -> for [audience] -> by [amount]".', xpReward: 10, difficulty: 2, metricSlugs: [], function: 'product' },
+  { id: 'p101-u7-l1-c2', type: 'multiple_choice', prompt: 'Which statement uses the correct hypothesis format?', choices: ['The new tutorial will help retention', 'If we shorten the tutorial -> then R1 will rise -> for new PIi installs -> by +2pp in 4 weeks', 'Tutorial is too long; users churn', 'New tutorial: R1 up'], answerIndex: 1, explanation: 'Specific change, specific metric, specific cohort, specific magnitude.', xpReward: 15, difficulty: 2, metricSlugs: [], function: 'product' },
+  { id: 'p101-u7-l1-c3', type: 'scenario_judgment', prompt: 'A/B test reading', scenario: 'A/B test on DRa: Variant B has R1 +2pp (stat sig) but UV7 -5% (not stat sig). What should the PO do?', choices: ['Ship Variant B — R1 is significant', 'Kill Variant B — UV7 is down', 'Extend the test — R1 is positive but UV7 needs more data to confirm', 'Ignore both and check ARPDAU'], answerIndex: 2, explanation: 'When key metrics conflict in significance, extend the test for more data.', xpReward: 20, difficulty: 4, metricSlugs: ['r1', 'uv7'], function: 'product' },
+
+  // ── Unit 8: Product-Market Fit ─────────────────────────────────
+  { id: 'p101-u8-l1-c1', type: 'multiple_choice', prompt: 'PMF R7 benchmark is:', choices: ['R7 >= 5%', 'R7 >= 12-13%', 'R7 >= 25%', 'R7 >= 50%'], answerIndex: 1, explanation: 'PMF requires R7 >= 12-13%.', xpReward: 10, difficulty: 2, metricSlugs: ['r7'], function: 'product' },
+  { id: 'p101-u8-l1-c2', type: 'scenario_judgment', prompt: 'PMF evaluation', scenario: 'New game: Android R1=28%, R7=10%, pROAS365=85%. Does it have PMF?', choices: ['Yes — R1 passes 24% benchmark', 'No — R7 below 12-13% and pROAS365 below 100%', 'Unclear — need CPI', 'Yes — close enough'], answerIndex: 1, explanation: 'PMF requires BOTH R7 >= 12-13% AND pROAS365 >= 100%. This game fails both.', xpReward: 20, difficulty: 3, metricSlugs: ['r1', 'r7'], function: 'product' },
+  { id: 'p101-u8-l1-c3', type: 'multiple_choice', prompt: 'Soft Launch Android CPI benchmark is:', choices: ['~$0.10', '~$0.42', '~$1.00', '~$2.50'], answerIndex: 1, explanation: 'Soft Launch Android CPI benchmark is approximately $0.42.', xpReward: 10, difficulty: 2, metricSlugs: ['cpi'], function: 'product' },
+  { id: 'p101-u8-l1-c4', type: 'matching_pairs', prompt: 'Match benchmarks to their values.', pairs: [{ left: 'Soft Launch Android R1', right: '>= 24%' }, { left: 'Soft Launch iOS R1', right: '>= 35%' }, { left: 'PMF R7', right: '>= 12-13%' }, { left: 'PMF pROAS365', right: '>= 100%' }], explanation: 'Key gate-keeping benchmarks for Soft Launch and PMF.', xpReward: 15, difficulty: 2, metricSlugs: ['r1', 'r7'], function: 'product' },
+
+  // ── Unit 9: Advanced product scenarios ─────────────────────────
+  { id: 'p101-u9-l1-c1', type: 'scenario_judgment', prompt: 'Multi-metric puzzle', scenario: 'On GDUCa: R1 stable, R7 dropped 2pp, sumR7 dropped significantly, but R1-R3 all look fine. Where is the problem?', choices: ['Day 0 experience', 'Days 4-7 — users dropping off mid-week', 'Monetization too aggressive', 'Cannot tell without UV'], answerIndex: 1, explanation: 'R1-R3 stable but R7/sumR7 dropping = decay is in Days 4-7. Focus on mid-week engagement loops.', xpReward: 25, difficulty: 4, metricSlugs: ['r7', 'sumr7'], function: 'product' },
+  { id: 'p101-u9-l1-c2', type: 'scenario_judgment', prompt: 'Retention and monetization tension', scenario: 'A PO ships a feature increasing sumME by 20% but ARPDAU drops 3%. How should they think?', choices: ['Kill it — ARPDAU is bottom line', 'Ship it — engagement always wins', 'Evaluate UV impact — higher engagement may improve retention and UV over time', 'Need CTR data'], answerIndex: 2, explanation: 'Higher engagement may improve retention and thus UV. Check UV7/UV30 trajectory, not just ARPDAU.', xpReward: 25, difficulty: 4, metricSlugs: ['sumME', 'arpdau', 'uv7'], function: 'product' },
+  { id: 'p101-u9-l1-c3', type: 'scenario_judgment', prompt: 'DAU decomposition', scenario: 'DAU drops 15% in one week on BHi. Installs are stable. Most likely cause?', choices: ['UA budget cut', 'Retention of existing cohorts declining — fewer returning users', 'Seasonality in installs', 'eCPM changed'], answerIndex: 1, explanation: 'DAU = new + returning. If installs are stable, the drop is from fewer returning users = retention problem.', xpReward: 20, difficulty: 4, metricSlugs: ['dau'], function: 'product' },
+
+  // ── Unit 10: Dashboard reading ─────────────────────────────────
+  { id: 'p101-u10-l1-c1', type: 'scenario_judgment', prompt: 'Dashboard reading', scenario: 'PIa dashboard: DAU up 10% WoW, but R1 for recent cohorts dropped 3pp. What is happening?', choices: ['Everything fine — DAU is up', 'UA driving more installs (boosting DAU) but new users retain worse. DAU boost is temporary.', 'R1 does not matter if DAU is up', 'Dashboard must be wrong'], answerIndex: 1, explanation: 'DAU up + R1 down often means a UA push is flooding lower-quality users. The DAU boost is temporary.', xpReward: 20, difficulty: 3, metricSlugs: ['dau', 'r1'], function: 'product' },
+  { id: 'p101-u10-l1-c2', type: 'scenario_judgment', prompt: 'Full product diagnostic', scenario: 'PIi: R1=38% (good), R7=14% (good), UV7=$0.55 (good), but Returned Users D30+ is declining MoM. What is going on?', choices: ['Nothing — all metrics green', 'Early metrics fine but long-term retention weakening. D14-D30 experience needs attention.', 'UA problem', 'UV7 should be higher'], answerIndex: 1, explanation: 'Short-term metrics can be healthy while long-term retention erodes. D14-D30 content needs investigation.', xpReward: 25, difficulty: 5, metricSlugs: ['r1', 'r7', 'uv7', 'returned-users-d30'], function: 'product' },
+  { id: 'p101-u10-l1-c3', type: 'free_input_numeric', prompt: 'Ads ARPDAU = eCPM x imp/DAU / 1000. If eCPM = $8 and imp/DAU = 5, what is Ads ARPDAU (in $)?', answer: 0.04, unit: '$', tolerance: 0.005, explanation: 'Ads ARPDAU = $8 x 5 / 1000 = $0.04.', xpReward: 15, difficulty: 3, metricSlugs: ['arpdau', 'ecpm'], function: 'product' },
+
+  // ════════════════════════════════════════════════════════════════
+  // UA 101 — 10 units, ~150 cards
+  // ════════════════════════════════════════════════════════════════
+
+  // ── Unit 1: The UA equation ────────────────────────────────────
+  { id: 'ua101-u1-l1-c1', type: 'formula_completion', prompt: 'Complete the UA profitability equation.', formulaTemplate: 'Profit = Installs x (UV - ___)', answer: 'eCPI', acceptedAlternatives: ['ecpi', 'effective CPI'], explanation: 'Profit = Installs x (UV - eCPI). UV is what a user is worth; eCPI is what they cost.', xpReward: 15, difficulty: 2, metricSlugs: ['ecpi', 'uv'], function: 'ua' },
+  { id: 'ua101-u1-l1-c2', type: 'multiple_choice', prompt: 'If UV7 stays flat but eCPI drops 10%, what happens to Profit?', choices: ['Drops', 'Rises', 'Stays the same', 'Need ROAS to know'], answerIndex: 1, explanation: 'Lowering eCPI widens the margin. Profit rises.', xpReward: 10, difficulty: 2, metricSlugs: ['ecpi', 'uv7'], function: 'ua' },
+  { id: 'ua101-u1-l1-c3', type: 'multiple_choice', prompt: 'In Profit = Installs x (UV - eCPI), "Installs" refers to:', choices: ['Paid installs only', 'Paid + organic uplift installs', 'All installs including pure organic', 'Only iOS installs'], answerIndex: 1, explanation: 'Installs in the UA equation = paid + organic uplift (users attributable to UA spend).', xpReward: 10, difficulty: 2, metricSlugs: [], function: 'ua' },
+  { id: 'ua101-u1-l1-c4', type: 'scenario_judgment', prompt: 'Profit equation analysis', scenario: 'eCPI = $0.15, UV7 = $0.12, Installs = 100,000. Is this campaign profitable at D7?', choices: ['Yes, profit = $3K', 'No, UV7 < eCPI means a loss of $3K', 'Cannot tell without ROAS', 'Break-even'], answerIndex: 1, explanation: 'Profit = 100K x ($0.12 - $0.15) = -$3K loss.', xpReward: 20, difficulty: 3, metricSlugs: ['ecpi', 'uv7'], function: 'ua' },
+  { id: 'ua101-u1-l1-c5', type: 'multiple_choice', prompt: 'MER stands for:', choices: ['Media Efficiency Ratio', 'Maximum Expected Revenue', 'Marketing Exchange Rate', 'Monthly Earned Revenue'], answerIndex: 0, explanation: 'MER = Media Efficiency Ratio = Revenue / UA Spend.', xpReward: 10, difficulty: 2, metricSlugs: [], function: 'ua' },
+  { id: 'ua101-u1-l1-c6', type: 'free_input_numeric', prompt: 'Installs = 200,000, UV = $0.25, eCPI = $0.15. What is Profit (in $)?', answer: 20000, unit: '$', tolerance: 0, explanation: 'Profit = 200K x ($0.25 - $0.15) = $20,000.', xpReward: 15, difficulty: 2, metricSlugs: ['ecpi', 'uv'], function: 'ua' },
+
+  // ── Unit 2: CPI vs eCPI ────────────────────────────────────────
+  { id: 'ua101-u2-l1-c1', type: 'multiple_choice', prompt: 'CPI vs eCPI — which is always <= which?', choices: ['CPI <= eCPI', 'eCPI <= CPI', 'They are always equal', 'Depends on K-factor sign'], answerIndex: 1, explanation: 'eCPI divides cost across paid + organic uplift. So eCPI <= CPI.', xpReward: 15, difficulty: 2, metricSlugs: ['cpi', 'ecpi', 'k-factor'], function: 'ua' },
+  { id: 'ua101-u2-l1-c2', type: 'free_input_numeric', prompt: 'UA Cost = $10,000, paid installs = 80,000, organic uplift = 20,000. eCPI = ? (in $)', answer: 0.10, unit: '$', tolerance: 0.01, explanation: 'eCPI = 10,000 / (80,000 + 20,000) = $0.10.', xpReward: 20, difficulty: 3, metricSlugs: ['ecpi'], function: 'ua' },
+  { id: 'ua101-u2-l1-c3', type: 'multiple_choice', prompt: 'Cheap CPI does NOT necessarily mean:', choices: ['Low spend', 'Good user quality', 'Many impressions', 'Low CPM'], answerIndex: 1, explanation: 'Cheap CPI from low-quality networks may bring users who do not retain.', xpReward: 15, difficulty: 3, metricSlugs: ['cpi'], function: 'ua' },
+  { id: 'ua101-u2-l1-c4', type: 'multiple_choice', prompt: 'What is organic uplift?', choices: ['Users from organic search', 'Extra organic users generated by paid activity', 'Revenue from non-paid users', 'Users from app store featuring'], answerIndex: 1, explanation: 'Organic uplift = extra organic installs generated as a side effect of paid UA activity.', xpReward: 10, difficulty: 2, metricSlugs: [], function: 'ua' },
+
+  // ── Unit 3: ROAS family ────────────────────────────────────────
+  { id: 'ua101-u3-l1-c1', type: 'multiple_choice', prompt: 'eROAS D7 differs from Paid ROAS D7 because:', choices: ['eROAS uses estimated revenue', 'eROAS includes organic uplift revenue', 'eROAS is measured weekly', 'They are synonyms'], answerIndex: 1, explanation: 'eROAS D7 includes revenue from paid + organic-uplift users. Paid ROAS = paid users only.', xpReward: 15, difficulty: 3, metricSlugs: ['eroas-d7', 'paid-roas-d7'], function: 'ua' },
+  { id: 'ua101-u3-l1-c2', type: 'scenario_judgment', prompt: 'A ROAS spike', scenario: 'On BHi, eROAS D7 jumps +12% WoW but Paid ROAS D7 is flat. Most likely cause?', choices: ['Creative converting better', 'Revenue bug', 'Organic uplift ratio shifted — more organic installs crediting against paid spend', 'D7 retention dropped'], answerIndex: 2, explanation: 'Paid ROAS flat = paid quality unchanged. eROAS up = organic share increased.', xpReward: 25, difficulty: 4, metricSlugs: ['eroas-d7', 'paid-roas-d7', 'k-factor'], function: 'ua' },
+  { id: 'ua101-u3-l1-c3', type: 'free_input_numeric', prompt: 'CPI = $0.20, UV7 = $0.16. Paid ROAS D7 = ? (as %)', answer: 80, unit: '%', tolerance: 1, explanation: 'Paid ROAS D7 = UV7 / CPI = 0.16 / 0.20 = 80%.', xpReward: 15, difficulty: 2, metricSlugs: ['paid-roas-d7'], function: 'ua' },
+  { id: 'ua101-u3-l1-c4', type: 'multiple_choice', prompt: 'Blended ROAS formula is:', choices: ['Revenue / Spend', 'ICM UV / SKAN CPI', 'UV7 / eCPI', 'ARPDAU x DAU / Cost'], answerIndex: 1, explanation: 'Blended ROAS = ICM UV / SKAN CPI.', xpReward: 15, difficulty: 4, metricSlugs: ['roas'], function: 'ua' },
+  { id: 'ua101-u3-l1-c5', type: 'free_input_numeric', prompt: 'pUV60 = $0.60, eCPI = $0.50. What is ROAS60? (as %)', answer: 120, unit: '%', tolerance: 1, explanation: 'ROAS60 = $0.60 / $0.50 = 120%. Above 100% = profitable.', xpReward: 15, difficulty: 3, metricSlugs: ['roas', 'ecpi'], function: 'ua' },
+
+  // ── Unit 4: Networks & attribution ─────────────────────────────
+  { id: 'ua101-u4-l1-c1', type: 'matching_pairs', prompt: 'Sort each network into SRN or SDK Network.', pairs: [{ left: 'Google', right: 'SRN' }, { left: 'TikTok', right: 'SRN' }, { left: 'IronSource', right: 'SDK Network' }, { left: 'Mintegral', right: 'SDK Network' }], explanation: 'SRN = Self-Reporting (Google, Meta, TikTok). SDK Networks report through MMP.', xpReward: 15, difficulty: 2, metricSlugs: [], function: 'ua' },
+  { id: 'ua101-u4-l1-c2', type: 'multiple_choice', prompt: 'SRN stands for:', choices: ['Self-Reporting Network', 'Standardized Revenue Network', 'Social Reach Network', 'Synchronized Reporting Node'], answerIndex: 0, explanation: 'SRN = Self-Reporting Network (Google, Meta, TikTok).', xpReward: 10, difficulty: 1, metricSlugs: [], function: 'ua' },
+  { id: 'ua101-u4-l1-c3', type: 'multiple_choice', prompt: 'SDK Networks report conversions through:', choices: ['Self-reporting', 'An MMP (e.g., AppsFlyer)', 'Apple directly', 'Email'], answerIndex: 1, explanation: 'SDK Networks (IronSource, Mintegral, AppLovin, Unity) report through an MMP.', xpReward: 10, difficulty: 2, metricSlugs: [], function: 'ua' },
+  { id: 'ua101-u4-l1-c4', type: 'multiple_choice', prompt: 'SKAN is Apple\'s framework for:', choices: ['In-app purchases', 'Privacy-preserving ad attribution', 'Push notifications', 'App reviews'], answerIndex: 1, explanation: 'SKAdNetwork (SKAN) is Apple\'s privacy-preserving attribution framework.', xpReward: 10, difficulty: 2, metricSlugs: [], function: 'ua' },
+
+  // ── Unit 5: Creative metrics ───────────────────────────────────
+  { id: 'ua101-u5-l1-c1', type: 'multiple_choice', prompt: 'IPM means:', choices: ['Installs Per Minute', 'Installs Per Mille (per 1,000 impressions)', 'Impressions Per Mille', 'Installs Per Marketing dollar'], answerIndex: 1, explanation: 'IPM = Installs Per Mille = installs per 1,000 ad impressions.', xpReward: 10, difficulty: 1, metricSlugs: ['ipm'], function: 'ua' },
+  { id: 'ua101-u5-l1-c2', type: 'multiple_choice', prompt: 'A "Winning Creative" at Amanotes is defined as:', choices: ['Top 1 by IPM for 1 day', 'Top 1 by spend or installs for >= 2 consecutive weeks', 'Approved by Creative DRI', 'Any creative with CTR > 5%'], answerIndex: 1, explanation: 'Winning Creative = top 1 by spend or installs for >= 2 consecutive weeks.', xpReward: 10, difficulty: 2, metricSlugs: [], function: 'ua' },
+  { id: 'ua101-u5-l1-c3', type: 'formula_completion', prompt: 'Complete: IPM = CTR x CVR x ___', formulaTemplate: 'IPM = CTR x CVR x ___', answer: '1000', acceptedAlternatives: ['1,000', '1000'], explanation: 'IPM = CTR x CVR x 1000.', xpReward: 15, difficulty: 2, metricSlugs: ['ipm'], function: 'ua' },
+  { id: 'ua101-u5-l1-c4', type: 'multiple_choice', prompt: '"Thumb-stop" refers to:', choices: ['A bug', 'First 1-2 seconds of an ad that stops scrolling', 'A metric for app crashes', 'Creative approval process'], answerIndex: 1, explanation: 'Thumb-stop = how well the first 1-2 seconds grab attention and stop scrolling.', xpReward: 10, difficulty: 2, metricSlugs: [], function: 'ua' },
+  { id: 'ua101-u5-l1-c5', type: 'multiple_choice', prompt: 'Creative Fatigue means:', choices: ['The creative team is tired', 'Ad performance declines due to audience overexposure', 'Running out of budget', 'Users blocking ads'], answerIndex: 1, explanation: 'Creative Fatigue = declining performance from overexposure.', xpReward: 10, difficulty: 2, metricSlugs: [], function: 'ua' },
+  { id: 'ua101-u5-l1-c6', type: 'free_input_numeric', prompt: 'CTR = 2% (0.02), CVR = 40% (0.40). What is IPM?', answer: 8, unit: '', tolerance: 0.1, explanation: 'IPM = 0.02 x 0.40 x 1000 = 8.', xpReward: 15, difficulty: 3, metricSlugs: ['ipm', 'ctr', 'cvr'], function: 'ua' },
+
+  // ── Unit 6: Organic uplift & K-factor ──────────────────────────
+  { id: 'ua101-u6-l1-c1', type: 'formula_completion', prompt: 'Complete: K-factor = organic uplift / ___', formulaTemplate: 'K-factor = organic uplift / ___', answer: 'paid users', acceptedAlternatives: ['paid installs', 'paid'], explanation: 'K-factor = organic uplift / paid users.', xpReward: 10, difficulty: 2, metricSlugs: ['k-factor'], function: 'ua' },
+  { id: 'ua101-u6-l1-c2', type: 'free_input_numeric', prompt: 'Paid installs = 50,000, organic uplift = 15,000. K-factor = ?', answer: 0.30, unit: '', tolerance: 0.02, explanation: 'K-factor = 15,000 / 50,000 = 0.30.', xpReward: 15, difficulty: 2, metricSlugs: ['k-factor'], function: 'ua' },
+  { id: 'ua101-u6-l1-c3', type: 'scenario_judgment', prompt: 'K-factor shift', scenario: 'K-factor drops from 0.4 to 0.2 after switching to SDK networks. What happened?', choices: ['Game got worse', 'SDK networks drive less store ranking impact, so less organic uplift per paid install', 'Revenue doubled', 'Nothing meaningful'], answerIndex: 1, explanation: 'SDK networks may not boost store ranking as much as SRN campaigns.', xpReward: 20, difficulty: 3, metricSlugs: ['k-factor'], function: 'ua' },
+  { id: 'ua101-u6-l1-c4', type: 'free_input_numeric', prompt: 'Paid installs = 100K, K-factor = 0.3. Total installs (paid + organic)?', answer: 130000, unit: 'installs', tolerance: 0, explanation: 'Total = 100K x (1 + 0.3) = 130,000.', xpReward: 15, difficulty: 2, metricSlugs: ['k-factor'], function: 'ua' },
+
+  // ── Unit 7: Scale & diminishing returns ────────────────────────
+  { id: 'ua101-u7-l1-c1', type: 'multiple_choice', prompt: 'When you scale UA spend, CPI typically:', choices: ['Decreases', 'Stays flat', 'Increases due to diminishing returns', 'Becomes unpredictable'], answerIndex: 2, explanation: 'Scaling spend -> CPI increases as you exhaust efficient audience segments.', xpReward: 10, difficulty: 2, metricSlugs: ['cpi'], function: 'ua' },
+  { id: 'ua101-u7-l1-c2', type: 'scenario_judgment', prompt: 'Scaling decision', scenario: 'GDUCa: UA spend doubled. CPI rose 30%, installs rose only 60%. Is this healthy?', choices: ['Yes — installs up', 'No — CPI rose faster than installs scaled, suggesting diminishing returns', 'Cannot tell without ROAS', 'Depends on creative'], answerIndex: 1, explanation: '2x spend -> only 1.6x installs means each marginal dollar is less efficient.', xpReward: 20, difficulty: 3, metricSlugs: ['cpi'], function: 'ua' },
+  { id: 'ua101-u7-l1-c3', type: 'scenario_judgment', prompt: 'ROAS at scale', scenario: 'ROAS60 = 130% at 50K daily installs. UA wants 100K daily. What typically happens?', choices: ['ROAS60 stays same', 'ROAS60 usually decreases — scaling requires reaching less efficient audiences', 'ROAS60 increases', 'Only depends on UV'], answerIndex: 1, explanation: 'Scaling raises CPI as you exhaust efficient segments. ROAS60 = pUV60/eCPI, so higher eCPI = lower ROAS60.', xpReward: 25, difficulty: 4, metricSlugs: ['roas', 'ecpi'], function: 'ua' },
+
+  // ── Unit 8: iOS vs Android ─────────────────────────────────────
+  { id: 'ua101-u8-l1-c1', type: 'multiple_choice', prompt: 'US eCPI is typically ___ compared to non-US:', choices: ['Lower', '3-10x higher', 'The same', 'Slightly lower'], answerIndex: 1, explanation: 'US eCPI is 3-10x higher than non-US markets.', xpReward: 10, difficulty: 2, metricSlugs: ['ecpi'], function: 'ua' },
+  { id: 'ua101-u8-l1-c2', type: 'multiple_choice', prompt: 'iOS ROAS may be under-reported by ___ due to ATT opt-out:', choices: ['5-10%', '20-40%', '50-60%', '80-90%'], answerIndex: 1, explanation: 'Only ~35% opt-in to ATT. iOS ROAS may be under-reported by 20-40%.', xpReward: 15, difficulty: 3, metricSlugs: ['roas'], function: 'ua' },
+  { id: 'ua101-u8-l1-c3', type: 'free_input_numeric', prompt: 'CPM = $4, IPM = 10. What is CPI? (in $)', answer: 0.40, unit: '$', tolerance: 0.01, explanation: 'CPI = CPM / IPM = $4 / 10 = $0.40.', xpReward: 15, difficulty: 2, metricSlugs: ['cpi', 'ipm'], function: 'ua' },
+
+  // ── Unit 9: Campaign optimization ──────────────────────────────
+  { id: 'ua101-u9-l1-c1', type: 'matching_pairs', prompt: 'Match funnel steps to metrics.', pairs: [{ left: 'Impression -> Click', right: 'CTR' }, { left: 'Click -> Install', right: 'CVR' }, { left: 'Impressions -> Installs', right: 'IPM' }, { left: 'Install -> Return', right: 'R1' }], explanation: 'Each conversion step has its own metric.', xpReward: 15, difficulty: 2, metricSlugs: ['ctr', 'cvr', 'ipm', 'r1'], function: 'ua' },
+  { id: 'ua101-u9-l1-c2', type: 'scenario_judgment', prompt: 'Campaign diagnostic', scenario: 'Campaign has CTR 3% (good) but CVR 5% (very low). What is likely wrong?', choices: ['Creative is excellent', 'Creative attracts clicks but app store page or post-click experience fails to convert', 'CVR does not matter', 'Normal for all campaigns'], answerIndex: 1, explanation: 'High CTR + low CVR = the ad attracts attention but the store listing or expectations mismatch.', xpReward: 20, difficulty: 3, metricSlugs: ['ctr', 'cvr', 'ipm'], function: 'ua' },
+  { id: 'ua101-u9-l1-c3', type: 'drag_to_order', prompt: 'Order the UA funnel from top to bottom.', items: ['Install', 'Impression', 'Click', 'Retention'], correctOrder: ['Impression', 'Click', 'Install', 'Retention'], explanation: 'Impression -> Click -> Install -> Retention.', xpReward: 10, difficulty: 1, metricSlugs: [], function: 'ua' },
+
+  // ── Unit 10: UA decision-making ────────────────────────────────
+  { id: 'ua101-u10-l1-c1', type: 'scenario_judgment', prompt: 'CPI win, retention loss', scenario: 'UA Specialist cuts CPI 15% via low-quality SDK network. Two weeks later?', choices: ['UV7 unchanged, ROAS up', 'R1+R7 dropped; UV7 dropped; ROAS may be flat or worse', 'DAU up; no downside', 'Only ARPDAU changed'], answerIndex: 1, explanation: 'Cheaper installs from low-quality traffic retain worse. CPI win is misleading.', xpReward: 25, difficulty: 4, metricSlugs: ['cpi', 'r1', 'uv7', 'roas'], function: 'ua' },
+  { id: 'ua101-u10-l1-c2', type: 'scenario_judgment', prompt: 'Scale vs quality', scenario: 'Can spend $50K more/month on GDUCa but CPI rises from $0.15 to $0.22. UV7 = $0.18. Should you scale?', choices: ['Yes — more installs always better', 'No — CPI $0.22 > UV7 $0.18 means negative margin per user', 'Only if K-factor > 1', 'Only on iOS'], answerIndex: 1, explanation: 'At CPI $0.22 and UV7 $0.18, each user costs more than they earn. Scaling = scaling losses.', xpReward: 25, difficulty: 4, metricSlugs: ['cpi', 'uv7'], function: 'ua' },
+  { id: 'ua101-u10-l1-c3', type: 'scenario_judgment', prompt: 'Full UA analysis', scenario: 'CPI dropped 20%, installs up 50%, eROAS D7 stable. But Product sees R1 down 5pp, UV7 down 10%. Full picture?', choices: ['Pure win — CPI down and eROAS stable', 'CPI drop from lower-quality traffic. Paid ROAS likely down, masked by organic uplift. Volume up but quality worse.', 'Product problem', 'Cannot tell without eCPM'], answerIndex: 1, explanation: 'Classic trap: CPI wins from lower-quality sources dilute cohort metrics. eROAS holding is masked by organic uplift.', xpReward: 30, difficulty: 5, metricSlugs: ['cpi', 'r1', 'uv7', 'eroas-d7'], function: 'ua' },
+  { id: 'ua101-u10-l1-c4', type: 'free_input_numeric', prompt: 'CPM=$6, CTR=1.5%, CVR=50%. What is CPI? (in $)', answer: 0.80, unit: '$', tolerance: 0.02, explanation: 'IPM = 0.015 x 0.50 x 1000 = 7.5. CPI = $6 / 7.5 = $0.80.', xpReward: 25, difficulty: 4, metricSlugs: ['cpi', 'ipm', 'ctr', 'cvr'], function: 'ua' },
+
+  // ════════════════════════════════════════════════════════════════
+  // CROSS-FUNCTIONAL — 8 units, ~100 cards
+  // ════════════════════════════════════════════════════════════════
+
+  // ── Unit 1: The Business Goal equation ─────────────────────────
+  { id: 'cf-u1-l1-c1', type: 'formula_completion', prompt: 'Complete the cohort-view business goal formula.', formulaTemplate: 'Profit = Installs x (___ - eCPI)', answer: 'LTV', acceptedAlternatives: ['UV', 'ltv', 'uv'], explanation: 'Profit = Installs x (LTV - eCPI). UV at a finite horizon is the proxy for LTV.', xpReward: 15, difficulty: 2, metricSlugs: ['ltv', 'ecpi'], function: 'business' },
+  { id: 'cf-u1-l1-c2', type: 'multiple_choice', prompt: 'Two views, one tree. Which pair describes the same reality from different views?', choices: ['ARPDAU x DAU and Installs x LTV', 'CPI and IPM', 'sumR7 and R7', 'eROAS and Paid ROAS'], answerIndex: 0, explanation: 'ARPDAU x DAU (act-date) and Installs x LTV (cohort) approximate total revenue.', xpReward: 20, difficulty: 3, metricSlugs: ['arpdau', 'dau', 'ltv'], function: 'business' },
+  { id: 'cf-u1-l1-c3', type: 'multiple_choice', prompt: 'Product primarily influences ___ while UA primarily influences ___:', choices: ['UV; eCPI', 'eCPI; UV', 'DAU; ARPDAU', 'CPI; R1'], answerIndex: 0, explanation: 'Product drives UV (retention, engagement). UA drives eCPI (efficient acquisition).', xpReward: 15, difficulty: 2, metricSlugs: ['uv', 'ecpi'], function: 'business' },
+  { id: 'cf-u1-l1-c4', type: 'matching_pairs', prompt: 'Match each team to their primary lever.', pairs: [{ left: 'Product', right: 'Retention/engagement (drives UV)' }, { left: 'UA', right: 'Efficient acquisition (drives eCPI)' }, { left: 'Monetization', right: 'Revenue per user (drives UV)' }, { left: 'Creative', right: 'Ad performance (drives CPI via IPM)' }], explanation: 'Each function influences a different part of the profit equation.', xpReward: 15, difficulty: 2, metricSlugs: ['uv', 'ecpi'], function: 'business' },
+
+  // ── Unit 2: UA <-> Product ─────────────────────────────────────
+  { id: 'cf-u2-l1-c1', type: 'scenario_judgment', prompt: 'CPI win, retention loss', scenario: 'UA cuts CPI 15% via low-quality SDK network. Two weeks later?', choices: ['UV7 unchanged, ROAS up', 'R1+R7 dropped; UV7 dropped; ROAS flat or worse', 'DAU up; UV7 up; no downside', 'Only ARPDAU changed'], answerIndex: 1, explanation: 'Cheaper traffic from low-quality sources retains worse. CPI win is misleading.', xpReward: 25, difficulty: 4, metricSlugs: ['cpi', 'r1', 'uv7', 'roas'], function: 'business' },
+  { id: 'cf-u2-l1-c2', type: 'multiple_choice', prompt: 'When UA drives more installs, Product should watch:', choices: ['eCPM only', 'R1/R7 on new traffic cohorts', 'Banner fill rate', 'App size'], answerIndex: 1, explanation: 'More installs from new sources may have different quality. Watch retention.', xpReward: 15, difficulty: 3, metricSlugs: ['r1', 'r7'], function: 'business' },
+  { id: 'cf-u2-l1-c3', type: 'multiple_choice', prompt: 'Product lifting R1 by 3pp helps UA because:', choices: ['Lowers CPI', 'Raises UV -> better ROAS -> UA can bid higher', 'Increases IPM', 'Reduces ad fatigue'], answerIndex: 1, explanation: 'Better retention -> higher UV -> better ROAS -> more headroom for UA scaling.', xpReward: 15, difficulty: 3, metricSlugs: ['r1', 'uv', 'roas'], function: 'business' },
+  { id: 'cf-u2-l1-c4', type: 'scenario_judgment', prompt: 'Traffic quality check', scenario: 'UA shows Campaign A (Google, CPI=$0.35) and Campaign B (SDK, CPI=$0.18). They want to shift to B. What to check?', choices: ['Only CPI matters — B is better', 'Compare UV7 and R7 between campaigns first', 'Check eCPM', 'Compare IPM'], answerIndex: 1, explanation: 'CPI alone is misleading. Always compare cohort quality (UV7, R7) before shifting budget.', xpReward: 20, difficulty: 3, metricSlugs: ['cpi', 'uv7', 'r7'], function: 'business' },
+
+  // ── Unit 3: Product <-> Mon ────────────────────────────────────
+  { id: 'cf-u3-l1-c1', type: 'scenario_judgment', prompt: 'Ad-density side effect', scenario: 'Mon increases interstitial frequency on PI. ARPDAU +5% next day. What to watch over 7 days?', choices: ['CPI on campaigns', 'R1/R7 dip — retention hit shows up later, then UV7', 'IPM on creatives', 'eCPM only'], answerIndex: 1, explanation: 'Ad-density bumps lift ARPDAU first and dip retention later. Watch R1/R7 then UV7.', xpReward: 25, difficulty: 4, metricSlugs: ['arpdau', 'r1', 'uv7'], function: 'business' },
+  { id: 'cf-u3-l1-c2', type: 'multiple_choice', prompt: 'Increasing ad frequency trades off:', choices: ['Higher imp/DAU (more revenue) vs lower retention', 'Higher eCPM vs lower fill rate', 'More IAP vs fewer ads', 'Better creatives vs worse targeting'], answerIndex: 0, explanation: 'More ads = higher ARPDAU short-term, but worse UX may hurt retention and UV long-term.', xpReward: 15, difficulty: 3, metricSlugs: ['arpdau', 'r1'], function: 'business' },
+  { id: 'cf-u3-l1-c3', type: 'multiple_choice', prompt: 'If retention improves by 3pp (R7), which mon metric benefits most?', choices: ['eCPM', 'UV7 — more returning users means more days of revenue', 'Fill Rate', 'CPI'], answerIndex: 1, explanation: 'Higher R7 = more returning users = more cumulative revenue per user = higher UV7.', xpReward: 15, difficulty: 3, metricSlugs: ['r7', 'uv7'], function: 'business' },
+
+  // ── Unit 4: Mon <-> UA ─────────────────────────────────────────
+  { id: 'cf-u4-l1-c1', type: 'multiple_choice', prompt: 'A sudden UV7 lift directly improves which UA metric?', choices: ['CPI', 'IPM', 'Paid ROAS D7', 'CTR'], answerIndex: 2, explanation: 'Paid ROAS D7 = UV7 / CPI. UV7 lift, holding CPI constant, raises ROAS.', xpReward: 15, difficulty: 3, metricSlugs: ['uv7', 'paid-roas-d7'], function: 'business' },
+  { id: 'cf-u4-l1-c2', type: 'multiple_choice', prompt: 'If Mon optimizes eCPM and imp/DAU stays flat, ARPDAU:', choices: ['Rises proportionally to eCPM lift', 'Stays flat', 'Drops', 'Cannot tell'], answerIndex: 0, explanation: 'Ads ARPDAU = eCPM x imp/DAU / 1000. eCPM up + imp/DAU flat = ARPDAU up.', xpReward: 15, difficulty: 3, metricSlugs: ['arpdau', 'ecpm'], function: 'business' },
+  { id: 'cf-u4-l1-c3', type: 'free_input_numeric', prompt: 'UV7 increases from $0.18 to $0.22. CPI stays at $0.25. New Paid ROAS D7? (as %)', answer: 88, unit: '%', tolerance: 1, explanation: 'Paid ROAS D7 = $0.22 / $0.25 = 88%. Up from 72%.', xpReward: 15, difficulty: 3, metricSlugs: ['uv7', 'roas', 'cpi'], function: 'business' },
+  { id: 'cf-u4-l1-c4', type: 'scenario_judgment', prompt: 'Mon -> UA impact', scenario: 'Mon optimizes ad waterfalls, eCPM +15%, imp/DAU stays same. What happens to UA economics?', choices: ['No impact', 'Higher eCPM -> higher ARPDAU -> higher UV -> better ROAS -> UA can scale more', 'Higher eCPM increases CPI', 'Only fill rate affected'], answerIndex: 1, explanation: 'Higher eCPM lifts ARPDAU and UV. Better UV improves ROAS, giving UA more headroom.', xpReward: 20, difficulty: 4, metricSlugs: ['ecpm', 'arpdau', 'uv', 'roas'], function: 'business' },
+
+  // ── Unit 5: The full loop ──────────────────────────────────────
+  { id: 'cf-u5-l1-c1', type: 'multiple_choice', prompt: 'Which uses the canonical Amanotes hypothesis format?', choices: ['I think it will help retention', 'If we shorten tutorial -> then R1 will rise -> for new PIi installs -> by +2pp in 4 weeks', 'Tutorial is too long', 'R1 up'], answerIndex: 1, explanation: 'Canonical: "If [change] -> then [impact] -> for [audience] -> by [amount]".', xpReward: 15, difficulty: 2, metricSlugs: [], function: 'business' },
+  { id: 'cf-u5-l1-c2', type: 'scenario_judgment', prompt: 'End-to-end loop', scenario: 'New creative drops CPI 20% on GDUCa. Volume doubles. 2 weeks later: R1 -4pp, R7 -2pp, UV7 flat, eROAS holds via organic uplift. Correct read?', choices: ['Clear win — eROAS held', 'Clear loss — R1 dropped', 'Mixed: scaled volume but diluted quality. eROAS masked by organic uplift. Watch UV30 and Paid ROAS.', 'Cannot tell without ARPDAU'], answerIndex: 2, explanation: 'Volume-driven CPI wins often dilute cohort quality. eROAS hiding the dip via organic uplift is the classic trap.', xpReward: 30, difficulty: 5, metricSlugs: ['cpi', 'r1', 'r7', 'uv7', 'eroas-d7'], function: 'business' },
+  { id: 'cf-u5-l1-c3', type: 'drag_to_order', prompt: 'Order the virtuous cycle steps.', items: ['UA scales spend profitably', 'Product improves retention and UV', 'ROAS improves, allowing higher bids', 'More installs at sustainable economics'], correctOrder: ['Product improves retention and UV', 'ROAS improves, allowing higher bids', 'UA scales spend profitably', 'More installs at sustainable economics'], explanation: 'Product improves UV -> ROAS improves -> UA scales -> more profitable installs.', xpReward: 20, difficulty: 3, metricSlugs: ['uv', 'roas'], function: 'business' },
+
+  // ── Unit 6: Scenario analysis ──────────────────────────────────
+  { id: 'cf-u6-l1-c1', type: 'scenario_judgment', prompt: 'Revenue drop diagnosis', scenario: 'PIa revenue drops 10%. DAU flat, ARPDAU down. What to investigate first?', choices: ['UA budget cuts', 'eCPM drop or ad fill rate issues', 'New installs', 'App store ranking'], answerIndex: 1, explanation: 'DAU flat + ARPDAU down = revenue per user declined. Check eCPM, fill rate, ad config.', xpReward: 20, difficulty: 3, metricSlugs: ['arpdau', 'ecpm'], function: 'business' },
+  { id: 'cf-u6-l1-c2', type: 'scenario_judgment', prompt: 'Revenue drop diagnosis 2', scenario: 'Revenue drops 10%. ARPDAU stable, DAU down. Where to investigate?', choices: ['Monetization', 'UA (fewer installs) and Product (lower retention) — both affect DAU', 'Creative team', 'Fill rate'], answerIndex: 1, explanation: 'ARPDAU stable + DAU down = fewer users. Check installs (UA) and retention (Product).', xpReward: 20, difficulty: 3, metricSlugs: ['arpdau', 'dau'], function: 'business' },
+  { id: 'cf-u6-l1-c3', type: 'scenario_judgment', prompt: 'UV7 vs ARPDAU divergence', scenario: 'ARPDAU up 5% but UV7 for recent cohorts down 3%. What explains this?', choices: ['Data error', 'DAU mix shifted — more old high-value users driving ARPDAU, while new user quality declining', 'Both agree', 'UV7 always lags'], answerIndex: 1, explanation: 'ARPDAU up + UV7 down = the DAU mix shifted toward older, higher-value users while new cohort quality declined.', xpReward: 25, difficulty: 4, metricSlugs: ['arpdau', 'uv7'], function: 'business' },
+  { id: 'cf-u6-l1-c4', type: 'scenario_judgment', prompt: 'Multi-layer diagnosis', scenario: 'DRa: Installs up 20%, R1 down 6pp, UV7 down 15%, ARPDAU down 5%, eROAS down 8%. What is the story?', choices: ['Pure product problem', 'UA scaled with lower-quality traffic. Lower cohort quality hurt UV7 and ARPDAU. Root is traffic quality.', 'Monetization problem', 'Everything fine — installs up'], answerIndex: 1, explanation: 'Classic UA scaling quality dilution cascade: cheaper installs -> worse retention -> lower UV -> lower ARPDAU -> worse ROAS.', xpReward: 30, difficulty: 5, metricSlugs: ['r1', 'uv7', 'arpdau', 'eroas-d7'], function: 'business' },
+
+  // ── Unit 7: Benchmarks & thresholds ────────────────────────────
+  { id: 'cf-u7-l1-c1', type: 'matching_pairs', prompt: 'Match benchmarks.', pairs: [{ left: 'Soft Launch Android R1', right: '>= 24%' }, { left: 'Soft Launch iOS R1', right: '>= 35%' }, { left: 'PMF R7', right: '>= 12-13%' }, { left: 'PMF pROAS365', right: '>= 100%' }], explanation: 'Key gate-keeping benchmarks for Soft Launch and PMF.', xpReward: 15, difficulty: 2, metricSlugs: ['r1', 'r7'], function: 'business' },
+  { id: 'cf-u7-l1-c2', type: 'matching_pairs', prompt: 'Match hybrid monetization benchmarks.', pairs: [{ left: 'Pay Rate D7 (US)', right: '1.08%' }, { left: 'UV7', right: '>= $0.50' }, { left: 'UV30', right: '>= $1.00' }, { left: 'SL Android CPI', right: '~$0.42' }], explanation: 'Hybrid monetization benchmarks for evaluation.', xpReward: 15, difficulty: 2, metricSlugs: ['uv7', 'uv30', 'cpi'], function: 'business' },
+  { id: 'cf-u7-l1-c3', type: 'scenario_judgment', prompt: 'Benchmark evaluation', scenario: 'New game: Android R1=26%, R7=11%, UV7=$0.45, pROAS365=90%. Ready for global launch?', choices: ['Yes — R1 passes', 'No — R7 below 12-13%, UV7 below $0.50, pROAS365 below 100%', 'Close enough', 'Need CPI data'], answerIndex: 1, explanation: 'Multiple benchmarks not met. Game needs more retention and monetization improvements.', xpReward: 20, difficulty: 3, metricSlugs: ['r1', 'r7', 'uv7'], function: 'business' },
+  { id: 'cf-u7-l1-c4', type: 'scenario_judgment', prompt: 'Benchmark context', scenario: 'Game has R1=40% iOS (above 35%) but UV7=$0.30 (below $0.50). Diagnosis?', choices: ['Great retention, ship it', 'Users return but generate low revenue. Monetization needs improvement.', 'Impossible — good retention always means good UV', 'Drop the game'], answerIndex: 1, explanation: 'High retention + low UV = engagement exists but monetization is not capturing it.', xpReward: 20, difficulty: 4, metricSlugs: ['r1', 'uv7'], function: 'business' },
+
+  // ── Unit 8: Decision frameworks ────────────────────────────────
+  { id: 'cf-u8-l1-c1', type: 'scenario_judgment', prompt: 'Full-loop decision', scenario: 'PO for DRa. UA can scale 3x if UV7 lifts $0.02. Mon says they can lift eCPM. Which action has highest leverage?', choices: ['Ask Mon to lift eCPM', 'Improve R1/R7 through product — lifts UV AND helps ARPDAU long-term', 'Scale UA without changes', 'Wait for data'], answerIndex: 1, explanation: 'Product retention lifts have highest leverage: improve UV (cohort), ARPDAU (act-date), and enable UA scaling.', xpReward: 30, difficulty: 5, metricSlugs: ['uv7', 'r1', 'arpdau'], function: 'business' },
+  { id: 'cf-u8-l1-c2', type: 'scenario_judgment', prompt: 'Cross-team decision', scenario: 'UA wants to test Brazil: CPI=$0.05, expected UV=$0.03. Should they proceed?', choices: ['Yes — CPI incredibly low', 'No — UV < eCPI means negative profit per user unless strategic value exists', 'Volume will compensate', 'Need creative data'], answerIndex: 1, explanation: 'If UV ($0.03) < eCPI (at best $0.05), every install loses money. Low CPI is not enough.', xpReward: 25, difficulty: 4, metricSlugs: ['cpi', 'uv', 'ecpi'], function: 'business' },
+  { id: 'cf-u8-l1-c3', type: 'scenario_judgment', prompt: 'End-to-end business case', scenario: 'Current: UV7=$0.20, eCPI=$0.15, 500K installs/month. Product proposes change: UV7 +20% but installs -10%. Should they proceed?', choices: ['No — losing installs bad', 'Yes: Current profit=500K x $0.05=$25K. New: 450K x ($0.24-$0.15)=450K x $0.09=$40.5K. UV improvement more than compensates.', 'Need CPI data', 'Only if R1 improves'], answerIndex: 1, explanation: 'Current $25K vs proposed $40.5K. A 20% UV lift with 10% install loss is a significant profit improvement.', xpReward: 30, difficulty: 5, metricSlugs: ['uv7', 'ecpi'], function: 'business' },
+  { id: 'cf-u8-l1-c4', type: 'scenario_judgment', prompt: 'Full-stack diagnostic', scenario: 'PIa monthly: Revenue -8%, DAU -5%, ARPDAU -3%, R1 stable, R7 stable, UV7 -6%, eCPI +4%, installs -3%. Your read?', choices: ['Product problem', 'Multiple small headwinds: eCPI crept up (UA), UV7 dropped (Mon), installs dipped. No single root cause — coordinated optimization needed.', 'Pure UA problem', 'Pure Mon problem'], answerIndex: 1, explanation: 'Retention stable = Product fine. Revenue decline from: higher eCPI (UA), lower UV7 (Mon), fewer installs. Multiple headwinds.', xpReward: 30, difficulty: 5, metricSlugs: ['arpdau', 'dau', 'r1', 'uv7', 'ecpi'], function: 'business' },
+  { id: 'cf-u8-l1-c5', type: 'drag_to_order', prompt: 'Order cross-functional diagnostic steps.', items: ['Recommend coordinated action', 'Identify which metric moved first', 'Trace causal chain across functions', 'Notice a metric anomaly'], correctOrder: ['Notice a metric anomaly', 'Identify which metric moved first', 'Trace causal chain across functions', 'Recommend coordinated action'], explanation: 'Anomaly -> Root metric -> Causal chain -> Cross-functional recommendation.', xpReward: 15, difficulty: 3, metricSlugs: [], function: 'business' },
 ]
 
 export const CARDS_BY_ID: Record<string, Card> = Object.fromEntries(CARDS.map((c) => [c.id, c]))

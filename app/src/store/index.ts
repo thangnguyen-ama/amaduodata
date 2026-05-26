@@ -12,6 +12,7 @@ import {
   Team,
   User
 } from '../types'
+import { PATHS_BY_SLUG } from '../content/paths'
 import { todayLocalISO, daysBetweenLocal } from '../lib/dates'
 import { track } from '../lib/track'
 
@@ -71,6 +72,8 @@ interface AppState {
 
   markLessonComplete: (pathSlug: string, unitId: string, lessonId: string) => void
   unlockNextUnit: (pathSlug: string, currentUnitIndex: number) => void
+  skipTestUnit: (pathSlug: string, unitIndex: number) => void
+  isUnitFullyComplete: (pathSlug: string, unitId: string) => boolean
 
   enqueuePractice: (cardId: string) => void
   reviewPractice: (cardId: string, isCorrect: boolean) => void
@@ -343,6 +346,25 @@ export const useStore = create<AppState>()(
         pp[pathSlug].unlockedUnits[currentIdx + 1] = 1
         set({ pathProgress: pp })
         track('path_unit_completed', { path_slug: pathSlug, unit_index: currentIdx })
+      },
+
+      skipTestUnit: (pathSlug, unitIndex) => {
+        const pp = { ...get().pathProgress }
+        if (!pp[pathSlug]) pp[pathSlug] = defaultPathProgress()
+        for (let i = 0; i <= unitIndex; i++) {
+          pp[pathSlug].unlockedUnits[i] = 1
+        }
+        set({ pathProgress: pp })
+        track('skip_test_passed', { path_slug: pathSlug, unit_index: unitIndex })
+      },
+
+      isUnitFullyComplete: (pathSlug, unitId) => {
+        const path = PATHS_BY_SLUG[pathSlug]
+        if (!path) return false
+        const unit = path.units.find((u) => u.id === unitId)
+        if (!unit) return false
+        const completed = get().pathProgress[pathSlug]?.completedLessons || {}
+        return unit.lessons.every((l) => !!completed[l.id])
       },
 
       enqueuePractice: (cardId) => {

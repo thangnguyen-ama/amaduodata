@@ -17,6 +17,7 @@ export function LessonPlayer() {
   const completeLesson = useStore((s) => s.completeLesson)
   const markLessonComplete = useStore((s) => s.markLessonComplete)
   const unlockNextUnit = useStore((s) => s.unlockNextUnit)
+  const isUnitFullyComplete = useStore((s) => s.isUnitFullyComplete)
   const recordCard = useStore((s) => s.recordCardAttempt)
   const loseHeart = useStore((s) => s.loseHeart)
   const refillHearts = useStore((s) => s.refillHearts)
@@ -95,8 +96,15 @@ export function LessonPlayer() {
         })
       }
       markLessonComplete(pathSlug, unitId, lessonId)
+      // Only unlock next unit when ALL lessons in current unit are complete
       if (unitIndex >= 0 && unitIndex < path.units.length - 1) {
-        unlockNextUnit(pathSlug, unitIndex)
+        // Check after marking — the current lesson is now complete too
+        const allComplete = unit!.lessons.every((l) =>
+          l.id === lessonId || !!useStore.getState().pathProgress[pathSlug]?.completedLessons[l.id]
+        )
+        if (allComplete) {
+          unlockNextUnit(pathSlug, unitIndex)
+        }
       }
       return
     }

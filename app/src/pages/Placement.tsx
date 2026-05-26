@@ -18,10 +18,10 @@ export function Placement() {
   // Slight ordering by role: surface the user's home function first
   const deck = useMemo(() => {
     const order = (() => {
-      if (role === 'UA' || role === 'CRE') return ['ua-101', 'cross-functional', 'product-101']
-      if (role === 'PO' || role === 'GD' || role === 'LD' || role === 'MS') return ['product-101', 'ua-101', 'cross-functional']
-      if (role === 'DA') return ['cross-functional', 'product-101', 'ua-101']
-      return ['product-101', 'ua-101', 'cross-functional']
+      if (role === 'UA' || role === 'CRE') return ['metric-definitions', 'ua-101', 'cross-functional', 'product-101']
+      if (role === 'PO' || role === 'GD' || role === 'LD' || role === 'MS') return ['metric-definitions', 'product-101', 'ua-101', 'cross-functional']
+      if (role === 'DA') return ['metric-definitions', 'cross-functional', 'product-101', 'ua-101']
+      return ['metric-definitions', 'product-101', 'ua-101', 'cross-functional']
     })()
     return PLACEMENT_DECK.slice().sort(
       (a, b) => order.indexOf(a.pathSlug) - order.indexOf(b.pathSlug)
